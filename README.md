@@ -24,7 +24,7 @@ PR 작성 이후에 우측부분에서 Reviewer 및 Assignee 지정해주세요!
 <img width="1470" height="826" alt="스크린샷 2025-09-18 오후 1 53 51" src="https://github.com/user-attachments/assets/1f207a3c-00f7-4762-8ec0-077ce8df4e23" />
 
 ### Reviewer & Assignee
-- Reviewer : **운영진 지정 (heesik03)**
+- Reviewer : **운영진 지정**
 - Assignee : 본인(작성자) 지정
 
 📍 **Merge 규칙 :
