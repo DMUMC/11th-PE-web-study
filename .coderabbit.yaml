@@ -83,7 +83,7 @@ reviews:
   # 특정 경로의 파일에 대해 특화된 검토 규칙 적용
   path_instructions:
     - path: "**/*"
-      instructions: "모든 공개 API 함수에는 JSDoc/JavaDoc 스타일의 주석을 작성해야 합니다. 하드코딩된 문자열이나 매직 넘버는 상수로 분리하세요."
+      instructions: "모든 공개 API 함수에는 JSDoc/JavaDoc 스타일의 주석을 작성해야 합니다."
     - path: "src/main/java/**"
       instructions: "RESTful 규약 준수 여부, 입력값 검증(Validation), 예외 처리 구조를 중점적으로 확인하세요."
     - path: "**/*Test.*"
