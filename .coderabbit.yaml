@@ -111,7 +111,6 @@ reviews:
   tools:
     # ast-grep 정적 분석 규칙 적용
     ast-grep:
-      enabled: true
       rule_dirs:
         - ".ast-grep"
       packages: []
@@ -121,7 +120,6 @@ reviews:
     # GitHub Checks의 linter/test 결과를 AI 리뷰에 통합
     github-checks:
       enabled: true
-      timeout_ms: 90000
 
 # ============================================================ #
 #                         채팅 및 상호작용                         #
