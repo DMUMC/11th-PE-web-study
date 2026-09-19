@@ -1,22 +1,22 @@
 //Mission
 
-// type Member = {
-//     Id: number,
-//     role: string,
-//     gitHubId?: string,
-// }
+type Member = {
+    Id: number,
+    role: string,
+    gitHubId?: string,
+}
 
-// const member = [
-//     {
-//         id: 1,
-//         role: "member",
-//         gitHubId: "zzongzzong"
-//     },
-//     {
-//         id: 2,
-//         role: "member",
-//     }
-// ]
+const member = [
+    {
+        id: 1,
+        role: "member",
+        gitHubId: "zzongzzong"
+    },
+    {
+        id: 2,
+        role: "member",
+    }
+]
 
 // const findMember = member.find((member) => member.id === 1);
 // if (findMember) {
