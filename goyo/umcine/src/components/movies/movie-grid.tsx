@@ -1,5 +1,4 @@
-
-import type { Movie } from "../types/movie";
+import type { Movie } from "../../types/movie";
 import MovieCard from "./movie-card";
 
 interface MovieGridProps {
@@ -15,17 +14,16 @@ export default function MovieGrid({
 }: MovieGridProps) {
   return (
     <section
-      className="movie-grid"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
-        columnGap: "16px",
-        rowGap: "24px",
-        width: "100%",
-        boxSizing: "border-box",
-        padding: "24px 40px 48px",
-        backgroundColor: "#F6F7F9",
-      }}
+      className="
+        grid w-full
+        grid-cols-1
+        gap-x-4 gap-y-6
+        bg-[#F6F7F9]
+        sm:grid-cols-2
+        md:grid-cols-3
+        lg:grid-cols-4
+        xl:grid-cols-5
+      "
     >
       {movies.map((movie) => (
         <MovieCard
