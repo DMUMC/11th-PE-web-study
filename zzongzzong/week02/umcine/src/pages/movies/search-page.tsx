@@ -40,7 +40,12 @@ export function SearchPage() {
                     className="flex-1"
                     placeholder="검색어를 입력해주세요."
                 />
-                <button type="submit">검색</button>
+                <img src='/icon/movie-icons/close.svg' onClick={() => {
+                    setSearchText("");
+                }} />
+                <button type="submit" className="w-[86px] h-[42px] rounded-[8px] bg-[#17191E]
+                font-[800] text-[14px] text-white
+                ">검색</button>
             </form>
 
             {!normalizedQuery ? (
@@ -54,7 +59,7 @@ export function SearchPage() {
                     {searchResults.length === 0 ? (
                         <p>검색 결과가 없어요.</p>
                     ) : (
-                        <div className="grid grid-cols-2">
+                        <div className="grid grid-cols-2 gap-[10px]">
                             {searchResults.map((movie) => (
                                 <li key={movie.id} className="list-none flex gap-[18px]">
                                     <img src={movie.posterPath} alt={`${movie.title} 포스터`} className="w-[126px] h-[190px] rounded-[10px]" />
