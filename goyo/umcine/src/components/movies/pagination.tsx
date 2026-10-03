@@ -1,4 +1,3 @@
-
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -13,21 +12,30 @@ export default function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <nav className="pagination" aria-label="페이지 이동">
+    <nav
+      className="flex items-center justify-center gap-2"
+      aria-label="페이지 이동"
+    >
       <button
         type="button"
-        className="pagination-prev"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         aria-label="이전 페이지"
+        className="
+          flex h-9 w-9 items-center justify-center
+          rounded-lg border border-[#E3E6EB]
+          bg-white
+          disabled:cursor-not-allowed disabled:opacity-40
+        "
       >
         <img
-          src="/images/movie-icons/chevron-left.svg"
+          src="/movie-icons/chevron-left.svg"
           alt=""
+          className="h-4 w-4"
         />
       </button>
 
-      <div className="pagination-pages">
+      <div className="flex items-center gap-1">
         {Array.from({ length: totalPages }, (_, index) => {
           const page = index + 1;
 
@@ -35,15 +43,18 @@ export default function Pagination({
             <button
               key={page}
               type="button"
-              className={
-                currentPage === page
-                  ? "pagination-page active"
-                  : "pagination-page"
-              }
               onClick={() => onPageChange(page)}
-              aria-current={
-                currentPage === page ? "page" : undefined
-              }
+              aria-current={currentPage === page ? "page" : undefined}
+              className={`
+                flex h-9 min-w-9 items-center justify-center
+                rounded-lg px-2
+                text-sm font-medium
+                ${
+                  currentPage === page
+                    ? "bg-[#2563EB] text-white"
+                    : "bg-white text-[#17191E] hover:bg-[#EDEFF2]"
+                }
+              `}
             >
               {page}
             </button>
@@ -53,14 +64,20 @@ export default function Pagination({
 
       <button
         type="button"
-        className="pagination-next"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         aria-label="다음 페이지"
+        className="
+          flex h-9 w-9 items-center justify-center
+          rounded-lg border border-[#E3E6EB]
+          bg-white
+          disabled:cursor-not-allowed disabled:opacity-40
+        "
       >
         <img
           src="/movie-icons/chevron-right.svg"
           alt=""
+          className="h-4 w-4"
         />
       </button>
     </nav>

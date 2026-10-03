@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import Header from "./components/header";
-import MovieGrid from "./components/movie-grid";
-import Pagination from "./components/pagination";
+import Header from "./components/layout/header";
+import MovieGrid from "./components/movies/movie-grid";
+import Pagination from "./components/movies/pagination";
 import { movies } from "./data/movies";
 
 const MOVIES_PER_PAGE = 10;
