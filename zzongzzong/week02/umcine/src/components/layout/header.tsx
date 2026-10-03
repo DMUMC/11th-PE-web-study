@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 export default function Header() {
     return (
         <header className="flex items-center w-full h-[68] px-[80px] py-[16px] border-b-[1px] border-[#E3E6EB]">
@@ -8,9 +10,9 @@ export default function Header() {
                 <p className="text-[20px] font-[900]">UMCine</p>
             </div>
             <div className="flex items-center gap-[30px] pl-[42px] text-[14px] font-[700] text-[#606774]">
-                <p className="text-[#17191E] underline">영화</p>
-                <p>검색</p>
-                <p>내 정보</p>
+                <Link to="/"><p className="text-[#17191E] underline">영화</p></Link>
+                <Link to="/search"><p>검색</p></Link>
+                <Link to="/myPage"><p>내 정보</p></Link>
             </div>
             <div className="ml-auto flex justify-end gap-[10px]">
                 <div className="w-[42px] h-[42px] flex items-center justify-center border-1 border-[#E3E6EB] rounded-[8px]">
