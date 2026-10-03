@@ -1,9 +1,15 @@
 import { useState } from "react";
-import type { Movie } from "./types/movie";
-import { movies } from "./data/movies";
+import type { Movie } from "../../types/movie";
+import { movies } from "../../data/movies";
+import { Link } from "@tanstack/react-router";
 
 
-export default function MovieCard(props: { id: number, title: string, posterPath: string, releaseDate: string, isBookmarked: boolean, onBookmark: (movieId: number) => void }) {
+export default function MovieCard(props:
+    // {
+    //     id: number, title: string, posterPath: string, releaseDate: string, isBookmarked: boolean, onBookmark: (movieId: number) => void
+
+    // }
+    Movie) {
     const [mark, setMark] = useState(props.isBookmarked);
     const bookmark = () => {
         setMark(!mark);
@@ -11,7 +17,9 @@ export default function MovieCard(props: { id: number, title: string, posterPath
     return (
         <div className="relative">
             <li key={props.id} className="list-none">
-                <img src={props.posterPath} alt={props.title} className="w-[240px] h-[274px] rounded-[8px]" />
+                <Link to="/movies/$movieId" params={{ movieId: String(props.id) }}>
+                    <img src={props.posterPath} alt={props.title} className="w-[240px] h-[274px] rounded-[8px]" />
+                </Link>
                 <div className={`w-[34px] h-[34px] absolute top-[8px] right-[6px] 
                 ${mark ? 'bg-[#2563EB]' : 'bg-[#17191E] border-1 border-white'} rounded-[8px] flex justify-center items-center`}
                     onClick={() =>
