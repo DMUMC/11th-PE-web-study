@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "UMC 3주차 Spring 필수 미션",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "필수 1 - 카테고리 도서 조회",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/books/category/1"
+      }
+    },
+    {
+      "name": "빈 카테고리",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/books/category/999"
+      }
+    },
+    {
+      "name": "필수 2 - 대여 생성",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8080/rentals",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": 1,\n  \"bookId\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "잘못된 본문 키",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8080/rentals",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userID\": 1,\n  \"bookId\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "없는 도서 FK",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8080/rentals",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": 1,\n  \"bookId\": 999\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@theme { --color-primary: #3d60e8; }
+@layer base {
+  body { @apply m-0 min-w-80 bg-[#f6f7f9] text-[#17191d] antialiased; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button { @apply cursor-pointer; }
+  button:disabled { @apply cursor-default opacity-50; }
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { @apply outline-2 outline-offset-4 outline-primary; }
+}
