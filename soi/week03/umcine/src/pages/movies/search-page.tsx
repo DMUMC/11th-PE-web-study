@@ -1,3 +1,4 @@
+import { useBookmarkStore } from "../../stores/bookmark-store";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState, type SubmitEvent } from "react";
 import { movies } from "../../data/movies";
@@ -6,6 +7,14 @@ export function SearchPage() {
   const { query } = useSearch({ from: "/search" });
   const navigate = useNavigate({ from: "/search" });
   const [searchText, setSearchText] = useState(query ?? "");
+
+  const bookmarkedMovieIds = useBookmarkStore(
+    (state) => state.bookmarkedMovieIds,
+  );
+
+  const toggleBookmark = useBookmarkStore(
+    (state) => state.toggleBookmark,
+  );
 
   useEffect(() => {
     setSearchText(query ?? "");
@@ -97,6 +106,16 @@ export function SearchPage() {
                     <p className="mb-4 text-sm leading-6">
                       {movie.overview}
                     </p>
+
+                    <button
+                      className="mr-3 mb-3 rounded-[6px] bg-[#5267e9] px-4 py-2 text-sm text-white"
+                      type="button"
+                      onClick={() => toggleBookmark(movie.id)}
+                    >
+                      {bookmarkedMovieIds.includes(movie.id)
+                        ? "북마크 해제"
+                        : "북마크 추가"}
+                    </button>
 
                     <Link
                       className="text-sm font-semibold text-[#5267e9]"
