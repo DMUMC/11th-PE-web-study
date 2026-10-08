@@ -30,15 +30,39 @@ export default function MovieCard({
         </Link>
 
         <div className="flex min-w-0 flex-1 flex-col">
-          <Link
-            to="/movies/$movieId"
-            params={{ movieId: String(movie.id) }}
-            className="w-fit no-underline"
-          >
-            <h3 className="m-0 text-[18px] font-bold leading-6 text-[#17191E]">
-              {movie.title}
-            </h3>
-          </Link>
+          <div className="flex items-start justify-between gap-2">
+            <Link
+              to="/movies/$movieId"
+              params={{ movieId: String(movie.id) }}
+              className="w-fit no-underline"
+            >
+              <h3 className="m-0 text-[18px] font-bold leading-6 text-[#17191E]">
+                {movie.title}
+              </h3>
+            </Link>
+
+            <button
+              type="button"
+              aria-label={isBookmarked ? "북마크 해제" : "북마크 추가"}
+              aria-pressed={isBookmarked}
+              onClick={() => onToggleBookmark?.(movie.id)}
+              className={`flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-lg border ${
+                isBookmarked
+                  ? "border-[#2563EB] bg-[#2563EB]"
+                  : "border-[#17191E] bg-[#17191E]"
+              }`}
+            >
+              <img
+                src={
+                  isBookmarked
+                    ? "/movie-icons/bookmark.svg"
+                    : "/movie-icons/bookmark-outline.svg"
+                }
+                alt=""
+                className="block h-5 w-5"
+              />
+            </button>
+          </div>
 
           <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-[#969DA8]">
             <span>{movie.originalTitle}</span>

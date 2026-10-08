@@ -2,10 +2,12 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState, type SubmitEvent } from "react";
 import { movies } from "../../data/movies";
 import MovieCard from "../../components/movies/movie-card";
+import { useBookmarks } from "../../contexts/BookmarkContext";
 
 export function SearchPage() {
   const { query } = useSearch({ from: "/search" });
   const navigate = useNavigate({ from: "/search" });
+  const { isBookmarked, toggleBookmark } = useBookmarks();
 
   const [searchText, setSearchText] = useState(query ?? "");
 
@@ -153,6 +155,8 @@ export function SearchPage() {
                 key={movie.id}
                 movie={movie}
                 variant="search"
+                isBookmarked={isBookmarked(movie.id)}
+                onToggleBookmark={toggleBookmark}
               />
             ))}
           </div>
