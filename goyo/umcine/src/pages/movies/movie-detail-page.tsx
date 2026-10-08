@@ -1,14 +1,16 @@
+
 import { useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import { movies } from "../../data/movies";
-import { useBookmarks } from "../../contexts/BookmarkContext";
+import { useBookmarkStore } from "../../stores/bookmark-store";
 
 export function MovieDetailPage() {
   const { movieId } = useParams({ from: "/movies/$movieId" });
   const movie = movies.find((item) => item.id === Number(movieId));
 
-  const { isBookmarked, toggleBookmark } = useBookmarks();
-  const bookmarked = movie ? isBookmarked(movie.id) : false;
+  const bookmarkIds = useBookmarkStore((state) => state.bookmarkIds);
+  const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
+  const bookmarked = movie ? bookmarkIds.includes(movie.id) : false;
 
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");

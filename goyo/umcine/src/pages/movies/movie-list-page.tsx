@@ -1,13 +1,15 @@
+
 import { useState } from "react";
 import { movies } from "../../data/movies";
 import MovieGrid from "../../components/movies/movie-grid";
 import Pagination from "../../components/movies/pagination";
-import { useBookmarks } from "../../contexts/BookmarkContext";
+import { useBookmarkStore } from "../../stores/bookmark-store";
 
 const MOVIES_PER_PAGE = 10;
 
 export default function MovieListPage() {
-  const { bookmarkIds, toggleBookmark } = useBookmarks();
+  const bookmarkIds = useBookmarkStore((state) => state.bookmarkIds);
+  const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
 
   const [currentPage, setCurrentPage] = useState(1);
 
