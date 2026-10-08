@@ -23,6 +23,11 @@ public class BookRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
+    public List<Map<String, Object>> findByCategoryId(Long categoryId) {
+        String sql = "SELECT * FROM book WHERE category_id = ?";
+        return jdbcTemplate.queryForList(sql, categoryId);
+    }
+
 
 
     public void save(Map<String, Object> body){
