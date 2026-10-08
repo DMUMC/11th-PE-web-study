@@ -1,6 +1,7 @@
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState, type SubmitEvent } from "react";
 import { movies } from "../../data/movies";
+import { BookmarkButton } from "../../components/bookmark-button";
 
 export function SearchPage() {
   const { query } = useSearch({ from: "/search" });
@@ -50,7 +51,7 @@ function SearchContent({ query }: { query?: string }) {
               alt=""
             />
             <input
-              className="min-w-0 flex-1 bg-transparent px-3 text-base text-[#1d1e20] outline-none placeholder:text-[#a9b0bb] sm:px-4"
+              className="min-w-0 flex-1 bg-transparent px-3 text-base text-[#1d1e20] outline-none sm:px-4"
               aria-label="검색어"
               placeholder="예: 스파이더맨"
               value={searchText}
@@ -76,13 +77,22 @@ function SearchContent({ query }: { query?: string }) {
               <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                 {searchResults.map((movie) => (
                   <li key={movie.id} className="min-w-0 rounded-lg bg-white p-3">
+                    <div className="relative mb-3 aspect-2/3 w-full overflow-hidden rounded-lg">
+                      <Link to="/movies/$movieId" params={{ movieId: String(movie.id) }} className="block size-full">
+                        <img className="size-full object-cover" src={movie.posterPath} alt={`${movie.title} 포스터`} />
+                      </Link>
+                      <BookmarkButton
+                        movieId={movie.id}
+                        movieTitle={movie.title}
+                        className="absolute right-2.5 top-2.5"
+                      />
+                    </div>
                     <Link to="/movies/$movieId" params={{ movieId: String(movie.id) }}>
-                      <img className="mb-3 aspect-[2/3] w-full rounded-lg object-cover" src={movie.posterPath} alt={`${movie.title} 포스터`} />
-                      <h3 className="font-semibold text-[#202124]">{movie.title}</h3>
+                      <h3 className="font-semibold text-[#202124] hover:underline">{movie.title}</h3>
                     </Link>
                     <p className="text-sm text-[#676d76]">{movie.originalTitle}</p>
                     <p className="text-sm text-[#9299a4]">{movie.releaseDate}</p>
-                    <p className="mt-2 text-sm text-[#676d76]">{movie.overview}</p>
+                    <p className="mt-2 line-clamp-2 text-sm text-[#676d76]">{movie.overview}</p>
                   </li>
                 ))}
               </ul>
