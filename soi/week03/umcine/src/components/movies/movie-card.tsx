@@ -1,16 +1,21 @@
 import { cn } from "../../utils/cn";
 import { Link } from "@tanstack/react-router";
 import type { Movie } from "../../types/movie";
+import { useBookmarkStore } from "../../stores/bookmark-store";
 
 interface MovieCardProps {
   movie: Movie;
-  onToggleBookmark: (movieId: number) => void;
 }
 
-export default function MovieCard({
-  movie,
-  onToggleBookmark,
-}: MovieCardProps) {
+export default function MovieCard({ movie }: MovieCardProps) {
+  const isBookmarked = useBookmarkStore((state) =>
+    state.bookmarkedMovieIds.includes(movie.id),
+  );
+
+  const toggleBookmark = useBookmarkStore(
+    (state) => state.toggleBookmark,
+  );
+
   return (
     <div className="overflow-hidden rounded-[10px] bg-white">
       <div className="relative w-full overflow-hidden rounded-[8px]">
@@ -28,11 +33,11 @@ export default function MovieCard({
         <button
           className={cn(
             "absolute right-2 top-2 rounded-full p-2 text-white",
-             movie.isBookmarked ? "bg-blue-600" : "bg-black/60",
+            isBookmarked ? "bg-blue-600" : "bg-black/60",
           )}
-          onClick={() => onToggleBookmark(movie.id)}
+          onClick={() => toggleBookmark(movie.id)}
         >
-          북마크
+          {isBookmarked ? "북마크 해제" : "북마크 추가"}
         </button>
       </div>
 
