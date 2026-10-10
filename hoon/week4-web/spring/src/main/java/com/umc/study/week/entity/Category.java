@@ -1,0 +1,30 @@
+package com.umc.study.week.entity;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "category")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @Column(nullable = false, length = 50)
+    private String name;
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category(Long categoryId, String name) {
+        this.categoryId = categoryId;
+        this.name = name;
+    }
+}
