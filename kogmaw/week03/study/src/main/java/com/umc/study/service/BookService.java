@@ -20,6 +20,10 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public List<Map<String, Object>> getBooksByCategory(Long categoryId) {
+        return bookRepository.findByCategoryId(categoryId);
+    }
+
     // BookService.java에 추가
     public void createBook(Map<String, Object> body){
         bookRepository.save(body);
