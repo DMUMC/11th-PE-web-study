@@ -1,14 +1,17 @@
+
 import { useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import { movies } from "../../data/movies";
+import { useBookmarkStore } from "../../stores/bookmark-store";
 
 export function MovieDetailPage() {
   const { movieId } = useParams({ from: "/movies/$movieId" });
   const movie = movies.find((item) => item.id === Number(movieId));
 
-  const [isBookmarked, setIsBookmarked] = useState(
-    movie?.isBookmarked ?? false,
-  );
+  const bookmarkIds = useBookmarkStore((state) => state.bookmarkIds);
+  const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
+  const bookmarked = movie ? bookmarkIds.includes(movie.id) : false;
+
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
 
@@ -93,10 +96,11 @@ export function MovieDetailPage() {
 
             <button
               type="button"
-              onClick={() => setIsBookmarked((prev) => !prev)}
-              aria-pressed={isBookmarked}
+              onClick={() => toggleBookmark(movie.id)}
+              aria-label={bookmarked ? "북마크 해제" : "북마크 추가"}
+              aria-pressed={bookmarked}
               className={`mt-4 flex h-[42px] cursor-pointer items-center gap-2 rounded-lg border px-4 text-sm font-bold transition-colors ${
-                isBookmarked
+                bookmarked
                   ? "border-[#2563EB] bg-[#2563EB] text-white"
                   : "border-[#2563EB] bg-white text-[#2563EB]"
               }`}
@@ -104,7 +108,7 @@ export function MovieDetailPage() {
               <span
                 aria-hidden="true"
                 className={`h-5 w-5 ${
-                  isBookmarked ? "bg-white" : "bg-[#2563EB]"
+                  bookmarked ? "bg-white" : "bg-[#2563EB]"
                 }`}
                 style={{
                   mask: "url('/movie-icons/bookmark.svg') center / contain no-repeat",
@@ -113,11 +117,11 @@ export function MovieDetailPage() {
                 }}
               />
 
-              즐겨찾기
+              북마크
             </button>
           </div>
 
-          <aside className="border-t border-[#E3E6EB] pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+          <aside className="border-t border-[#E3E6EB] pt-6 lg:border-t-0 lg:border-l lg:pt-8 lg:pl-8">
             <h2 className="text-xl font-bold text-[#17191E]">
               내 평점
             </h2>

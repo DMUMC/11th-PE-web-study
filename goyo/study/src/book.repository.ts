@@ -1,32 +1,54 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import type { Pool } from 'mysql2/promise';
 import { DATABASE_CONNECTION } from './database.provider.js';
+import { Book } from './entities/book.entity.js';
+import { Category } from './entities/category.entity.js';
+import { CreateBookDto } from './dto/create-book.dto.js';
 
 @Injectable()
 export class BookRepository {
   constructor(
-    @Inject(DATABASE_CONNECTION) private readonly pool: Pool,
+    @Inject(DATABASE_CONNECTION)
+    private readonly pool: Pool,
+
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>,
+
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async findAll(): Promise<any> {
-    const sql = 'SELECT * FROM book';
-
-    const [rows] = await this.pool.query(sql);
-
-    return rows;
+  async findAll(): Promise<Book[]> {
+    return await this.bookRepository.find({
+      relations: {
+        category: true,
+      },
+      order: {
+        bookId: 'DESC',
+      },
+    });
   }
 
-  async create(body: Record<string, any>): Promise<any> {
-    const sql =
-      'INSERT INTO book (category_id, title, description, is_available) VALUES (?, ?, ?, true)';
+  async findCategoryById(categoryId: number): Promise<Category | null> {
+    return await this.categoryRepository.findOne({
+      where: {
+        categoryId: String(categoryId),
+      },
+    });
+  }
 
-    const [result] = await this.pool.execute(sql, [
-      body.categoryId,
-      body.title,
-      body.description,
-    ]);
+  async create(body: CreateBookDto, category: Category): Promise<Book> {
+    const book = this.bookRepository.create({
+      categoryId: category.categoryId,
+      category,
+      title: body.title,
+      description: body.description,
+      isAvailable: true,
+    });
 
-    return result;
+    return await this.bookRepository.save(book);
   }
 
   async findCategory(categoryId: number): Promise<any> {
