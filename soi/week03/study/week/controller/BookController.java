@@ -1,39 +1,29 @@
 package com.umc.study.week.controller;
 
+import com.umc.study.week.dto.BookResponse;
+import com.umc.study.week.dto.CreateBookRequest;
 import com.umc.study.week.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/books")
 @RequiredArgsConstructor
+@RequestMapping("/books")
 public class BookController {
 
     private final BookService bookService;
 
     @GetMapping
-    public List<Map<String, Object>> getBooks() {
-        return bookService.getAllBooks();
+    public List<BookResponse> getBooks() {
+        return bookService.getBooks();
     }
 
     @PostMapping
-    public String createBook(@RequestBody Map<String, Object> body) {
-        bookService.createBook(body);
-        return "도서 등록이 완료되었습니다!";
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public List<Map<String, Object>> getBooksByCategory(
-            @PathVariable Long categoryId
-    ) {
-        return bookService.getBooksByCategory(categoryId);
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookResponse createBook(@Valid @RequestBody CreateBookRequest request) {
+        return bookService.createBook(request);
     }
 }
