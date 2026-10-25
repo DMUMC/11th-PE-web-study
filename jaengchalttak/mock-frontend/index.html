@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>영화 평점 API 테스트</title>
+  </head>
+  <body>
+    <h1>간이 프런트: API 테스트</h1>
+
+    <h2>닉네임 중복 체크</h2>
+    <form data-endpoint="nickname">
+      <label>닉네임 <input name="value" value="수현" required /></label>
+      <button>중복 확인</button>
+      <pre aria-live="polite"></pre>
+    </form>
+
+    <h2>이메일 중복 체크</h2>
+    <form data-endpoint="email">
+      <label>이메일 <input name="value" type="email" value="noco@umc.com" required /></label>
+      <button>중복 확인</button>
+      <pre aria-live="polite"></pre>
+    </form>
+
+    <h2>회원별 평점 조회</h2>
+    <form data-endpoint="ratings">
+      <label>회원 ID <input name="value" type="number" min="1" step="1" value="1" required /></label>
+      <button>평점 조회</button>
+      <pre aria-live="polite"></pre>
+    </form>
+
+    <script>
+      document.querySelectorAll('form').forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const value = encodeURIComponent(new FormData(form).get('value'));
+          const endpoint = form.dataset.endpoint;
+          const path = endpoint === 'ratings'
+            ? `/members/${value}/ratings`
+            : `/members/${endpoint}/${value}`;
+          const url = `http://localhost:8080${path}`;
+          const output = form.querySelector('pre');
+          const button = form.querySelector('button');
+          button.disabled = true;
+          output.textContent = `GET ${url}\n요청 중...`;
+          try {
+            const response = await fetch(url);
+            const body = await response.json();
+            output.textContent = `GET ${url}\nHTTP ${response.status}\n${JSON.stringify(body, null, 2)}`;
+          } catch (error) {
+            output.textContent = `GET ${url}\n요청 실패: ${error.message}\n백엔드 실행 상태와 개발자 도구의 Console/Network를 확인하세요.`;
+            console.error(error);
+          } finally {
+            button.disabled = false;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
