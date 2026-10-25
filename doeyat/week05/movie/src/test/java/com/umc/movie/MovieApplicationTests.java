@@ -33,7 +33,7 @@ class MovieApplicationTests {
     void setUpData() {
         jdbcTemplate.update("""
                 INSERT INTO member (member_id, email, password, nickname, created_at, updated_at)
-                VALUES (1, 'noco@umc.com', 'dummy', '수현', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                VALUES (1, 'doeyat@umc.com', 'dummy', '도얏', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
                        (2, 'minseo@umc.com', 'dummy', '민서', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
                 """);
         jdbcTemplate.update("""
@@ -45,8 +45,8 @@ class MovieApplicationTests {
     }
 
     @ParameterizedTest
-    @CsvSource({"nickname, 수현, false", "nickname, 새닉네임, true",
-            "email, noco@umc.com, false", "email, new@umc.com, true"})
+    @CsvSource({"nickname, 도얏, false", "nickname, 새닉네임, true",
+            "email, doeyat@umc.com, false", "email, new@umc.com, true"})
     void checksAvailability(String field, String value, boolean available) throws Exception {
         mockMvc.perform(get("/members/{field}/{value}", field, value))
                 .andExpect(status().isOk())

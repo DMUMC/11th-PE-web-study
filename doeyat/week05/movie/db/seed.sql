@@ -3,7 +3,7 @@
 USE umc_movie;
 
 INSERT INTO member (member_id, email, password, nickname, created_at, updated_at)
-VALUES (1, 'noco@umc.com', 'dummy', '수현', NOW(6), NOW(6)),
+VALUES (1, 'doeyat@umc.com', 'dummy', '도얏', NOW(6), NOW(6)),
        (2, 'minseo@umc.com', 'dummy', '민서', NOW(6), NOW(6));
 
 INSERT INTO rating (member_id, movie_id, score, comment, created_at, updated_at)
