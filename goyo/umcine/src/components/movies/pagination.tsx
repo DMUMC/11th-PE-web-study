@@ -4,12 +4,33 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
+const VISIBLE_PAGES = 5;
+
 export default function Pagination({
   currentPage,
   totalPages,
   onPageChange,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
+
+  const visibleCount = Math.min(VISIBLE_PAGES, totalPages);
+
+  let startPage = Math.max(
+    1,
+    currentPage - Math.floor(visibleCount / 2),
+  );
+
+  let endPage = startPage + visibleCount - 1;
+
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - visibleCount + 1);
+  }
+
+  const pages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index,
+  );
 
   return (
     <nav
@@ -36,30 +57,26 @@ export default function Pagination({
       </button>
 
       <div className="flex items-center gap-1">
-        {Array.from({ length: totalPages }, (_, index) => {
-          const page = index + 1;
-
-          return (
-            <button
-              key={page}
-              type="button"
-              onClick={() => onPageChange(page)}
-              aria-current={currentPage === page ? "page" : undefined}
-              className={`
-                flex h-9 min-w-9 items-center justify-center
-                rounded-lg px-2
-                text-sm font-medium
-                ${
-                  currentPage === page
-                    ? "bg-[#2563EB] text-white"
-                    : "bg-white text-[#17191E] hover:bg-[#EDEFF2]"
-                }
-              `}
-            >
-              {page}
-            </button>
-          );
-        })}
+        {pages.map((page) => (
+          <button
+            key={page}
+            type="button"
+            onClick={() => onPageChange(page)}
+            aria-current={currentPage === page ? "page" : undefined}
+            className={`
+              flex h-9 min-w-9 items-center justify-center
+              rounded-lg px-2
+              text-sm font-medium
+              ${
+                currentPage === page
+                  ? "bg-[#2563EB] text-white"
+                  : "bg-white text-[#17191E] hover:bg-[#EDEFF2]"
+              }
+            `}
+          >
+            {page}
+          </button>
+        ))}
       </div>
 
       <button

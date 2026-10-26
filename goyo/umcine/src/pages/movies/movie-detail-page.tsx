@@ -1,20 +1,154 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
-import { movies } from "../../data/movies";
+import { getMovieDetail } from "../../api/movies/get-movie-detail";
+import type { TmdbMovieDetail } from "../../api/movies/model";
 import { useBookmarkStore } from "../../stores/bookmark-store";
+
+interface MovieReview {
+  rating: number;
+  review: string;
+}
+
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+const BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 export function MovieDetailPage() {
   const { movieId } = useParams({ from: "/movies/$movieId" });
-  const movie = movies.find((item) => item.id === Number(movieId));
 
   const bookmarkIds = useBookmarkStore((state) => state.bookmarkIds);
   const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
-  const bookmarked = movie ? bookmarkIds.includes(movie.id) : false;
+
+  const [movie, setMovie] = useState<TmdbMovieDetail | null>(null);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
+  const [saved, setSaved] = useState(false);
 
+  const bookmarked = movie
+    ? bookmarkIds.includes(movie.id)
+    : false;
+
+  // TMDB 영화 상세 API 요청
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchMovieDetail() {
+      setLoading(true);
+      setError(null);
+      setMovie(null);
+
+      try {
+       const response = await getMovieDetail(Number(movieId));
+
+        if (cancelled) return;
+
+        setMovie(response);
+      } catch {
+        if (cancelled) return;
+
+        setError("영화 정보를 불러오지 못했어요.");
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchMovieDetail();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [movieId, retryCount]);
+
+  // 영화별 저장된 평점 및 후기 불러오기
+  useEffect(() => {
+    setRating(0);
+    setReview("");
+    setSaved(false);
+
+    try {
+      const storedReview = localStorage.getItem(
+        `movie-review-${movieId}`,
+      );
+
+      if (!storedReview) return;
+
+      const parsedReview: MovieReview = JSON.parse(storedReview);
+
+      setRating(parsedReview.rating);
+      setReview(parsedReview.review);
+    } catch {
+      // 저장된 데이터가 손상된 경우 기본값 유지
+    }
+  }, [movieId]);
+
+  // 평점 및 후기 저장
+  function handleSaveReview() {
+    if (rating === 0) {
+      alert("별점을 선택해 주세요.");
+      return;
+    }
+
+    const movieReview: MovieReview = {
+      rating,
+      review: review.trim(),
+    };
+
+    try {
+      localStorage.setItem(
+        `movie-review-${movieId}`,
+        JSON.stringify(movieReview),
+      );
+
+      setSaved(true);
+    } catch {
+      alert("평점과 후기를 저장하지 못했어요.");
+    }
+  }
+
+  // 로딩 상태
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#F6F7F9]">
+        <p className="text-sm text-[#606774]">
+          영화 정보를 불러오는 중이에요...
+        </p>
+      </main>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#F6F7F9]">
+        <p className="text-lg font-bold text-[#17191E]">
+          {error}
+        </p>
+
+        <button
+          type="button"
+          onClick={() => setRetryCount((prev) => prev + 1)}
+          className="cursor-pointer rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
+        >
+          다시 시도
+        </button>
+
+        <Link
+          to="/"
+          className="text-sm font-bold text-[#2563EB]"
+        >
+          영화 목록으로 돌아가기
+        </Link>
+      </main>
+    );
+  }
+
+  // 영화 정보가 없는 경우
   if (!movie) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#F6F7F9]">
@@ -34,15 +168,26 @@ export function MovieDetailPage() {
     );
   }
 
+  const backdropUrl = movie.backdrop_path
+    ? `${BACKDROP_BASE_URL}${movie.backdrop_path}`
+    : null;
+
+  const posterUrl = movie.poster_path
+    ? `${IMAGE_BASE_URL}${movie.poster_path}`
+    : null;
+
   return (
     <main className="min-h-screen bg-[#F6F7F9] font-[Pretendard,sans-serif]">
-      <section className="relative h-[360px] w-full overflow-hidden">
-        <img
-          src={movie.backdropPath}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-[65%_center]"
-        />
+      {/* 영화 배경 및 기본 정보 */}
+      <section className="relative h-[360px] w-full overflow-hidden bg-[#17191E]">
+        {backdropUrl && (
+          <img
+            src={backdropUrl}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover object-[65%_center]"
+          />
+        )}
 
         <div className="absolute inset-0 bg-black/45" />
 
@@ -61,37 +206,59 @@ export function MovieDetailPage() {
             </h1>
 
             <p className="mb-2 text-sm font-medium text-white/90">
-              {movie.originalTitle}
+              {movie.original_title}
             </p>
 
             <div className="flex flex-wrap items-center gap-1 text-sm font-semibold text-white">
-              <span>{movie.releaseDate}</span>
+              <span>{movie.release_date || "개봉일 미정"}</span>
               <span>·</span>
-              <span>{movie.genres.join(" · ")}</span>
+
+              <span>
+                {movie.genres.length > 0
+                  ? movie.genres
+                      .map((genre) => genre.name)
+                      .join(" · ")
+                  : "장르 정보 없음"}
+              </span>
+
               <span>·</span>
-              <span>{movie.runtime}</span>
+
+              <span>
+                {movie.runtime
+                  ? `${movie.runtime}분`
+                  : "상영시간 정보 없음"}
+              </span>
             </div>
           </div>
         </div>
       </section>
 
+      {/* 영화 상세 정보 */}
       <section className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-8 lg:px-20">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[200px_minmax(0,1fr)_360px] lg:gap-8">
+          {/* 포스터 */}
           <div>
-            <img
-              src={movie.posterPath}
-              alt={`${movie.title} 포스터`}
-              className="w-full max-w-[200px] rounded-[10px] object-cover shadow-md"
-            />
+            {posterUrl ? (
+              <img
+                src={posterUrl}
+                alt={`${movie.title} 포스터`}
+                className="w-full max-w-[200px] rounded-[10px] object-cover shadow-md"
+              />
+            ) : (
+              <div className="flex aspect-[2/3] w-full max-w-[200px] items-center justify-center rounded-[10px] bg-[#E3E6EB] text-sm text-[#969DA8]">
+                이미지 없음
+              </div>
+            )}
           </div>
 
+          {/* 줄거리 및 북마크 */}
           <div className="min-w-0">
             <h2 className="mb-3 text-xl font-bold text-[#17191E]">
-              {movie.tagline}
+              {movie.tagline || movie.title}
             </h2>
 
             <p className="mb-2 text-sm leading-6 text-[#6B7280]">
-              {movie.overview}
+              {movie.overview || "등록된 줄거리가 없습니다."}
             </p>
 
             <button
@@ -121,6 +288,7 @@ export function MovieDetailPage() {
             </button>
           </div>
 
+          {/* 평점 및 후기 */}
           <aside className="border-t border-[#E3E6EB] pt-6 lg:border-t-0 lg:border-l lg:pt-8 lg:pl-8">
             <h2 className="text-xl font-bold text-[#17191E]">
               내 평점
@@ -135,8 +303,12 @@ export function MovieDetailPage() {
                 <button
                   key={star}
                   type="button"
-                  onClick={() => setRating(star)}
+                  onClick={() => {
+                    setRating(star);
+                    setSaved(false);
+                  }}
                   aria-label={`${star}점`}
+                  aria-pressed={rating === star}
                   className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#E3E6EB] bg-white"
                 >
                   <img
@@ -154,17 +326,30 @@ export function MovieDetailPage() {
 
             <textarea
               value={review}
-              onChange={(e) => setReview(e.target.value)}
+              onChange={(e) => {
+                setReview(e.target.value);
+                setSaved(false);
+              }}
               placeholder="영화를 보고 느낀 점을 남겨보세요."
               className="mt-3 h-[100px] w-full resize-none rounded-lg border border-[#E3E6EB] bg-white p-4 text-sm text-[#17191E] outline-none placeholder:text-[#969DA8] focus:border-[#2563EB]"
             />
 
             <button
               type="button"
+              onClick={handleSaveReview}
               className="mt-2 h-[42px] w-full cursor-pointer rounded-lg border-0 bg-[#17191E] px-4 text-sm font-bold text-white"
             >
               평점 저장
             </button>
+
+            {saved && (
+              <p
+                role="status"
+                className="mt-2 text-xs font-medium text-[#2563EB]"
+              >
+                평점과 후기가 저장되었어요.
+              </p>
+            )}
           </aside>
         </div>
       </section>
