@@ -1,7 +1,7 @@
-
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState, type SubmitEvent } from "react";
-import { movies } from "../../data/movies";
+import { searchMovies } from "../../api/movies/search-movies";
+import type { TmdbMovieListItem } from "../../api/movies/model";
 import MovieCard from "../../components/movies/movie-card";
 import { useBookmarkStore } from "../../stores/bookmark-store";
 
@@ -14,30 +14,83 @@ export function SearchPage() {
 
   const [searchText, setSearchText] = useState(query ?? "");
 
+  const [searchResults, setSearchResults] = useState<TmdbMovieListItem[]>([]);
+  const [totalResults, setTotalResults] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
+
+  const normalizedQuery = query?.trim() ?? "";
+
+  // URL 검색어와 입력창 동기화
   useEffect(() => {
     setSearchText(query ?? "");
   }, [query]);
 
-  const normalizedQuery = query?.trim().toLowerCase() ?? "";
+  // TMDB 검색 API 요청
+  useEffect(() => {
+    let cancelled = false;
 
-  const searchResults = normalizedQuery
-    ? movies.filter(
-        (movie) =>
-          movie.title.toLowerCase().includes(normalizedQuery) ||
-          movie.originalTitle.toLowerCase().includes(normalizedQuery),
-      )
-    : [];
+    async function fetchSearchResults() {
+      if (!normalizedQuery) {
+        setSearchResults([]);
+        setTotalResults(0);
+        setLoading(false);
+        setError(null);
+        return;
+      }
 
+      setLoading(true);
+      setError(null);
+      setSearchResults([]);
+      setTotalResults(0);
+
+      try {
+        const response = await searchMovies({
+          query: normalizedQuery,
+          page: 1,
+        });
+
+        if (cancelled) return;
+
+        setSearchResults(response.results);
+        setTotalResults(response.total_results);
+      } catch {
+        if (cancelled) return;
+
+        setError("검색 결과를 불러오지 못했어요.");
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchSearchResults();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [normalizedQuery, retryCount]);
+
+  // 검색 실행
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const nextQuery = searchText.trim();
+
+    if (nextQuery === normalizedQuery) {
+      setRetryCount((prev) => prev + 1);
+      return;
+    }
 
     navigate({
       search: nextQuery ? { query: nextQuery } : {},
     });
   }
 
+  // 검색어 초기화
   function handleClear() {
     setSearchText("");
 
@@ -46,6 +99,7 @@ export function SearchPage() {
     });
   }
 
+  // 검색어가 없는 초기 화면
   if (!normalizedQuery) {
     return (
       <main className="min-h-[calc(100vh-64px)] bg-[#F6F7F9] font-[Pretendard,sans-serif]">
@@ -87,6 +141,7 @@ export function SearchPage() {
     );
   }
 
+  // 검색 결과 화면
   return (
     <main className="min-h-[calc(100vh-64px)] bg-[#F6F7F9] font-[Pretendard,sans-serif]">
       <section className="mx-auto w-full max-w-[1440px] px-5 py-6 sm:px-10 lg:px-20">
@@ -137,21 +192,48 @@ export function SearchPage() {
 
         <div className="mt-5 flex items-center justify-between border-b border-[#E3E6EB] pb-4">
           <h2 className="text-[20px] font-bold text-[#17191E] sm:text-[22px]">
-            ‘{query}’ 검색 결과
+            ‘{normalizedQuery}’ 검색 결과
           </h2>
 
           <p className="m-0 text-xs font-normal text-[#969DA8]">
-            영화 {searchResults.length}편
+            영화 {loading ? "..." : totalResults}편
           </p>
         </div>
 
-        {searchResults.length === 0 ? (
+        {/* 로딩 상태 */}
+        {loading ? (
+          <div className="flex min-h-[320px] items-center justify-center">
+            <p
+              role="status"
+              className="text-sm text-[#606774]"
+            >
+              영화를 검색하는 중이에요...
+            </p>
+          </div>
+        ) : error ? (
+          /* 에러 상태 */
+          <div className="flex min-h-[320px] flex-col items-center justify-center gap-4">
+            <p className="text-sm text-[#606774]">
+              {error}
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setRetryCount((prev) => prev + 1)}
+              className="cursor-pointer rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
+            >
+              다시 시도
+            </button>
+          </div>
+        ) : searchResults.length === 0 ? (
+          /* 빈 결과 상태 */
           <div className="flex min-h-[320px] items-center justify-center">
             <p className="text-sm text-[#606774]">
               검색 결과가 없어요.
             </p>
           </div>
         ) : (
+          /* 검색 성공 상태 */
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10">
             {searchResults.map((movie) => (
               <MovieCard
