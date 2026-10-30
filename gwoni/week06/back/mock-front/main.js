@@ -11,7 +11,6 @@ async function call(outId, path, body) {
     const data = await res.json();
     $(outId).textContent = `${res.status}\n${JSON.stringify(data, null, 2)}`;
   } catch (e) {
-    // CORS 에러는 여기로 들어옴
     $(outId).textContent = `에러: ${e.message}`;
   }
 }

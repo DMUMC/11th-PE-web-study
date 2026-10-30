@@ -1,3 +1,11 @@
 package com.example.demo.dto;
 
-public record NicknameCheckResponse(boolean available) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class NicknameCheckResponse {
+
+    private final boolean available;
+}

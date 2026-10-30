@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
+import com.example.demo.common.response.ApiResponse;
 import com.example.demo.dto.CreateRatingRequest;
 import com.example.demo.dto.RatingCreateResponse;
 import com.example.demo.dto.RatingResponse;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-// 로그인 전이라 memberId를 경로로 받음 (7주차에 토큰에서 꺼내는 방식으로 변경)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members/{memberId}/ratings")
@@ -30,13 +29,13 @@ public class RatingController {
     private final RatingService ratingService;
 
     @GetMapping
-    public List<RatingResponse> getMemberRatings(@PathVariable Long memberId) {
+    public List<RatingResponse> getMemberRatings(@PathVariable("memberId") Long memberId) {
         return ratingService.getRatingsByMember(memberId);
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<RatingCreateResponse>> create(
-            @PathVariable Long memberId,
+            @PathVariable("memberId") Long memberId,
             @Valid @RequestBody CreateRatingRequest request
     ) {
         RatingCreateResponse response = ratingService.create(memberId, request);
@@ -46,15 +45,18 @@ public class RatingController {
 
     @PatchMapping("/{ratingId}")
     public ApiResponse<RatingResponse> update(
-            @PathVariable Long memberId,
-            @PathVariable Long ratingId,
+            @PathVariable("memberId") Long memberId,
+            @PathVariable("ratingId") Long ratingId,
             @Valid @RequestBody UpdateRatingRequest request
     ) {
         return ApiResponse.ok("평점 수정에 성공했습니다.", ratingService.update(memberId, ratingId, request));
     }
 
     @DeleteMapping("/{ratingId}")
-    public ResponseEntity<Void> delete(@PathVariable Long memberId, @PathVariable Long ratingId) {
+    public ResponseEntity<Void> delete(
+            @PathVariable("memberId") Long memberId,
+            @PathVariable("ratingId") Long ratingId
+    ) {
         ratingService.delete(memberId, ratingId);
         return ResponseEntity.noContent().build();
     }

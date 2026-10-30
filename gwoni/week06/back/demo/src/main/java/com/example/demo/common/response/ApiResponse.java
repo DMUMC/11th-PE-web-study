@@ -1,11 +1,20 @@
-package com.example.demo.dto;
+package com.example.demo.common.response;
 
-import com.example.demo.exception.ErrorStatus;
+import com.example.demo.common.exception.ErrorStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-// 6주차부터 쓰기 API의 성공/실패 응답을 같은 틀로 맞춤
-// boolean의 is 접두사가 JSON 필드명에서 빠지지 않도록 이름을 고정
-public record ApiResponse<T>(@JsonProperty("isSuccess") boolean isSuccess, String code, String message, T result) {
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class ApiResponse<T> {
+
+    @JsonProperty("isSuccess")
+    private final boolean isSuccess;
+    private final String code;
+    private final String message;
+    private final T result;
 
     public static <T> ApiResponse<T> ok(String message, T result) {
         return new ApiResponse<>(true, "COMMON200", message, result);

@@ -7,13 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Builder;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-// 제약 이름을 고정해 두어야 DB 제약 위반 시 이메일/닉네임 중복을 구분할 수 있음 (GlobalExceptionHandler)
 @Table(
         name = "member",
         uniqueConstraints = {
@@ -33,7 +32,6 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false, length = 254)
     private String email;
 
-    // bcrypt 해시(60자)가 저장될 컬럼 (6주차)
     @Column(nullable = false, length = 60)
     private String password;
 

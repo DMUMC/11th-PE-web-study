@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
+import com.example.demo.common.response.ApiResponse;
 import com.example.demo.dto.EmailCheckResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
@@ -27,12 +27,12 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/nickname/{nickname}")
-    public NicknameCheckResponse checkNickname(@PathVariable String nickname) {
+    public NicknameCheckResponse checkNickname(@PathVariable("nickname") String nickname) {
         return memberService.checkNickname(nickname);
     }
 
     @GetMapping("/email/{email}")
-    public EmailCheckResponse checkEmail(@PathVariable String email) {
+    public EmailCheckResponse checkEmail(@PathVariable("email") String email) {
         return memberService.checkEmail(email);
     }
 
@@ -46,7 +46,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         LoginResponse response = memberService.login(request);
-        HttpStatus status = response.success() ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+        HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
         return ResponseEntity.status(status).body(response);
     }
 }

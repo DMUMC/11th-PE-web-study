@@ -1,3 +1,11 @@
 package com.example.demo.dto;
 
-public record RatingCreateResponse(Long ratingId) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class RatingCreateResponse {
+
+    private final Long ratingId;
+}

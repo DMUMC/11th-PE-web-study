@@ -57,8 +57,4 @@ public class Rating extends BaseTimeEntity {
         this.score = score;
         this.comment = comment;
     }
-
-    public boolean isOwnedBy(Long memberId) {
-        return member.getMemberId().equals(memberId);
-    }
 }
