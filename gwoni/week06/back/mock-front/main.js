@@ -17,7 +17,7 @@ async function call(outId, path, body) {
 }
 
 $("reg-btn").onclick = () =>
-  call("reg-out", "/members/register", {
+  call("reg-out", "/members", {
     email: $("reg-email").value,
     password: $("reg-password").value,
     nickname: $("reg-nickname").value,

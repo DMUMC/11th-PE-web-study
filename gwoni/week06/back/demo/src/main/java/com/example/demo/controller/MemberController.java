@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.EmailCheckResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
+import com.example.demo.dto.MemberResponse;
 import com.example.demo.dto.NicknameCheckResponse;
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.dto.RegisterResponse;
+import com.example.demo.dto.SignUpRequest;
 import com.example.demo.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,10 +36,11 @@ public class MemberController {
         return memberService.checkEmail(email);
     }
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public RegisterResponse register(@Valid @RequestBody RegisterRequest request) {
-        return memberService.register(request);
+    @PostMapping
+    public ResponseEntity<ApiResponse<MemberResponse>> signUp(@Valid @RequestBody SignUpRequest request) {
+        MemberResponse response = memberService.signUp(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.created("회원가입에 성공했습니다.", response));
     }
 
     @PostMapping("/login")
