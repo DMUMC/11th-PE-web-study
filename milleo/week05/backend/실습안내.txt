@@ -1,0 +1,68 @@
+5주차 Spring Boot 영화 API — 실습 1·2·3
+
+프로젝트: /Users/david/Desktop/CODEX/umc-week05-spring/movie
+Java 21 / Spring Boot 3.5.0 / Gradle / MySQL
+기존 4주차와 같은 Spring 버전을 사용합니다.
+
+현재 준비된 내용
+- 별도 DB umc_week05_movie에 member/rating/favorite 테이블 생성
+- 워크북 더미 회원: 수현(noco@umc.com), 민서(minseo@umc.com)
+- 평점 더미 데이터 3건
+- BaseTimeEntity, Member, Rating 및 Repository
+- 실습 1 MemberController → MemberService → MemberRepository 연결
+- 워크북 실습 1 코드에 포함된 이메일 확인 기능도 함께 작성
+- 실습 3 RatingController → RatingService → RatingRepository → RatingResponse 연결
+- 간이 프론트 및 CORS 실습: 상위 폴더의 CORS-실습안내.txt 참고
+
+실행
+프로젝트 폴더에서 ./gradlew bootRun
+또는 IntelliJ에서 MovieApplication의 main을 실행합니다.
+작업 디렉터리는 movie 폴더여야 .env를 읽습니다.
+현재 이미 8081에서 서버가 실행 중이므로 중복 실행하지 않아도 됩니다.
+8080은 학교 과제 articleProjectC 서버가 사용 중입니다.
+
+실습 1 — 직접 확인하고 캡처하기
+1. Postman에서 새 HTTP 요청을 만들고 GET을 선택합니다.
+2. http://localhost:8081/members/nickname/수현 을 입력하고 Send.
+3. 200 OK와 {"available":false}가 보이면 첫 번째 캡처.
+4. 주소 끝을 새로운밀러로 바꾼 뒤 Send.
+5. 200 OK와 {"available":true}가 보이면 두 번째 캡처.
+6. 요청 URL, GET, 상태 코드, JSON 응답이 함께 보이게 찍습니다.
+
+수현은 워크북 DB에 넣은 예시 회원입니다.
+available은 닉네임 사용 가능 여부입니다.
+한글 닉네임에 큰따옴표를 붙이지 않습니다.
+
+실습 2 — 이메일 중복 확인
+1. GET http://localhost:8081/members/email/noco@umc.com
+   → 200 OK, {"available":false}
+2. GET http://localhost:8081/members/email/new-user@example.com
+   → 200 OK, {"available":true}
+각각 Send를 누르고 요청 URL·상태 코드·응답 JSON이 보이게 캡처합니다.
+
+실습 3 — 회원별 평점 조회
+1. GET http://localhost:8081/members/1/ratings
+   → 200 OK, 평점 2건. ratingId 2(영화 155), 1(영화 550) 순서.
+2. GET http://localhost:8081/members/999/ratings
+   → 404 Not Found. 없는 회원을 조회했기 때문에 의도한 결과입니다.
+각각 Send를 누르고 요청 URL·상태 코드·응답 JSON이 보이게 캡처합니다.
+회원이 존재하지만 평점이 없는 경우에는 200 OK와 []를 반환합니다.
+
+미리 만든 요청 실행
+- IntelliJ: requests/week05.http를 열고 각 GET 왼쪽 실행 버튼을 누릅니다.
+- Postman: Import에서 requests/week05.postman_collection.json을 선택합니다.
+  실습 1·2·3별 요청 두 개씩 준비되어 있습니다.
+
+코드 읽는 순서
+1. controller/MemberController.java: URL의 nickname을 받습니다.
+2. service/MemberService.java: 존재 여부를 뒤집어 available로 반환합니다.
+3. repository/MemberRepository.java: DB에서 닉네임 존재 여부를 조회합니다.
+4. dto/NicknameCheckResponse.java: 응답 JSON의 모양을 정합니다.
+
+검증
+./gradlew test bootJar
+자동 테스트는 H2 임시 DB를 사용하고, 실제 실행은 MySQL을 사용합니다.
+실제 MySQL HTTP 검증 결과는 logs/week05-validation.json에 있습니다.
+
+로컬 연결 설정은 .env에 있으며 Git 제외 및 파일 권한 600으로 보관합니다.
+SQL 파일은 새 DB 준비용이며 애플리케이션이 시작할 때 자동 재실행하지 않습니다.
