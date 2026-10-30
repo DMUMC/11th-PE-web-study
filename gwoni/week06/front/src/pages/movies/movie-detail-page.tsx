@@ -1,22 +1,24 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { movieApi } from "../../api";
 import { useBookmarkStore } from "../../stores/bookmark-store";
-import type { MovieDetail } from "../../types/movie";
 
 export function MovieDetailPage() {
   const { movieId } = useParams({ from: "/movies/$movieId" });
-  const [movie, setMovie] = useState<MovieDetail | null>(); // undefined: 응답 전, null: 영화 없음
   const isBookmarked = useBookmarkStore((state) =>
     state.bookmarkedIds.includes(Number(movieId)),
   );
   const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
 
-  useEffect(() => {
-    movieApi.getMovieDetail(Number(movieId)).then(setMovie).catch(console.error);
-  }, [movieId]);
+  const movieQuery = useQuery({
+    queryKey: ["movies", "detail", Number(movieId)],
+    queryFn: () => movieApi.getMovieDetail(Number(movieId)),
+  });
 
-  if (movie === undefined) return null;
+  if (movieQuery.isPending) return <main>영화를 불러오는 중이에요.</main>;
+  if (movieQuery.isError) return <main>{movieQuery.error.message}</main>;
+
+  const movie = movieQuery.data;
   if (movie === null) return <main>영화를 찾을 수 없어요.</main>;
 
   return (

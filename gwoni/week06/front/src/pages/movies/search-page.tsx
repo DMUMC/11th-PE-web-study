@@ -1,14 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState, type SubmitEvent } from "react";
 import { movieApi } from "../../api";
 import { useBookmarkStore } from "../../stores/bookmark-store";
-import type { MoviePage } from "../../types/movie";
 
 export function SearchPage() {
   const { query } = useSearch({ from: "/search" });
   const navigate = useNavigate({ from: "/search" });
   const [searchText, setSearchText] = useState(query ?? "");
-  const [moviePage, setMoviePage] = useState<MoviePage | null>(null);
   const bookmarkedIds = useBookmarkStore((state) => state.bookmarkedIds);
   const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
 
@@ -18,24 +17,13 @@ export function SearchPage() {
 
   const normalizedQuery = query?.trim() ?? "";
 
-  useEffect(() => {
-    // 빈 검색어는 요청하지 않아요.
-    if (!normalizedQuery) return;
+  const searchQuery = useQuery({
+    queryKey: ["movies", "search", { query: normalizedQuery }],
+    queryFn: () => movieApi.searchMovies(normalizedQuery),
+    enabled: normalizedQuery.length > 0,
+  });
 
-    let ignore = false;
-
-    movieApi
-      .searchMovies(normalizedQuery)
-      .then((result) => {
-        if (!ignore) setMoviePage(result);
-      })
-      .catch((error) => console.error(error));
-
-    // 검색어가 바뀌면 이전 응답이 현재 결과를 덮어쓰지 않게 해요.
-    return () => {
-      ignore = true;
-    };
-  }, [normalizedQuery]);
+  const moviePage = searchQuery.data;
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -59,6 +47,10 @@ export function SearchPage() {
 
       {!normalizedQuery ? (
         <p>검색어를 입력해 주세요.</p>
+      ) : searchQuery.isLoading ? (
+        <p>검색 결과를 불러오는 중이에요.</p>
+      ) : searchQuery.isError ? (
+        <p>{searchQuery.error.message}</p>
       ) : !moviePage ? null : (
         <>
           <h2>‘{query}’ 검색 결과</h2>
