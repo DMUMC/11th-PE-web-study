@@ -27,7 +27,7 @@ public class RatingService {
             throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
         }
 
-        return ratingRepository.findByMember_MemberIdOrderByRatingIdDesc(memberId).stream()
+        return ratingRepository.findByMember(memberId).stream()
                 .map(RatingResponse::from)
                 .toList();
     }
@@ -36,7 +36,7 @@ public class RatingService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
-        if (ratingRepository.existsByMember_MemberIdAndMovieId(memberId, request.getMovieId())) {
+        if (ratingRepository.existsByMovie(memberId, request.getMovieId())) {
             throw new GeneralException(ErrorStatus.RATING_DUPLICATED);
         }
 
@@ -64,7 +64,7 @@ public class RatingService {
         Rating rating = ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.RATING_NOT_FOUND));
 
-        if (!ratingRepository.existsByRatingIdAndMember_MemberId(ratingId, memberId)) {
+        if (!ratingRepository.isOwner(ratingId, memberId)) {
             throw new GeneralException(ErrorStatus.RATING_FORBIDDEN);
         }
         return rating;
