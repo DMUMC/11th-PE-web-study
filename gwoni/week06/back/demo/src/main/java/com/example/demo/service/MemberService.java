@@ -14,20 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.util.regex.Pattern;
-
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
-    private static final Pattern PASSWORD_PATTERN =
-            Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{8,}$");
-    private static final int EMAIL_MAX_LENGTH = 254;
-    private static final int PASSWORD_MAX_BYTES = 72;
-    private static final int NICKNAME_MIN_LENGTH = 2;
-    private static final int NICKNAME_MAX_LENGTH = 12;
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -41,10 +30,6 @@ public class MemberService {
     }
 
     public MemberResponse signUp(SignUpRequest request) {
-        validateEmail(request.getEmail());
-        validatePassword(request.getPassword());
-        validateNickname(request.getNickname());
-
         if (memberRepository.existsByEmail(request.getEmail())) {
             throw new GeneralException(ErrorStatus.MEMBER_EMAIL_DUPLICATED);
         }
@@ -66,24 +51,5 @@ public class MemberService {
                 .filter(member -> passwordEncoder.matches(request.getPassword(), member.getPassword()))
                 .map(member -> LoginResponse.success(member.getMemberId()))
                 .orElseGet(LoginResponse::fail);
-    }
-
-    private void validateEmail(String email) {
-        if (email.length() > EMAIL_MAX_LENGTH || !EMAIL_PATTERN.matcher(email).matches()) {
-            throw new GeneralException(ErrorStatus.INVALID_EMAIL);
-        }
-    }
-
-    private void validatePassword(String password) {
-        if (password.getBytes(StandardCharsets.UTF_8).length > PASSWORD_MAX_BYTES
-                || !PASSWORD_PATTERN.matcher(password).matches()) {
-            throw new GeneralException(ErrorStatus.INVALID_PASSWORD);
-        }
-    }
-
-    private void validateNickname(String nickname) {
-        if (nickname.length() < NICKNAME_MIN_LENGTH || nickname.length() > NICKNAME_MAX_LENGTH) {
-            throw new GeneralException(ErrorStatus.INVALID_NICKNAME);
-        }
     }
 }

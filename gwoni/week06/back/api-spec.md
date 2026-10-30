@@ -21,9 +21,7 @@
 ```json
 { "email": "umc@example.com", "password": "Umc1234!", "nickname": "moviefan" }
 ```
-- email: 필수, 이메일 형식, 254자 이하
-- password: 대/소문자·숫자·특수문자(!@#$%^&*) 포함 8자 이상, 72자 이하 → bcrypt 해시로 저장
-- nickname: 2~12자
+- email, password, nickname: 필수 (password는 bcrypt 해시로 저장)
 
 응답 `result`: `{ "memberId": 1, "email": "umc@example.com", "nickname": "moviefan" }` (password 없음)
 
@@ -31,9 +29,7 @@
 ```json
 { "movieId": 550, "score": 5, "comment": "최고" }
 ```
-- movieId: 필수, 양수 (TMDB id, movie 테이블 참조 안 함)
-- score: 필수, 1~5
-- comment: 선택, 500자 이하
+- movieId, score: 필수 / comment: 선택
 
 응답 `result`: `{ "ratingId": 1 }`
 
@@ -47,7 +43,7 @@
 
 | HTTP | code | 상황 |
 |---|---|---|
-| 400 | COMMON4001 | DTO 검증 실패 (message에 필드별 문구) |
+| 400 | COMMON4001 | 필수 값 누락 (message에 필드별 문구) |
 | 400 | COMMON4002 | JSON 형식 오류, 타입 불일치 (score: "abc") |
 | 400 | COMMON4003 | 경로 변수 타입 불일치 (/members/abc/ratings) |
 | 403 | RATING4031 | 다른 회원의 평점 수정/삭제 |
@@ -76,8 +72,8 @@ ALTER TABLE member DROP INDEX <이름>;   -- email, nickname 각각
 ## 확인 순서
 
 1. POST /members → 201, password 없음
-2. 같은 email → 409 MEMBER4091 / 같은 nickname → 409 MEMBER4092 / 잘못된 email·password → 400 COMMON4001
-3. POST 평점 → 201 ratingId / 같은 movieId 재등록 → 409 RATING4091 / score 6 → 400
+2. 같은 email → 409 MEMBER4091 / 같은 nickname → 409 MEMBER4092 / 필수 값 누락 → 400 COMMON4001
+3. POST 평점 → 201 ratingId / 같은 movieId 재등록 → 409 RATING4091
 4. PATCH → 200, GET /members/{memberId}/ratings 로 반영 확인
 5. DELETE → 204, 다시 조회해 사라졌는지 확인
 6. 없는 ratingId로 PATCH/DELETE → 404 RATING4041 / 다른 memberId로 PATCH/DELETE → 403 RATING4031

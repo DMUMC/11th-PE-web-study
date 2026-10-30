@@ -19,10 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RatingService {
 
-    private static final int SCORE_MIN = 1;
-    private static final int SCORE_MAX = 5;
-    private static final int COMMENT_MAX_LENGTH = 500;
-
     private final RatingRepository ratingRepository;
     private final MemberRepository memberRepository;
 
@@ -37,10 +33,6 @@ public class RatingService {
     }
 
     public RatingCreateResponse create(Long memberId, CreateRatingRequest request) {
-        validateMovieId(request.getMovieId());
-        validateScore(request.getScore());
-        validateComment(request.getComment());
-
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
@@ -59,9 +51,6 @@ public class RatingService {
     }
 
     public RatingResponse update(Long memberId, Long ratingId, UpdateRatingRequest request) {
-        validateScore(request.getScore());
-        validateComment(request.getComment());
-
         Rating rating = findOwnedRating(memberId, ratingId);
         rating.update(request.getScore(), request.getComment());
         return RatingResponse.from(ratingRepository.save(rating));
@@ -79,23 +68,5 @@ public class RatingService {
             throw new GeneralException(ErrorStatus.RATING_FORBIDDEN);
         }
         return rating;
-    }
-
-    private void validateMovieId(Long movieId) {
-        if (movieId <= 0) {
-            throw new GeneralException(ErrorStatus.INVALID_MOVIE_ID);
-        }
-    }
-
-    private void validateScore(Integer score) {
-        if (score < SCORE_MIN || score > SCORE_MAX) {
-            throw new GeneralException(ErrorStatus.INVALID_SCORE);
-        }
-    }
-
-    private void validateComment(String comment) {
-        if (comment != null && comment.length() > COMMENT_MAX_LENGTH) {
-            throw new GeneralException(ErrorStatus.INVALID_COMMENT);
-        }
     }
 }

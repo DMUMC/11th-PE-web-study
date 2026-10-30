@@ -9,12 +9,6 @@ import org.springframework.http.HttpStatus;
 public enum ErrorStatus {
 
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "COMMON4001", "잘못된 요청입니다."),
-    INVALID_EMAIL(HttpStatus.BAD_REQUEST, "COMMON4001", "올바른 이메일 형식이 아닙니다."),
-    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "COMMON4001", "비밀번호는 대문자/소문자/숫자/특수문자를 포함한 8자 이상 72자 이하여야 합니다."),
-    INVALID_NICKNAME(HttpStatus.BAD_REQUEST, "COMMON4001", "닉네임은 2자 이상 12자 이하로 입력해주세요."),
-    INVALID_MOVIE_ID(HttpStatus.BAD_REQUEST, "COMMON4001", "영화 ID는 양수여야 합니다."),
-    INVALID_SCORE(HttpStatus.BAD_REQUEST, "COMMON4001", "별점은 1점 이상 5점 이하여야 합니다."),
-    INVALID_COMMENT(HttpStatus.BAD_REQUEST, "COMMON4001", "후기는 500자 이하로 입력해주세요."),
     INVALID_BODY(HttpStatus.BAD_REQUEST, "COMMON4002", "요청 본문 형식이 올바르지 않습니다."),
     INVALID_PATH(HttpStatus.BAD_REQUEST, "COMMON4003", "요청 경로의 값 형식이 올바르지 않습니다."),
     DUPLICATE_DATA(HttpStatus.CONFLICT, "COMMON4091", "이미 존재하는 데이터입니다."),
