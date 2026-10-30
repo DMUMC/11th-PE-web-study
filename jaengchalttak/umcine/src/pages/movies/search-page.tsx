@@ -1,7 +1,9 @@
-import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useState, type SubmitEvent } from "react";
-import { movies } from "../../data/movies";
-import { BookmarkButton } from "../../components/bookmark-button";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useCallback, useState, type SubmitEvent } from "react";
+import { searchMovies } from "../../api/movies/search-movies";
+import { useMovieRequest } from "../../hooks/use-movie-request";
+import { RequestMessage } from "../../components/movies/request-message";
+import MovieCard from "../../components/movies/movie-card";
 
 export function SearchPage() {
   const { query } = useSearch({ from: "/search" });
@@ -13,14 +15,7 @@ function SearchContent({ query }: { query?: string }) {
   const navigate = useNavigate({ from: "/search" });
   const [searchText, setSearchText] = useState(query ?? "");
 
-  const normalizedQuery = query?.trim().toLowerCase() ?? "";
-  const searchResults = normalizedQuery
-    ? movies.filter(
-        (movie) =>
-          movie.title.toLowerCase().includes(normalizedQuery) ||
-          movie.originalTitle.toLowerCase().includes(normalizedQuery),
-      )
-    : [];
+  const normalizedQuery = query?.trim() ?? "";
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,38 +62,38 @@ function SearchContent({ query }: { query?: string }) {
         </div>
       </section>
 
-      {normalizedQuery && (
-        <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-10 lg:px-20" aria-live="polite">
-            <h2 className="mb-2 text-xl font-semibold">‘{query}’ 검색 결과</h2>
-            <p className="mb-6 text-sm text-[#676d76]">영화 {searchResults.length}편</p>
-            {searchResults.length === 0 ? (
-              <p>검색 결과가 없어요.</p>
-            ) : (
-              <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-                {searchResults.map((movie) => (
-                  <li key={movie.id} className="min-w-0 rounded-lg bg-white p-3">
-                    <div className="relative mb-3 aspect-2/3 w-full overflow-hidden rounded-lg">
-                      <Link to="/movies/$movieId" params={{ movieId: String(movie.id) }} className="block size-full">
-                        <img className="size-full object-cover" src={movie.posterPath} alt={`${movie.title} 포스터`} />
-                      </Link>
-                      <BookmarkButton
-                        movieId={movie.id}
-                        movieTitle={movie.title}
-                        className="absolute right-2.5 top-2.5"
-                      />
-                    </div>
-                    <Link to="/movies/$movieId" params={{ movieId: String(movie.id) }}>
-                      <h3 className="font-semibold text-[#202124] hover:underline">{movie.title}</h3>
-                    </Link>
-                    <p className="text-sm text-[#676d76]">{movie.originalTitle}</p>
-                    <p className="text-sm text-[#9299a4]">{movie.releaseDate}</p>
-                    <p className="mt-2 line-clamp-2 text-sm text-[#676d76]">{movie.overview}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-        </section>
+      {normalizedQuery ? <SearchResults key={normalizedQuery} query={normalizedQuery} /> : (
+        <RequestMessage>검색어를 입력해 영화를 찾아보세요.</RequestMessage>
       )}
     </main>
+  );
+}
+
+function SearchResults({ query }: { query: string }) {
+  const request = useCallback((signal: AbortSignal) => searchMovies({ query, signal }), [query]);
+  const state = useMovieRequest(request);
+
+  return (
+    <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-10 lg:px-20" aria-live="polite">
+      <h2 className="mb-2 text-xl font-semibold">‘{query}’ 검색 결과</h2>
+      {state.status === "loading" && <RequestMessage>검색 결과를 불러오는 중이에요.</RequestMessage>}
+      {state.status === "error" && <RequestMessage error>검색 결과를 불러오지 못했어요.</RequestMessage>}
+      {state.status === "success" && (
+        <>
+          <p className="mb-6 text-sm text-[#676d76]">영화 {state.data.total_results}편</p>
+          {state.data.results.length === 0 ? <RequestMessage>검색 결과가 없어요.</RequestMessage> : (
+            <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {state.data.results.map((movie) => (
+                <li key={movie.id} className="min-w-0 rounded-lg bg-white p-3">
+                  <MovieCard movie={movie} posterClassName="aspect-2/3" />
+                  <p className="mt-1 text-sm text-[#676d76]">{movie.original_title}</p>
+                  <p className="mt-2 line-clamp-2 text-sm text-[#676d76]">{movie.overview || "줄거리 정보가 없어요."}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </section>
   );
 }
