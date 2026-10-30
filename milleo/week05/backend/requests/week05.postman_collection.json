@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "밀러 5주차 - 실습 1·2·3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "실습 1 - 닉네임 중복 확인",
+      "item": [
+        {
+          "name": "실습 1 - 기존 닉네임 (false)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/members/nickname/수현",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "members",
+                "nickname",
+                "수현"
+              ]
+            }
+          }
+        },
+        {
+          "name": "실습 1 - 새 닉네임 (true)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/members/nickname/새로운밀러",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "members",
+                "nickname",
+                "새로운밀러"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "실습 2 - 이메일 중복 확인",
+      "item": [
+        {
+          "name": "기존 이메일 → false",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/members/email/noco@umc.com",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "members",
+                "email",
+                "noco@umc.com"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"응답 상태 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"중복 이메일\", () => pm.expect(pm.response.json()).to.eql({available: false}));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "새 이메일 → true",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/members/email/new-user@example.com",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "members",
+                "email",
+                "new-user@example.com"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"응답 상태 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"사용 가능\", () => pm.expect(pm.response.json()).to.eql({available: true}));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "실습 3 - 회원별 평점 조회",
+      "item": [
+        {
+          "name": "1번 회원 → 평점 2건",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/members/1/ratings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "members",
+                "1",
+                "ratings"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"응답 상태 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"평점 2건과 내림차순\", () => { const ratings = pm.response.json(); pm.expect(ratings).to.have.lengthOf(2); pm.expect(ratings.map(r => r.movieId)).to.eql([155, 550]); pm.expect(ratings[0].ratingId).to.be.above(ratings[1].ratingId); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "없는 회원 → 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/members/999/ratings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "members",
+                "999",
+                "ratings"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"응답 상태 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
