@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, cleanup, fireEvent, render, renderHook, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { QueryClient, QueryClientProvider, QueryObserver } from "@tanstack/react-query";
 import { createMemoryHistory, createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "../src/routeTree.gen";
 import { getMoviesWithFetch } from "../src/api/movies/get-movies-with-fetch";
 import { getMovies } from "../src/api/movies/get-movies";
 import { searchMovies } from "../src/api/movies/search-movies";
 import { getMovieDetail } from "../src/api/movies/get-movie-detail";
-import { useMovieRequest } from "../src/hooks/use-movie-request";
 import { useBookmarkStore } from "../src/stores/bookmark-store";
 
 const movie = {
@@ -17,6 +17,7 @@ const movie = {
 const list = { page: 1, results: [movie], total_pages: 2, total_results: 21 };
 const detail = { ...movie, genres: [{ id: 18, name: "드라마" }], runtime: 139, tagline: "영화 태그라인" };
 const fetchMock = vi.fn<typeof fetch>();
+let queryClient: QueryClient;
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { "Content-Type": "application/json" },
 });
@@ -24,18 +25,26 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 async function openPage(path: string) {
   const router = createRouter({ routeTree, history: createMemoryHistory({ initialEntries: [path] }) });
   await router.load();
-  render(<RouterProvider router={router} />);
+  render(<QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider>);
   return router;
 }
 
 beforeEach(() => {
+  queryClient = new QueryClient({
+    defaultOptions: { queries: { staleTime: 60 * 1000, retry: false, gcTime: Infinity } },
+  });
   fetchMock.mockReset();
   vi.stubGlobal("fetch", fetchMock);
   // jsdom에는 스크롤 API가 없으므로 라우터의 화면 이동만 대체합니다.
   vi.stubGlobal("scrollTo", vi.fn());
   useBookmarkStore.setState({ bookmarkedMovieIds: [] });
 });
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+afterEach(() => {
+  cleanup();
+  queryClient.clear();
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 
 describe("API 요청 계약", () => {
   it("순수 fetch에서 인증, query, JSON과 HTTP 실패를 처리한다", async () => {
@@ -136,18 +145,77 @@ describe("목록·검색·상세 직접 접근", () => {
   });
 });
 
-it("이전 요청의 늦은 응답이 현재 요청의 결과를 덮어쓰지 않는다", async () => {
-  let completeOld!: (value: string) => void;
-  let oldSignal!: AbortSignal;
-  const oldRequest = (signal: AbortSignal) => {
-    oldSignal = signal;
-    return new Promise<string>((resolve) => { completeOld = resolve; });
-  };
-  const newRequest = async () => "새 검색 결과";
-  const { result, rerender } = renderHook(({ request }) => useMovieRequest(request), { initialProps: { request: oldRequest } });
-  rerender({ request: newRequest });
-  await waitFor(() => expect(result.current).toEqual({ status: "success", data: "새 검색 결과" }));
-  expect(oldSignal.aborted).toBe(true);
-  await act(async () => completeOld("이전 검색 결과"));
-  expect(result.current).toEqual({ status: "success", data: "새 검색 결과" });
+describe("필수 미션: query key와 캐시 재사용", () => {
+  it("목록 1 → 2 → 1페이지 이동에서 첫 페이지 캐시를 재사용한다", async () => {
+    fetchMock.mockResolvedValueOnce(json(list));
+    fetchMock.mockResolvedValueOnce(json({ ...list, page: 2, results: [{ ...movie, id: 551, title: "두 번째 페이지 영화" }] }));
+    await openPage("/");
+    await screen.findByRole("heading", { name: movie.title });
+    fireEvent.click(screen.getByRole("button", { name: "다음 페이지" }));
+    await screen.findByRole("heading", { name: "두 번째 페이지 영화" });
+    fireEvent.click(screen.getByRole("button", { name: "이전 페이지" }));
+    await screen.findByRole("heading", { name: movie.title });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(queryClient.getQueryData(["movies", "list", { page: 1 }])).toEqual(list);
+    expect(queryClient.getQueryData(["movies", "list", { page: 2 }])).toMatchObject({ page: 2 });
+  });
+
+  it("같은 검색어와 상세 화면을 다시 열면 fresh 캐시를 재사용한다", async () => {
+    fetchMock.mockResolvedValueOnce(json(list));
+    const router = await openPage("/search?query=Fight");
+    await screen.findByRole("heading", { name: movie.title });
+    fetchMock.mockResolvedValueOnce(json(detail));
+    await act(async () => { await router.navigate({ to: "/movies/$movieId", params: { movieId: "550" } }); });
+    await screen.findByRole("heading", { name: movie.title });
+    await act(async () => { await router.navigate({ to: "/search", search: { query: "  Fight  " } }); });
+    await screen.findByRole("heading", { name: /‘\s*Fight\s*’ 검색 결과/ });
+    await act(async () => { await router.navigate({ to: "/movies/$movieId", params: { movieId: "550" } }); });
+    await screen.findByRole("heading", { name: movie.title });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(queryClient.getQueryData(["movies", "search", { query: "Fight" }])).toEqual(list);
+    expect(queryClient.getQueryData(["movies", "detail", 550])).toEqual(detail);
+    expect(queryClient.getQueryCache().find({ queryKey: ["movies", "detail", 550] })?.options.staleTime).toBe(30 * 1000);
+  });
+
+  it("영화 ID마다 상세 캐시를 분리한다", async () => {
+    fetchMock.mockResolvedValueOnce(json(detail));
+    const router = await openPage("/movies/550");
+    await screen.findByRole("heading", { name: movie.title });
+    fetchMock.mockResolvedValueOnce(json({ ...detail, id: 551, title: "다른 영화" }));
+    await act(async () => { await router.navigate({ to: "/movies/$movieId", params: { movieId: "551" } }); });
+    await screen.findByRole("heading", { name: "다른 영화" });
+    expect(queryClient.getQueryData(["movies", "detail", 550])).toEqual(detail);
+    expect(queryClient.getQueryData(["movies", "detail", 551])).toMatchObject({ id: 551 });
+  });
+
+  it("검색어별 캐시를 분리해 이전 응답이 최신 검색 결과를 덮어쓰지 않는다", async () => {
+    let completeOld!: (value: Response) => void;
+    fetchMock.mockImplementationOnce(() => new Promise((resolve) => { completeOld = resolve; }));
+    const router = await openPage("/search?query=old");
+    await waitFor(() => expect(completeOld).toBeTypeOf("function"));
+    fetchMock.mockResolvedValueOnce(json({ ...list, results: [{ ...movie, id: 551, title: "새 검색 결과" }] }));
+    await act(async () => { await router.navigate({ to: "/search", search: { query: "new" } }); });
+    await screen.findByRole("heading", { name: "새 검색 결과" });
+    await act(async () => { completeOld(json(list)); });
+    await waitFor(() => expect(queryClient.getQueryData(["movies", "search", { query: "old" }])).toEqual(list));
+    expect(screen.queryByRole("heading", { name: movie.title })).toBeNull();
+    expect(screen.getByRole("heading", { name: "새 검색 결과" })).toBeTruthy();
+  });
+
+  it("staleTime 경과로 stale이 되며 inactive 후 gcTime이 지나면 삭제된다", async () => {
+    vi.useFakeTimers();
+    const queryFn = vi.fn(async () => detail);
+    const options = { queryKey: ["movies", "detail", 550], queryFn, staleTime: 30 * 1000, gcTime: 5 * 60 * 1000 };
+    const observer = new QueryObserver(queryClient, options);
+    const unsubscribe = observer.subscribe(() => {});
+    await queryClient.fetchQuery(options);
+    expect(observer.getCurrentResult().isStale).toBe(false);
+    await vi.advanceTimersByTimeAsync(30 * 1000 + 1);
+    expect(observer.getCurrentResult().isStale).toBe(true);
+    expect(queryFn).toHaveBeenCalledTimes(1);
+    unsubscribe();
+    expect(queryClient.getQueryCache().find({ queryKey: options.queryKey })?.isActive()).toBe(false);
+    await vi.advanceTimersByTimeAsync(5 * 60 * 1000 + 1);
+    expect(queryClient.getQueryData(options.queryKey)).toBeUndefined();
+  });
 });
