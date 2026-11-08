@@ -77,7 +77,11 @@ export function MovieDetailPage() {
       <section className="relative h-[300px] overflow-hidden bg-slate-800">
         {movie.backdrop_path && (
           <img
-            src={`${IMAGE_BASE_URL}/w1280${movie.backdrop_path}`}
+            src={
+              movie.backdrop_path.startsWith("/images/")
+                ? movie.backdrop_path
+                : `${IMAGE_BASE_URL}/w1280${movie.backdrop_path}`
+            }
             alt=""
             aria-hidden="true"
             className="absolute inset-0 size-full object-cover object-top"
@@ -108,7 +112,11 @@ export function MovieDetailPage() {
         <div className="flex gap-5 pr-8">
           {movie.poster_path ? (
             <img
-              src={`${IMAGE_BASE_URL}/w342${movie.poster_path}`}
+              src={
+                movie.poster_path.startsWith("/images/")
+                  ? movie.poster_path
+                  : `${IMAGE_BASE_URL}/w342${movie.poster_path}`
+              }
               alt={`${movie.title} 포스터`}
               className="h-[186px] w-[130px] shrink-0 rounded-lg object-cover shadow-lg"
             />

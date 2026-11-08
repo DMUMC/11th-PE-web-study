@@ -14,7 +14,11 @@ function MovieCard({ movie }: MovieCardProps) {
       <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden bg-[#ddd]">
         {movie.poster_path ? (
           <img
-            src={`${IMAGE_BASE_URL}${movie.poster_path}`}
+            src={
+              movie.poster_path.startsWith("/images/")
+                ? movie.poster_path
+                : `${IMAGE_BASE_URL}${movie.poster_path}`
+            }
             alt={movie.title}
             className="w-full h-full object-cover block"
           />

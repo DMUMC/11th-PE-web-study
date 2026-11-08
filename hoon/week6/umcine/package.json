@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@rolldown/binding-win32-x64-msvc": "^1.2.16",
     "@tanstack/react-query-devtools": "^5.104.5",
     "@tanstack/router-plugin": "^1.168.40",
     "@types/node": "^24.13.3",
