@@ -7,6 +7,7 @@ export function Header() {
   const navItems = [
     { to: "/", label: "영화" },
     { to: "/search", label: "검색" },
+    { to: "/profile", label: "내 정보" },
   ];
 
   return (
