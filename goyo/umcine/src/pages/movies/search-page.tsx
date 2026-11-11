@@ -1,7 +1,8 @@
+
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState, type SubmitEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { searchMovies } from "../../api/movies/search-movies";
-import type { TmdbMovieListItem } from "../../api/movies/model";
 import MovieCard from "../../components/movies/movie-card";
 import { useBookmarkStore } from "../../stores/bookmark-store";
 
@@ -14,13 +15,6 @@ export function SearchPage() {
 
   const [searchText, setSearchText] = useState(query ?? "");
 
-  const [searchResults, setSearchResults] = useState<TmdbMovieListItem[]>([]);
-  const [totalResults, setTotalResults] = useState(0);
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-
   const normalizedQuery = query?.trim() ?? "";
 
   // URL 검색어와 입력창 동기화
@@ -28,51 +22,27 @@ export function SearchPage() {
     setSearchText(query ?? "");
   }, [query]);
 
-  // TMDB 검색 API 요청
-  useEffect(() => {
-    let cancelled = false;
+  // TanStack Query를 이용한 영화 검색 API 요청
+  const {
+    data,
+    isPending,
+    isFetching,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["movies", "search", normalizedQuery, 1],
+    queryFn: () =>
+      searchMovies({
+        query: normalizedQuery,
+        page: 1,
+      }),
+    enabled: normalizedQuery.length > 0,
+  });
 
-    async function fetchSearchResults() {
-      if (!normalizedQuery) {
-        setSearchResults([]);
-        setTotalResults(0);
-        setLoading(false);
-        setError(null);
-        return;
-      }
+  const searchResults = data?.results ?? [];
+  const totalResults = data?.total_results ?? 0;
 
-      setLoading(true);
-      setError(null);
-      setSearchResults([]);
-      setTotalResults(0);
-
-      try {
-        const response = await searchMovies({
-          query: normalizedQuery,
-          page: 1,
-        });
-
-        if (cancelled) return;
-
-        setSearchResults(response.results);
-        setTotalResults(response.total_results);
-      } catch {
-        if (cancelled) return;
-
-        setError("검색 결과를 불러오지 못했어요.");
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    fetchSearchResults();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [normalizedQuery, retryCount]);
+  const loading = normalizedQuery.length > 0 && isPending;
 
   // 검색 실행
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
@@ -81,7 +51,9 @@ export function SearchPage() {
     const nextQuery = searchText.trim();
 
     if (nextQuery === normalizedQuery) {
-      setRetryCount((prev) => prev + 1);
+      if (nextQuery) {
+        refetch();
+      }
       return;
     }
 
@@ -210,16 +182,16 @@ export function SearchPage() {
               영화를 검색하는 중이에요...
             </p>
           </div>
-        ) : error ? (
+        ) : isError ? (
           /* 에러 상태 */
           <div className="flex min-h-[320px] flex-col items-center justify-center gap-4">
             <p className="text-sm text-[#606774]">
-              {error}
+              검색 결과를 불러오지 못했어요.
             </p>
 
             <button
               type="button"
-              onClick={() => setRetryCount((prev) => prev + 1)}
+              onClick={() => refetch()}
               className="cursor-pointer rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
             >
               다시 시도
