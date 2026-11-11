@@ -1,54 +1,25 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getMovieDetail } from "../../api/movies/get-movie-detail";
-import type { TmdbMovieDetail } from "../../api/movies/models";
 import { getTmdbBackdropUrl, getTmdbPosterUrl } from "../../utils/movies/tmdb-image";
 import { getMovieDetailErrorMessage } from "../../utils/movies/get-movie-detail-error-message";
 
 export function MovieDetailPage() {
-  const { movieId } = useParams({ from: "/movies/$movieId" });
-  const [movieData, setMovieData] = useState<TmdbMovieDetail | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { movieId: movieIdParam } = useParams({ from: "/movies/$movieId" });
+  const movieId = Number(movieIdParam);
+  const isValidMovieId = Number.isInteger(movieId) && movieId > 0;
+  const movieDetailQuery = useQuery({
+    queryKey: ["movies", "detail", movieId],
+    queryFn: () => getMovieDetail(movieId),
+    enabled: isValidMovieId,
+    staleTime: 30 * 1000,
+  });
 
-  useEffect(() => {
-    let ignore = false;
-
-    async function loadMovie() {
-      setIsLoading(true);
-      setMovieData(null);
-      setErrorMessage(null);
-
-      try {
-        const response = await getMovieDetail(Number(movieId));
-        if (!ignore) setMovieData(response);
-      } catch (error) {
-        if (!ignore) setErrorMessage(getMovieDetailErrorMessage(error));
-      } finally {
-        if (!ignore) setIsLoading(false);
-      }
-    }
-
-    loadMovie();
-
-    return () => {
-      ignore = true;
-    };
-  }, [movieId]);
-
-  if (isLoading) {
-    return (
-      <main className="mx-auto max-w-5xl px-4 py-16 text-center" aria-live="polite">
-        <p className="text-xl font-semibold text-slate-700">영화 정보를 불러오는 중이에요...</p>
-      </main>
-    );
-  }
-
-  if (errorMessage || !movieData) {
+  if (!isValidMovieId) {
     return (
       <main className="mx-auto max-w-5xl px-4 py-16 text-center">
         <p role="alert" className="text-xl font-semibold text-slate-700">
-          {errorMessage ?? "영화 정보를 찾을 수 없어요."}
+          올바르지 않은 영화 번호예요.
         </p>
         <Link to="/" className="mt-5 inline-flex text-sm font-semibold text-blue-700 hover:underline">
           영화 목록으로 돌아가기
@@ -57,6 +28,28 @@ export function MovieDetailPage() {
     );
   }
 
+  if (movieDetailQuery.isPending) {
+    return (
+      <main className="mx-auto max-w-5xl px-4 py-16 text-center" aria-live="polite">
+        <p className="text-xl font-semibold text-slate-700">영화 정보를 불러오는 중이에요...</p>
+      </main>
+    );
+  }
+
+  if (movieDetailQuery.isError) {
+    return (
+      <main className="mx-auto max-w-5xl px-4 py-16 text-center">
+        <p role="alert" className="text-xl font-semibold text-slate-700">
+          {getMovieDetailErrorMessage(movieDetailQuery.error)}
+        </p>
+        <Link to="/" className="mt-5 inline-flex text-sm font-semibold text-blue-700 hover:underline">
+          영화 목록으로 돌아가기
+        </Link>
+      </main>
+    );
+  }
+
+  const movieData = movieDetailQuery.data;
   const movie = {
     id: movieData.id,
     title: movieData.title,

@@ -1,5 +1,16 @@
-import { Controller, Get, Param, ParseIntPipe } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+} from "@nestjs/common";
+
 import { MemberService } from "../service/member.service.js";
+import { CreateMemberDto } from "../dto/create-member.dto.js";
 
 @Controller("members")
 export class MemberController {
@@ -17,11 +28,17 @@ export class MemberController {
     return this.memberService.checkEmail(email);
   }
 
-  // 유저별 평점 조회
-  @Get(":memberId/ratings")
-  getMemberRatings(
-    @Param("memberId", ParseIntPipe) memberId: number,
-  ) {
-    return this.memberService.getMemberRatings(memberId);
+  // 회원가입
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async signUp(@Body() dto: CreateMemberDto) {
+    const result = await this.memberService.signUp(dto);
+
+    return {
+      isSuccess: true,
+      code: "COMMON201",
+      message: "회원가입에 성공했습니다.",
+      result,
+    };
   }
 }

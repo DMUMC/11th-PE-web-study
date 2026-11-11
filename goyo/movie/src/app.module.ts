@@ -1,13 +1,16 @@
-// src/app.module.ts
+
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+
 import { Member } from "./entity/member.entity.js";
 import { Rating } from "./entity/rating.entity.js";
+
 import { MemberController } from "./controller/member.controller.js";
-//import { RatingController } from "./controller/rating.controller.js";
+import { RatingController } from "./controller/rating.controller.js";
+
 import { MemberService } from "./service/member.service.js";
-//import { RatingService } from "./service/rating.service.js";
+import { RatingService } from "./service/rating.service.js";
 
 @Module({
   imports: [
@@ -24,7 +27,7 @@ import { MemberService } from "./service/member.service.js";
     }),
     TypeOrmModule.forFeature([Member, Rating]),
   ],
-  controllers: [MemberController, ],
-  providers: [MemberService, ],
+  controllers: [MemberController, RatingController],
+  providers: [MemberService, RatingService],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getMovies } from "../../api/movies/get-movies";
-import type { TmdbMovieListItem } from "../../api/movies/model";
 import MovieGrid from "../../components/movies/movie-grid";
 import Pagination from "../../components/movies/pagination";
 import { useBookmarkStore } from "../../stores/bookmark-store";
@@ -11,47 +12,22 @@ export default function MovieListPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [movies, setMovies] = useState<TmdbMovieListItem[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
+  // TanStack Query를 이용한 영화 목록 API 요청
+  const {
+    data,
+    isPending,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["movies", "list", currentPage],
+    queryFn: () =>
+      getMovies({
+        page: currentPage,
+      }),
+  });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function fetchMovies() {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await getMovies({
-          page: currentPage,
-        });
-
-        if (cancelled) return;
-
-        setMovies(response.results);
-        setTotalPages(Math.min(response.total_pages, 500));
-      } catch {
-        if (cancelled) return;
-
-        setError("영화 목록을 불러오지 못했어요.");
-        setMovies([]);
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    fetchMovies();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [currentPage, retryCount]);
+  const movies = data?.results ?? [];
+  const totalPages = Math.min(data?.total_pages ?? 1, 500);
 
   function handlePageChange(page: number) {
     setCurrentPage(page);
@@ -65,21 +41,21 @@ export default function MovieListPage() {
           영화 목록
         </h1>
 
-        {loading ? (
+        {isPending ? (
           <div className="flex min-h-[400px] items-center justify-center">
             <p className="text-sm text-[#606774]">
               영화를 불러오는 중이에요...
             </p>
           </div>
-        ) : error ? (
+        ) : isError ? (
           <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
             <p className="text-sm text-[#606774]">
-              {error}
+              영화 목록을 불러오지 못했어요.
             </p>
 
             <button
               type="button"
-              onClick={() => setRetryCount((prev) => prev + 1)}
+              onClick={() => refetch()}
               className="cursor-pointer rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
             >
               다시 시도

@@ -1,7 +1,8 @@
+
 import { useEffect, useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { getMovieDetail } from "../../api/movies/get-movie-detail";
-import type { TmdbMovieDetail } from "../../api/movies/model";
 import { useBookmarkStore } from "../../stores/bookmark-store";
 
 interface MovieReview {
@@ -18,11 +19,17 @@ export function MovieDetailPage() {
   const bookmarkIds = useBookmarkStore((state) => state.bookmarkIds);
   const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
 
-  const [movie, setMovie] = useState<TmdbMovieDetail | null>(null);
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
+  // TanStack Query를 이용한 영화 상세 API 요청
+  const {
+    data: movie,
+    isPending,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["movies", "detail", movieId],
+    queryFn: () => getMovieDetail(Number(movieId)),
+    enabled: Number.isFinite(Number(movieId)) && Number(movieId) > 0,
+  });
 
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -31,39 +38,6 @@ export function MovieDetailPage() {
   const bookmarked = movie
     ? bookmarkIds.includes(movie.id)
     : false;
-
-  // TMDB 영화 상세 API 요청
-  useEffect(() => {
-    let cancelled = false;
-
-    async function fetchMovieDetail() {
-      setLoading(true);
-      setError(null);
-      setMovie(null);
-
-      try {
-       const response = await getMovieDetail(Number(movieId));
-
-        if (cancelled) return;
-
-        setMovie(response);
-      } catch {
-        if (cancelled) return;
-
-        setError("영화 정보를 불러오지 못했어요.");
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    fetchMovieDetail();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [movieId, retryCount]);
 
   // 영화별 저장된 평점 및 후기 불러오기
   useEffect(() => {
@@ -112,7 +86,7 @@ export function MovieDetailPage() {
   }
 
   // 로딩 상태
-  if (loading) {
+  if (isPending) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#F6F7F9]">
         <p className="text-sm text-[#606774]">
@@ -123,16 +97,16 @@ export function MovieDetailPage() {
   }
 
   // 에러 상태
-  if (error) {
+  if (isError) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#F6F7F9]">
         <p className="text-lg font-bold text-[#17191E]">
-          {error}
+          영화 정보를 불러오지 못했어요.
         </p>
 
         <button
           type="button"
-          onClick={() => setRetryCount((prev) => prev + 1)}
+          onClick={() => refetch()}
           className="cursor-pointer rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
         >
           다시 시도

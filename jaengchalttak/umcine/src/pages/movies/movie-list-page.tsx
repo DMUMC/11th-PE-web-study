@@ -1,31 +1,39 @@
 import MovieGrid from "../../components/movies/movie-grid";
 import Pagination from "../../components/movies/pagination";
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getMovies } from "../../api/movies/get-movies";
-import { useMovieRequest } from "../../hooks/use-movie-request";
 import { RequestMessage } from "../../components/movies/request-message";
 
 export function MovieListPage() {
   const [page, setPage] = useState(1);
-  return <MovieListContent key={page} page={page} onPageChange={setPage} />;
-}
 
-function MovieListContent({ page, onPageChange }: { page: number; onPageChange: (page: number) => void }) {
-  const request = useCallback((signal: AbortSignal) => getMovies({ page, signal }), [page]);
-  const state = useMovieRequest(request);
+  const moviesQuery = useQuery({
+    queryKey: ["movies", "list", { page }],
+    queryFn: () => getMovies({ page }),
+  });
+
+  const movies = moviesQuery.data?.results ?? [];
+  const totalPages = moviesQuery.data?.total_pages ?? 0;
+
+  const handlePageChange = (nextPage: number) => {
+    setPage(nextPage);
+  };
 
   return (
     <main className="min-h-[calc(100vh-220px)] bg-[#f7f8fa]">
-      {state.status === "loading" && <RequestMessage>영화 목록을 불러오는 중이에요.</RequestMessage>}
-      {state.status === "error" && <RequestMessage error>영화 목록을 불러오지 못했어요.</RequestMessage>}
-      {state.status === "success" && (state.data.results.length === 0 ? (
+      {moviesQuery.isPending ? (
+        <RequestMessage>영화 목록을 불러오는 중이에요.</RequestMessage>
+      ) : moviesQuery.isError ? (
+        <RequestMessage error>영화 목록을 불러오지 못했어요.</RequestMessage>
+      ) : movies.length === 0 ? (
         <RequestMessage>조건에 맞는 영화가 없어요.</RequestMessage>
       ) : (
         <>
-          <MovieGrid movies={state.data.results} />
-          <Pagination page={page} totalPages={state.data.total_pages} onPageChange={onPageChange} />
+          <MovieGrid movies={movies} />
+          <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
         </>
-      ))}
+      )}
     </main>
   );
 }

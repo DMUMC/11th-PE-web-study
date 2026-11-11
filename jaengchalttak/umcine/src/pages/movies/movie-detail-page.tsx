@@ -1,7 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getMovieDetail } from "../../api/movies/get-movie-detail";
-import { useMovieRequest } from "../../hooks/use-movie-request";
 import { getMovieDetailErrorMessage } from "../../utils/movies/get-movie-detail-error-message";
 import { getTmdbBackdropUrl, getTmdbPosterUrl } from "../../utils/movies/tmdb-image";
 import { MovieImage } from "../../components/movies/movie-image";
@@ -9,25 +8,27 @@ import { RequestMessage } from "../../components/movies/request-message";
 import { BookmarkButton } from "../../components/bookmark-button";
 
 export function MovieDetailPage() {
-  const { movieId } = useParams({ from: "/movies/$movieId" });
-  const parsedMovieId = Number(movieId);
+  const { movieId: movieIdParam } = useParams({ from: "/movies/$movieId" });
+  const movieId = Number(movieIdParam);
+  const isValidMovieId = Number.isInteger(movieId) && movieId > 0;
 
-  if (!Number.isSafeInteger(parsedMovieId) || parsedMovieId <= 0) {
+  const movieDetailQuery = useQuery({
+    queryKey: ["movies", "detail", movieId],
+    queryFn: () => getMovieDetail(movieId),
+    enabled: isValidMovieId,
+    staleTime: 30 * 1000,
+  });
+
+  if (!isValidMovieId) {
     return <main><RequestMessage error showConfigHint={false}>올바르지 않은 영화 번호예요.</RequestMessage></main>;
   }
-  return <MovieDetailContent key={parsedMovieId} movieId={parsedMovieId} />;
-}
-
-function MovieDetailContent({ movieId }: { movieId: number }) {
-  const request = useCallback((signal: AbortSignal) => getMovieDetail(movieId, signal), [movieId]);
-  const state = useMovieRequest(request);
-  if (state.status === "loading") {
+  if (movieDetailQuery.isPending) {
     return <main><RequestMessage>영화 정보를 불러오는 중이에요.</RequestMessage></main>;
   }
-  if (state.status === "error") {
-    return <main><RequestMessage error>{getMovieDetailErrorMessage(state.error)}</RequestMessage></main>;
+  if (movieDetailQuery.isError) {
+    return <main><RequestMessage error>{getMovieDetailErrorMessage(movieDetailQuery.error)}</RequestMessage></main>;
   }
-  const movie = state.data;
+  const movie = movieDetailQuery.data;
   const runtime = movie.runtime === null ? "상영 시간 정보가 없어요." : `${Math.floor(movie.runtime / 60)}시간 ${movie.runtime % 60}분`;
 
   return (

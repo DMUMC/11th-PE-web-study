@@ -1,0 +1,54 @@
+package com.umc.movie.service;
+
+import com.umc.movie.dto.EmailCheckResponse;
+import com.umc.movie.dto.NicknameCheckResponse;
+import com.umc.movie.dto.SignUpRequest;
+import com.umc.movie.dto.MemberResponse;
+import com.umc.movie.entity.Member;
+import com.umc.movie.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.nio.charset.StandardCharsets;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class MemberService {
+
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public MemberResponse signUp(SignUpRequest request) {
+        // BCrypt는 문자 수가 아닌 UTF-8 바이트 수를 기준으로 72바이트까지 처리합니다.
+        if (request.password().getBytes(StandardCharsets.UTF_8).length > 72) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호는 UTF-8 기준 72바이트 이하로 입력해주세요.");
+        }
+        if (memberRepository.existsByEmail(request.email())) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+        if (memberRepository.existsByNickname(request.nickname())) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+        }
+        Member member = Member.builder()
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .nickname(request.nickname())
+                .build();
+        Member saved = memberRepository.save(member);
+        return new MemberResponse(saved.getMemberId(), saved.getEmail(), saved.getNickname());
+    }
+
+    public NicknameCheckResponse checkNickname(String nickname) {
+        return new NicknameCheckResponse(!memberRepository.existsByNickname(nickname));
+    }
+
+    public EmailCheckResponse checkEmail(String email) {
+        return new EmailCheckResponse(!memberRepository.existsByEmail(email));
+    }
+}
