@@ -11,7 +11,7 @@ export default function Header() {
             </div>
             <div className="flex items-center gap-[30px] pl-[42px] text-[14px] font-[700] text-[#606774]">
                 <Link to="/"><p className="text-[#17191E] underline">영화</p></Link>
-                <Link to="/search"><p>검색</p></Link>
+                <Link to="/search" search={{ page: 1 }}><p>검색</p></Link>
                 <Link to="/myPage"><p>내 정보</p></Link>
             </div>
             <div className="ml-auto flex justify-end gap-[10px]">
