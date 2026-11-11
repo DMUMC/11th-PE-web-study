@@ -15,11 +15,11 @@ export default function Header() {
                 <Link to="/myPage"><p>내 정보</p></Link>
             </div>
             <div className="ml-auto flex justify-end gap-[10px]">
-                <div className="w-[42px] h-[42px] flex items-center justify-center border-1 border-[#E3E6EB] rounded-[8px]">
+                <div className="w-[42px] h-[42px] flex items-center justify-center border-1 border-[#E3E6EB] rounded-[8px] cursor-pointer">
                     <img src="/icon/movie-icons/search.svg" className="w-[18px] h-[18px]" />
                 </div>
                 <div className="w-[71px] h-[42px] flex items-center bg-[#2563EB] rounded-[8px] 
-            text-white text-[14px] font-extrabold justify-center">
+            text-white text-[14px] font-extrabold justify-center cursor-pointer">
                     <p>로그인</p>
                 </div>
             </div>

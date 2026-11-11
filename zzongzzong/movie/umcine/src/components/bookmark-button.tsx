@@ -19,8 +19,9 @@ export function BookmarkButton({
         <button
             type="button"
             onClick={() => toggleBookmark(movieId)}
+            className="pointer"
         >
             {isBookmarked ? "북마크 해제" : "북마크 추가"}
-        </button>
+        </button >
     );
 }

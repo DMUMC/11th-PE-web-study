@@ -18,15 +18,24 @@ export default function MovieCard(props: Movie) {
                     to="/movies/$movieId"
                     params={{ movieId: String(props.id) }}
                 >
-                    <img
-                        src={props.posterPath}
-                        alt={props.title}
-                        className="w-[240px] h-[274px] rounded-[8px]"
-                    />
+                    {props.posterPath ? (
+                        <img
+                            src={props.posterPath}
+                            alt={`${props.title} 포스터`}
+                            className="w-[240px] h-[274px] rounded-[8px] object-cover"
+                        />
+                    ) : (
+                        <div
+                            className="w-[240px] h-[274px] rounded-[8px]
+      bg-gray-200 flex items-center justify-center"
+                        >
+                            포스터가 없어요.
+                        </div>
+                    )}
                 </Link>
 
                 <div
-                    className={`w-[34px] h-[34px] absolute top-[8px] right-[6px]
+                    className={`w-[34px] h-[34px] absolute top-[8px] right-[6px] cursor-pointer
                     ${isBookmarked
                             ? "bg-[#2563EB]"
                             : "bg-[#17191E] border-1 border-white"
