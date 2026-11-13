@@ -8,41 +8,70 @@
     section { border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
     h2 { font-size: 16px; margin: 0 0 8px; }
     input { padding: 4px; margin-right: 4px; }
-    pre { background: #f4f4f4; padding: 8px; margin: 8px 0 0; white-space: pre-wrap; }
+    pre { background: #f4f4f4; padding: 8px; margin: 8px 0 0; white-space: pre-wrap; word-break: break-all; }
+    .token { font-size: 12px; color: #555; }
+    #log-list { font-family: monospace; font-size: 12px; padding-left: 24px; margin: 0; }
+    #log-list li { padding: 2px 0; }
+    .ok { color: #1a7f37; }
+    .fail { color: #cf222e; }
   </style>
 </head>
 <body>
   <h1>mock-front → http://localhost:8080</h1>
+  <p>🔒 요청은 아래 선택한 토큰을 <code>Authorization: Bearer</code> 헤더로 보낸다.</p>
 
   <section>
-    <h2>회원가입 POST /members/register</h2>
-    <input id="reg-email" value="minseo@umc.com" />
-    <input id="reg-password" value="password1234" />
-    <input id="reg-nickname" value="민서" />
+    <h2>현재 토큰</h2>
+    <label><input type="radio" name="token" value="A" checked /> 토큰 A</label>
+    <label><input type="radio" name="token" value="B" /> 토큰 B</label>
+    <label><input type="radio" name="token" value="none" /> 토큰 없음</label>
+    <label><input type="radio" name="token" value="fake" /> 위조 토큰</label>
+    <pre id="token-out" class="token"></pre>
+  </section>
+
+  <section>
+    <h2>회원가입 POST /members</h2>
+    <input id="reg-email" value="a@umc.com" />
+    <input id="reg-password" value="Umc1234!" />
+    <input id="reg-nickname" value="영화광" />
     <button id="reg-btn">가입</button>
     <pre id="reg-out"></pre>
   </section>
 
   <section>
-    <h2>로그인 POST /members/login</h2>
-    <input id="login-email" value="noco@umc.com" />
-    <input id="login-password" value="password1234" />
-    <button id="login-btn">로그인</button>
+    <h2>로그인 POST /auth/login</h2>
+    <input id="login-email" value="a@umc.com" />
+    <input id="login-password" value="Umc1234!" />
+    <button id="login-a-btn">토큰 A로 저장</button>
+    <button id="login-b-btn">토큰 B로 저장</button>
     <pre id="login-out"></pre>
   </section>
 
   <section>
-    <h2>닉네임 중복 체크 GET /members/nickname/{nickname}</h2>
-    <input id="nickname" value="수현" />
-    <button id="nickname-btn">확인</button>
-    <pre id="nickname-out"></pre>
+    <h2>🔒 내 정보 GET / PATCH /members/me</h2>
+    <button id="me-btn">조회</button>
+    <input id="me-nickname" placeholder="새 닉네임" />
+    <button id="me-update-btn">닉네임 수정</button>
+    <pre id="me-out"></pre>
   </section>
 
   <section>
-    <h2>이메일 중복 체크 GET /members/email/{email}</h2>
-    <input id="email" value="noco@umc.com" />
-    <button id="email-btn">확인</button>
-    <pre id="email-out"></pre>
+    <h2>🔒 평점 등록 POST /ratings</h2>
+    <input id="rating-movie-id" value="550" size="8" />
+    <input id="rating-score" value="4" size="3" />
+    <input id="rating-comment" value="재밌어요" />
+    <button id="rating-create-btn">등록</button>
+    <pre id="rating-create-out"></pre>
+  </section>
+
+  <section>
+    <h2>🔒 평점 수정·삭제 PATCH / DELETE /ratings/{ratingId}</h2>
+    <input id="rating-id" placeholder="ratingId" size="8" />
+    <input id="rating-new-score" value="5" size="3" />
+    <input id="rating-new-comment" value="다시 봐도 좋아요" />
+    <button id="rating-update-btn">수정</button>
+    <button id="rating-delete-btn">삭제</button>
+    <pre id="rating-edit-out"></pre>
   </section>
 
   <section>
@@ -50,6 +79,20 @@
     <input id="member-id" value="1" />
     <button id="ratings-btn">조회</button>
     <pre id="ratings-out"></pre>
+  </section>
+
+  <section>
+    <h2>닉네임 / 이메일 중복 체크</h2>
+    <input id="nickname" value="영화광" />
+    <button id="nickname-btn">닉네임 확인</button>
+    <input id="email" value="a@umc.com" />
+    <button id="email-btn">이메일 확인</button>
+    <pre id="dup-out"></pre>
+  </section>
+
+  <section id="log-section">
+    <h2>전체 실행 기록</h2>
+    <ol id="log-list"></ol>
   </section>
 
   <script type="module" src="/main.js"></script>
