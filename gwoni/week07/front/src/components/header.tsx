@@ -11,14 +11,14 @@ export default function Header() {
       <nav>
         <Link to="/">영화</Link>
         <Link to="/search">검색</Link>
-        <a href="/my">내 정보</a>
+        <Link to="/my">내 정보</Link>
       </nav>
 
       <div>
         <button type="button">
           <img src="/icons/search.svg" alt="검색" width={20} height={20} />
         </button>
-        <button type="button">마이페이지</button>
+        <Link to="/my">마이페이지</Link>
       </div>
     </header>
   );
