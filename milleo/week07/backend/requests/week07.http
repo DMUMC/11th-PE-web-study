@@ -1,0 +1,79 @@
+@baseUrl = http://localhost:8083
+# 로그인 응답의 실제 토큰과 등록 응답의 ratingId로 바꿉니다. 실제 토큰은 커밋하지 않습니다.
+@accessTokenA = paste_access_token_A
+@accessTokenB = paste_access_token_B
+@ratingId = 1
+
+### 1-A. 회원가입 (기존 계정이면 이메일/닉네임 변경)
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{"email":"a@umc.com","nickname":"밀러A","password":"Umc!1234"}
+
+### 1-B. 회원가입
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{"email":"b@umc.com","nickname":"밀러B","password":"Umc!1234"}
+
+### 2-A. 로그인 → accessTokenA에 응답 토큰 입력
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email":"a@umc.com","password":"Umc!1234"}
+
+### 2-B. 로그인 → accessTokenB에 응답 토큰 입력
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email":"b@umc.com","password":"Umc!1234"}
+
+### 3. A의 평점 등록 (201) → ratingId 갱신
+POST {{baseUrl}}/ratings
+Authorization: Bearer {{accessTokenA}}
+Content-Type: application/json
+
+{"movieId":687163,"score":5,"comment":"몰입감이 좋고 다시 보고 싶은 영화였습니다."}
+
+### 4. 같은 영화 중복 등록 (409)
+POST {{baseUrl}}/ratings
+Authorization: Bearer {{accessTokenA}}
+Content-Type: application/json
+
+{"movieId":687163,"score":5,"comment":"중복 등록 확인"}
+
+### 5. 본인 평점 수정 (200)
+PATCH {{baseUrl}}/ratings/{{ratingId}}
+Authorization: Bearer {{accessTokenA}}
+Content-Type: application/json
+
+{"score":5,"comment":"다시 봐도 인상적인 영화였습니다."}
+
+### 6. B가 A의 평점 수정 (403)
+PATCH {{baseUrl}}/ratings/{{ratingId}}
+Authorization: Bearer {{accessTokenB}}
+Content-Type: application/json
+
+{"score":1,"comment":"다른 회원의 수정 시도"}
+
+### 7. 토큰 누락 (401)
+GET {{baseUrl}}/members/me
+
+### 8. 존재하지 않는 평점 (404)
+DELETE {{baseUrl}}/ratings/99999
+Authorization: Bearer {{accessTokenA}}
+
+### 9. 본인 평점 삭제 (200, result null)
+DELETE {{baseUrl}}/ratings/{{ratingId}}
+Authorization: Bearer {{accessTokenA}}
+
+### 실습3. 내 정보 조회
+GET {{baseUrl}}/members/me
+Authorization: Bearer {{accessTokenA}}
+
+### 실습4. 닉네임 변경 (본인 기존 닉네임 유지도 허용)
+PATCH {{baseUrl}}/members/me
+Authorization: Bearer {{accessTokenA}}
+Content-Type: application/json
+
+{"nickname":"밀러A"}
