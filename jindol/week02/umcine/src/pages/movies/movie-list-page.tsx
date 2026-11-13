@@ -1,19 +1,37 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getMovies } from "../../api/movies/get-movies";
 import MovieGrid from "../../components/movies/movie-grid";
 import Pagination from "../../components/movies/pagination";
-import { movies } from "../../data/movies";
 import { readBookmarkIds, saveBookmarkIds } from "../../utils/bookmark-storage";
+import { getTmdbBackdropUrl, getTmdbPosterUrl } from "../../utils/movies/tmdb-image";
 
 export function MovieListPage() {
   const [bookmarkIds, setBookmarkIds] = useState<number[]>(() => readBookmarkIds());
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const moviesQuery = useQuery({
+    queryKey: ["movies", "list", { page }],
+    queryFn: () => getMovies({ page }),
+  });
+
+  const movies = moviesQuery.data?.results ?? [];
+  const totalPages = moviesQuery.data?.total_pages ?? 0;
 
   useEffect(() => {
     saveBookmarkIds(bookmarkIds);
   }, [bookmarkIds]);
 
   const movieList = movies.map((movie) => ({
-    ...movie,
+    id: movie.id,
+    title: movie.title,
+    originalTitle: movie.original_title,
+    releaseDate: movie.release_date,
+    posterPath: getTmdbPosterUrl(movie.poster_path) ?? "",
+    backdropPath: getTmdbBackdropUrl(movie.backdrop_path) ?? "",
+    genres: [],
+    runtime: "",
+    tagline: "",
+    overview: movie.overview,
     isBookmarked: bookmarkIds.includes(movie.id),
   }));
 
@@ -34,13 +52,23 @@ export function MovieListPage() {
         </span>
       </div>
 
+      {moviesQuery.isPending ? (
+        <p className="mb-4 text-center text-sm text-slate-500">영화 목록을 불러오는 중이에요...</p>
+      ) : moviesQuery.isError ? (
+        <p role="alert" className="mb-4 text-center text-sm text-red-600">
+          {moviesQuery.error.message}
+        </p>
+      ) : movieList.length === 0 ? (
+        <p className="mb-4 text-center text-sm text-slate-500">표시할 영화가 없어요.</p>
+      ) : null}
+
       <MovieGrid movies={movieList} onToggleBookmark={handleToggleBookmark} />
 
       <div className="mt-8 flex justify-center">
         <Pagination
-          currentPage={currentPage}
-          totalPages={1}
-          onPageChange={setCurrentPage}
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
         />
       </div>
     </main>

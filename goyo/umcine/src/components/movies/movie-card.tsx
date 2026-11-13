@@ -1,12 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import type { Movie } from "../../types/movie";
+import type { TmdbMovieListItem } from "../../api/movies/model";
 
 interface MovieCardProps {
-  movie: Movie;
+  movie: TmdbMovieListItem;
   isBookmarked?: boolean;
   onToggleBookmark?: (id: number) => void;
   variant?: "grid" | "search";
 }
+
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 export default function MovieCard({
   movie,
@@ -14,6 +16,10 @@ export default function MovieCard({
   onToggleBookmark,
   variant = "grid",
 }: MovieCardProps) {
+  const posterUrl = movie.poster_path
+    ? `${IMAGE_BASE_URL}${movie.poster_path}`
+    : null;
+
   if (variant === "search") {
     return (
       <article className="flex min-h-[240px] w-full gap-5 border-t border-[#E3E6EB] py-5 font-[Pretendard,sans-serif]">
@@ -22,11 +28,17 @@ export default function MovieCard({
           params={{ movieId: String(movie.id) }}
           className="shrink-0"
         >
-          <img
-            src={movie.posterPath}
-            alt={`${movie.title} 포스터`}
-            className="h-[190px] w-[126px] rounded-[10px] object-cover"
-          />
+          {posterUrl ? (
+            <img
+              src={posterUrl}
+              alt={`${movie.title} 포스터`}
+              className="h-[190px] w-[126px] rounded-[10px] object-cover"
+            />
+          ) : (
+            <div className="flex h-[190px] w-[126px] items-center justify-center rounded-[10px] bg-[#E3E6EB] text-xs text-[#969DA8]">
+              이미지 없음
+            </div>
+          )}
         </Link>
 
         <div className="flex min-w-0 flex-1 flex-col">
@@ -65,12 +77,12 @@ export default function MovieCard({
           </div>
 
           <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-[#969DA8]">
-            <span>{movie.originalTitle}</span>
-            <span>{movie.releaseDate}</span>
+            <span>{movie.original_title}</span>
+            <span>{movie.release_date}</span>
           </div>
 
           <p className="mt-3 line-clamp-2 text-[12px] font-normal leading-5 text-[#606774]">
-            {movie.overview}
+            {movie.overview || "등록된 줄거리가 없습니다."}
           </p>
 
           <Link
@@ -96,11 +108,17 @@ export default function MovieCard({
           params={{ movieId: String(movie.id) }}
           className="block h-full w-full"
         >
-          <img
-            src={movie.posterPath}
-            alt={`${movie.title} 포스터`}
-            className="block h-full w-full object-cover"
-          />
+          {posterUrl ? (
+            <img
+              src={posterUrl}
+              alt={`${movie.title} 포스터`}
+              className="block h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-[#E3E6EB] text-sm text-[#969DA8]">
+              이미지 없음
+            </div>
+          )}
         </Link>
 
         <button
@@ -138,7 +156,7 @@ export default function MovieCard({
         </Link>
 
         <p className="mb-0 mt-1 text-xs font-normal text-[#969DA8]">
-          {movie.releaseDate}
+          {movie.release_date}
         </p>
       </div>
     </article>

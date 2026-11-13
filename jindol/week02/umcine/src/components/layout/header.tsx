@@ -13,7 +13,7 @@ export function Header() {
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold text-slate-900">
-          <img src="/movie-icons/logo.svg" alt="" className="h-8 w-8" />
+          <img src="/movie-icons/movie.svg" alt="" className="h-8 w-8" />
           <span>UMCine</span>
         </Link>
 

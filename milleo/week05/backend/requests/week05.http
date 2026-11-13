@@ -1,0 +1,17 @@
+### 실습 1: DB에 있는 닉네임 → available false
+GET http://localhost:8081/members/nickname/수현
+
+### 실습 1: DB에 없는 닉네임 → available true
+GET http://localhost:8081/members/nickname/새로운밀러
+
+### 실습 2: DB에 있는 이메일 → available false
+GET http://localhost:8081/members/email/noco@umc.com
+
+### 실습 2: DB에 없는 이메일 → available true
+GET http://localhost:8081/members/email/new-user@example.com
+
+### 실습 3: 1번 회원 평점 2건 → 200, ratingId 내림차순
+GET http://localhost:8081/members/1/ratings
+
+### 실습 3: 없는 회원 → 404 Not Found
+GET http://localhost:8081/members/999/ratings

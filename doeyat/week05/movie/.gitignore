@@ -1,0 +1,3 @@
+# Include the wrapper needed by gradlew and gradlew.bat.
+!gradle/wrapper/gradle-wrapper.jar
+!db/*.sql

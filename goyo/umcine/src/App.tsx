@@ -1,57 +1,17 @@
-
-import { useState } from "react";
+import { Outlet } from "@tanstack/react-router";
 import Header from "./components/layout/header";
-import MovieGrid from "./components/movies/movie-grid";
-import Pagination from "./components/movies/pagination";
-import { movies } from "./data/movies";
-
-const MOVIES_PER_PAGE = 10;
+import Footer from "./components/layout/footer";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [bookmarkedIds, setBookmarkedIds] = useState<number[]>(
-    movies
-      .filter((movie) => movie.isBookmarked)
-      .map((movie) => movie.id)
-  );
-
-  const toggleBookmark = (id: number) => {
-    setBookmarkedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((movieId) => movieId !== id)
-        : [...prev, id]
-    );
-  };
-
-  const totalPages = Math.ceil(
-    movies.length / MOVIES_PER_PAGE
-  );
-
-  const currentMovies = movies.slice(
-    (currentPage - 1) * MOVIES_PER_PAGE,
-    currentPage * MOVIES_PER_PAGE
-  );
-
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="movie-page">
-        <h1 className="movie-page-title">영화 목록</h1>
+      <div className="flex-1">
+        <Outlet />
+      </div>
 
-        <MovieGrid
-          movies={currentMovies}
-          bookmarkedIds={bookmarkedIds}
-          onToggleBookmark={toggleBookmark}
-        />
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      </main>
-    </>
+      <Footer />
+    </div>
   );
 }

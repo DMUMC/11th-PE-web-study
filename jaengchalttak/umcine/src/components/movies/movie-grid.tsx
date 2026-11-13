@@ -1,7 +1,7 @@
-import { movies } from "../../data/movies";
+import type { TmdbMovieListItem } from "../../api/movies/models";
 import MovieCard from "./movie-card";
 
-export default function MovieGrid() {
+export default function MovieGrid({ movies }: { movies: TmdbMovieListItem[] }) {
   return (
     <section className="bg-[#f7f8fa] px-5 py-6 sm:px-10 lg:px-20" aria-labelledby="movie-list-title">
       <h1 className="mb-5 text-3xl leading-11 font-bold tracking-[-1px] text-[#1d1e20] sm:text-4xl" id="movie-list-title">영화 목록</h1>
