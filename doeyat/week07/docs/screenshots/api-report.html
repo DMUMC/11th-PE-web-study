@@ -1,0 +1,128 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><title>doeyat JWT API 검증</title><style>body{font:16px Arial,sans-serif;background:#f4f6f8;color:#182230;margin:40px}h1{margin-bottom:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}article{background:white;border:1px solid #dce2ea;border-radius:12px;padding:24px;min-width:0}h2{font-size:20px}b{color:#2563eb}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.6;background:#f8fafc;padding:14px}</style><h1>doeyat · JWT API 실행 결과</h1><p>실제 로컬 Spring Boot 응답 · 헤드리스 Chromium 캡처 · H2 실습 DB · 토큰 값 생략</p><div class="grid"><article><h2>로그인 성공 · <b>HTTP 200</b></h2><p>POST /auth/login</p><p>Authorization: 없음</p><pre>{
+  "email": "doeyat1794747684279@example.com",
+  "password": "[테스트 비밀번호]"
+}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "로그인에 성공했습니다.",
+  "result": {
+    "accessToken": "[발급 성공 · 토큰 값 생략]",
+    "tokenType": "Bearer"
+  }
+}</pre></article><article><h2>두 번째 사용자 가입 · <b>HTTP 201</b></h2><p>POST /members</p><p>Authorization: 없음</p><pre>{
+  "email": "doeyatB1794747686003@example.com",
+  "nickname": "doeyatB86003",
+  "password": "[테스트 비밀번호]"
+}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "회원가입에 성공했습니다.",
+  "result": {
+    "memberId": 4,
+    "email": "doeyatB1794747686003@example.com",
+    "nickname": "doeyatB86003"
+  }
+}</pre></article><article><h2>B 로그인 · <b>HTTP 200</b></h2><p>POST /auth/login</p><p>Authorization: 없음</p><pre>{
+  "email": "doeyatB1794747686003@example.com",
+  "password": "[테스트 비밀번호]"
+}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "로그인에 성공했습니다.",
+  "result": {
+    "accessToken": "[발급 성공 · 토큰 값 생략]",
+    "tokenType": "Bearer"
+  }
+}</pre></article><article><h2>토큰 없이 내 정보 · <b>HTTP 401</b></h2><p>GET /members/me</p><p>Authorization: 없음</p><pre>{}</pre><pre>{
+  "isSuccess": false,
+  "code": "AUTH401_2",
+  "message": "로그인이 필요한 요청입니다.",
+  "result": null
+}</pre></article><article><h2>내 정보 조회 · <b>HTTP 200</b></h2><p>GET /members/me</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "조회에 성공했습니다.",
+  "result": {
+    "memberId": 3,
+    "email": "doeyat1794747684279@example.com",
+    "nickname": "doeyat",
+    "introduction": "doeyat의 영화 기록. SF와 모험 영화를 좋아합니다."
+  }
+}</pre></article><article><h2>내 정보 수정 · <b>HTTP 200</b></h2><p>PATCH /members/me</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{
+  "nickname": "doeyat"
+}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "정보를 수정했습니다.",
+  "result": {
+    "memberId": 3,
+    "email": "doeyat1794747684279@example.com",
+    "nickname": "doeyat",
+    "introduction": "doeyat의 영화 기록. SF와 모험 영화를 좋아합니다."
+  }
+}</pre></article><article><h2>평점 등록 · <b>HTTP 201</b></h2><p>POST /ratings</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{
+  "movieId": 27205,
+  "score": 4,
+  "comment": "꿈속의 꿈 구조가 좋았다."
+}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "평점을 등록했습니다.",
+  "result": {
+    "ratingId": 2,
+    "movieId": 27205,
+    "score": 4,
+    "comment": "꿈속의 꿈 구조가 좋았다.",
+    "createdAt": "2026-11-15T22:01:26.113887",
+    "updatedAt": "2026-11-15T22:01:26.113887"
+  }
+}</pre></article><article><h2>평점 중복 등록 · <b>HTTP 409</b></h2><p>POST /ratings</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{
+  "movieId": 27205,
+  "score": 4,
+  "comment": "꿈속의 꿈 구조가 좋았다."
+}</pre><pre>{
+  "isSuccess": false,
+  "code": "RATING409_1",
+  "message": "이미 이 영화에 평점을 남기셨습니다.",
+  "result": null
+}</pre></article><article><h2>본인 평점 수정 · <b>HTTP 200</b></h2><p>PATCH /ratings/2</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{
+  "score": 5,
+  "comment": "다시 봐도 좋았다."
+}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "평점을 수정했습니다.",
+  "result": {
+    "ratingId": 2,
+    "movieId": 27205,
+    "score": 5,
+    "comment": "다시 봐도 좋았다.",
+    "createdAt": "2026-11-15T22:01:26.113887",
+    "updatedAt": "2026-11-15T22:01:26.12541"
+  }
+}</pre></article><article><h2>다른 회원의 평점 수정 · <b>HTTP 403</b></h2><p>PATCH /ratings/2</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{
+  "score": 1,
+  "comment": "권한 확인"
+}</pre><pre>{
+  "isSuccess": false,
+  "code": "RATING403_1",
+  "message": "본인이 작성한 평점만 수정하거나 삭제할 수 있습니다.",
+  "result": null
+}</pre></article><article><h2>토큰 없이 평점 수정 · <b>HTTP 401</b></h2><p>PATCH /ratings/2</p><p>Authorization: 없음</p><pre>{
+  "score": 1
+}</pre><pre>{
+  "isSuccess": false,
+  "code": "AUTH401_2",
+  "message": "로그인이 필요한 요청입니다.",
+  "result": null
+}</pre></article><article><h2>없는 평점 삭제 · <b>HTTP 404</b></h2><p>DELETE /ratings/99999999</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{}</pre><pre>{
+  "isSuccess": false,
+  "code": "RATING404_1",
+  "message": "해당 평점을 찾을 수 없습니다.",
+  "result": null
+}</pre></article><article><h2>본인 평점 삭제 · <b>HTTP 200</b></h2><p>DELETE /ratings/2</p><p>Authorization: Bearer [실제 발급 토큰]</p><pre>{}</pre><pre>{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "평점을 삭제했습니다.",
+  "result": null
+}</pre></article></div></html>
