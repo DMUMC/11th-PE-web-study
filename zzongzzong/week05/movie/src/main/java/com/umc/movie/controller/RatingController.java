@@ -29,7 +29,7 @@ public class RatingController {
             @PathVariable Long memberId,
             @Valid @RequestBody CreateRatingRequest request
     ) {
-        Long ratingId = ratingService.create(memberId, request);
+        Long ratingId = ratingService.create(memberId, request).ratingId();
         return ResponseEntity.status(201).body(ApiResponse.created("평점 등록에 성공했습니다.", ratingId));
     }
 
@@ -39,13 +39,13 @@ public class RatingController {
             @PathVariable Long ratingId,
             @Valid @RequestBody UpdateRatingRequest request
     ) {
-        ratingService.update(ratingId, memberId, request);
+        ratingService.update(memberId, ratingId, request);
         return ResponseEntity.ok(ApiResponse.ok("평점 수정에 성공했습니다.", null));
     }
 
     @DeleteMapping("/{memberId}/ratings/{ratingId}")
     public ResponseEntity<Void> delete(@PathVariable Long memberId, @PathVariable Long ratingId) {
-        ratingService.delete(ratingId, memberId);
+        ratingService.delete(memberId, ratingId);
         return ResponseEntity.noContent().build();
     }
 }
