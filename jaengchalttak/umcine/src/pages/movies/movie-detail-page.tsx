@@ -6,6 +6,7 @@ import { getTmdbBackdropUrl, getTmdbPosterUrl } from "../../utils/movies/tmdb-im
 import { MovieImage } from "../../components/movies/movie-image";
 import { RequestMessage } from "../../components/movies/request-message";
 import { BookmarkButton } from "../../components/bookmark-button";
+import { MovieRating } from "../../components/movies/movie-rating";
 
 export function MovieDetailPage() {
   const { movieId: movieIdParam } = useParams({ from: "/movies/$movieId" });
@@ -41,7 +42,7 @@ export function MovieDetailPage() {
           <div>
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-3xl font-bold text-[#1d1e20]">{movie.title}</h1>
-              <BookmarkButton movieId={movie.id} className="px-3 py-1.5 text-sm" />
+              <BookmarkButton movieId={movie.id} movieTitle={movie.title} detail />
             </div>
             <p className="mt-1 text-[#676d76]">{movie.original_title}</p>
             <p className="mt-4 text-sm text-[#676d76]">{movie.release_date || "개봉일 정보 없음"} · {movie.genres.map((genre) => genre.name).join(", ") || "장르 정보 없음"} · {runtime}</p>
@@ -49,6 +50,7 @@ export function MovieDetailPage() {
             <p className="mt-3 leading-7 text-[#676d76]">{movie.overview || "줄거리 정보가 없어요."}</p>
           </div>
         </div>
+        <MovieRating movieId={movie.id} />
       </div>
     </main>
   );
