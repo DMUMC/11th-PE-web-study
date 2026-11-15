@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>UMC 7주차 API 시나리오 테스트</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; background: #f8fafc; color: #1e293b; }
+    h1 { font-size: 24px; color: #0f172a; }
+    .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    button { background: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    button:hover { background: #1d4ed8; }
+    pre { background: #0f172a; color: #38bdf8; padding: 14px; border-radius: 8px; overflow-x: auto; font-size: 13px; font-family: Consolas, monospace; }
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+    .tag-success { background: #dcfce7; color: #15803d; }
+    .tag-fail { background: #fee2e2; color: #b91c1c; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; }
+  </style>
+</head>
+<body>
+  <h1>🎬 UMC 7주차 API 시나리오 검증 콘솔</h1>
+  <p>회원 가입, 로그인, JWT 토큰 인가, 내 정보 조회/수정, 평점 CRUD 권한 제어(401/403)를 브라우저에서 직접 테스트합니다.</p>
+
+  <div class="card">
+    <button onclick="runAllTests()">⚡ 전체 9단계 시나리오 일괄 실행</button>
+    <button onclick="clearConsole()" style="background: #64748b; margin-left: 8px;">콘솔 비우기</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>1. 회원 A & B 로그인</h3>
+      <button onclick="loginUserA()">A 로그인 (userA)</button>
+      <button onclick="loginUserB()" style="background: #475569;">B 로그인 (userB)</button>
+      <div id="login-tokens" style="margin-top: 10px; font-size: 12px; word-break: break-all;"></div>
+    </div>
+
+    <div class="card">
+      <h3>2. 내 정보 조회 (/members/me)</h3>
+      <button onclick="getMyInfo()">토큰 A로 내 정보 조회 (200)</button>
+      <button onclick="getMyInfoNoToken()" style="background: #dc2626;">토큰 없이 조회 (401 AUTH401_2)</button>
+    </div>
+
+    <div class="card">
+      <h3>3. 평점 등록 & 수정 (/ratings)</h3>
+      <button onclick="createRating()">토큰 A로 평점 등록 (201)</button>
+      <button onclick="updateRatingAsOwner()">토큰 A로 본인 수정 (200)</button>
+      <button onclick="updateRatingAsOther()" style="background: #ea580c;">[403] 토큰 B로 남의 평점 수정</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>실행 로그 결과</h3>
+    <pre id="output">// 테스트 버튼을 클릭하면 여기에 결과 JSON이 출력됩니다.</pre>
+  </div>
+
+  <script>
+    const API = "http://localhost:8080";
+    let tokenA = "";
+    let tokenB = "";
+    let currentRatingId = 1;
+
+    function log(title, data) {
+      const out = document.getElementById("output");
+      out.textContent = `=== ${title} ===\n` + JSON.stringify(data, null, 2) + "\n\n" + out.textContent;
+    }
+
+    function clearConsole() {
+      document.getElementById("output").textContent = "";
+    }
+
+    async function req(url, method = "GET", token = null, body = null) {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      const res = await fetch(API + url, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null
+      });
+      const data = await res.json().catch(() => ({ status: res.status }));
+      return { status: res.status, ok: res.ok, data };
+    }
+
+    async function signupUsers() {
+      await req("/members", "POST", null, { email: "a@umc.com", password: "Password123!", nickname: "userA" });
+      await req("/members", "POST", null, { email: "b@umc.com", password: "Password123!", nickname: "userB" });
+    }
+
+    async function loginUserA() {
+      await signupUsers();
+      const r = await req("/auth/login", "POST", null, { email: "a@umc.com", password: "Password123!" });
+      if (r.data.result) {
+        tokenA = r.data.result.accessToken;
+        document.getElementById("login-tokens").innerHTML = `<b>Token A:</b> <span style="color:#2563eb">${tokenA.substring(0, 30)}...</span>`;
+      }
+      log("A 로그인 (POST /auth/login)", r.data);
+    }
+
+    async function loginUserB() {
+      await signupUsers();
+      const r = await req("/auth/login", "POST", null, { email: "b@umc.com", password: "Password123!" });
+      if (r.data.result) {
+        tokenB = r.data.result.accessToken;
+        document.getElementById("login-tokens").innerHTML += `<br><b>Token B:</b> <span style="color:#475569">${tokenB.substring(0, 30)}...</span>`;
+      }
+      log("B 로그인 (POST /auth/login)", r.data);
+    }
+
+    async function getMyInfo() {
+      if (!tokenA) await loginUserA();
+      const r = await req("/members/me", "GET", tokenA);
+      log("내 정보 조회 (GET /members/me - 토큰 A)", r.data);
+    }
+
+    async function getMyInfoNoToken() {
+      const r = await req("/members/me", "GET", null);
+      log("토큰 없이 내 정보 조회 (401 기대)", r.data);
+    }
+
+    async function createRating() {
+      if (!tokenA) await loginUserA();
+      const r = await req("/ratings", "POST", tokenA, { movieId: 550, score: 5, comment: "브라우저 콘솔 테스트" });
+      if (r.data.result && r.data.result.ratingId) {
+        currentRatingId = r.data.result.ratingId;
+      }
+      log("평점 등록 (POST /ratings - 토큰 A, 201 기대)", r.data);
+    }
+
+    async function updateRatingAsOwner() {
+      if (!tokenA) await loginUserA();
+      const r = await req(`/ratings/${currentRatingId}`, "PATCH", tokenA, { score: 4, comment: "본인 수정 성공" });
+      log(`본인 평점 수정 (PATCH /ratings/${currentRatingId} - 토큰 A, 200 기대)`, r.data);
+    }
+
+    async function updateRatingAsOther() {
+      if (!tokenB) await loginUserB();
+      const r = await req(`/ratings/${currentRatingId}`, "PATCH", tokenB, { score: 1, comment: "남의 평점 수정 시도" });
+      log(`[403 인가 실패] 남의 평점 수정 (PATCH /ratings/${currentRatingId} - 토큰 B, 403 기대)`, r.data);
+    }
+
+    async function runAllTests() {
+      clearConsole();
+      await signupUsers();
+      await loginUserA();
+      await loginUserB();
+      await getMyInfo();
+      await getMyInfoNoToken();
+      await createRating();
+      await updateRatingAsOwner();
+      await updateRatingAsOther();
+    }
+  </script>
+</body>
+</html>
