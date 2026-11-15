@@ -1,0 +1,15 @@
+.gradle/
+build/
+.idea/
+*.iml
+.env
+logs/
+.DS_Store
+
+# 상위 저장소의 *.jar / *.sql 제외 규칙에서 실행 필수 파일만 예외 처리
+!gradle/wrapper/gradle-wrapper.jar
+!sql/01-schema.sql
+
+server.log
+server.pid
+!sql/02-profile.sql
