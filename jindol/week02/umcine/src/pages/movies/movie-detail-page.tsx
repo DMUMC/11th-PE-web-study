@@ -1,6 +1,11 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addFavorite, getFavorite, removeFavorite } from "../../api/favorites";
+import { getMemberRatings, createRating, updateRating, deleteRating } from "../../api/ratings";
+import { getCurrentMemberId } from "../../api/auth/member-id";
 import { getMovieDetail } from "../../api/movies/get-movie-detail";
+import { useAuthStore } from "../../stores/auth-store";
 import { getTmdbBackdropUrl, getTmdbPosterUrl } from "../../utils/movies/tmdb-image";
 import { getMovieDetailErrorMessage } from "../../utils/movies/get-movie-detail-error-message";
 
@@ -8,11 +13,29 @@ export function MovieDetailPage() {
   const { movieId: movieIdParam } = useParams({ from: "/movies/$movieId" });
   const movieId = Number(movieIdParam);
   const isValidMovieId = Number.isInteger(movieId) && movieId > 0;
+  const isLoggedIn = useAuthStore((state) => Boolean(state.accessToken));
+  const memberId = getCurrentMemberId();
+  const queryClient = useQueryClient();
   const movieDetailQuery = useQuery({
     queryKey: ["movies", "detail", movieId],
     queryFn: () => getMovieDetail(movieId),
     enabled: isValidMovieId,
     staleTime: 30 * 1000,
+  });
+  const favoriteQuery = useQuery({
+    queryKey: ["favorites", movieId],
+    queryFn: () => getFavorite(movieId),
+    enabled: isValidMovieId && isLoggedIn,
+  });
+  const favoriteMutation = useMutation({
+    mutationFn: () =>
+      favoriteQuery.data ? removeFavorite(movieId) : addFavorite(movieId),
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["favorites", movieId] }),
+        queryClient.invalidateQueries({ queryKey: ["favorites"] }),
+      ]);
+    },
   });
 
   if (!isValidMovieId) {
@@ -137,6 +160,197 @@ export function MovieDetailPage() {
           </dl>
         </aside>
       </section>
+
+      <section className="mt-6 grid gap-6 md:grid-cols-2">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900">즐겨찾기</h2>
+          {isLoggedIn ? (
+            <>
+              {favoriteQuery.isError && (
+                <p role="alert" className="mt-3 text-sm text-red-600">
+                  {favoriteQuery.error.message}
+                </p>
+              )}
+              {favoriteMutation.isError && (
+                <p role="alert" className="mt-3 text-sm text-red-600">
+                  {favoriteMutation.error.message}
+                </p>
+              )}
+              <button
+                type="button"
+                disabled={favoriteQuery.isPending || favoriteMutation.isPending}
+                onClick={() =>
+                  favoriteQuery.isError
+                    ? void favoriteQuery.refetch()
+                    : favoriteMutation.mutate()
+                }
+                className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {favoriteQuery.isPending
+                  ? "확인 중..."
+                  : favoriteQuery.isError
+                    ? "다시 시도"
+                  : favoriteQuery.data
+                    ? "즐겨찾기 해제"
+                    : "즐겨찾기 추가"}
+              </button>
+            </>
+          ) : (
+            <p className="mt-3 text-sm text-slate-600">
+              <Link to="/login" className="font-semibold text-blue-700 hover:underline">
+                로그인
+              </Link>
+              하면 즐겨찾기를 저장할 수 있어요.
+            </p>
+          )}
+        </div>
+
+        <RatingSection
+          movieId={movieId}
+          memberId={memberId}
+          isLoggedIn={isLoggedIn}
+        />
+      </section>
     </main>
+  );
+}
+
+interface RatingSectionProps {
+  movieId: number;
+  memberId: number | null;
+  isLoggedIn: boolean;
+}
+
+function RatingSection({ movieId, memberId, isLoggedIn }: RatingSectionProps) {
+  const ratingsQuery = useQuery({
+    queryKey: ["ratings", memberId],
+    queryFn: () => {
+      if (memberId === null) {
+        throw new Error("회원 정보를 확인할 수 없어요. 다시 로그인해 주세요.");
+      }
+      return getMemberRatings(memberId);
+    },
+    enabled: isLoggedIn && memberId !== null,
+  });
+  const rating = ratingsQuery.data?.find((item) => item.movieId === movieId);
+
+  return (
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 className="text-xl font-bold text-slate-900">내 평점</h2>
+      {isLoggedIn ? (
+        memberId === null ? (
+          <p role="alert" className="mt-3 text-sm text-red-600">
+            회원 정보를 확인할 수 없어요. 다시 로그인해 주세요.
+          </p>
+        ) : ratingsQuery.isPending ? (
+          <p aria-live="polite" className="mt-3 text-sm text-slate-500">평점을 불러오는 중이에요...</p>
+        ) : ratingsQuery.isError ? (
+          <p role="alert" className="mt-3 text-sm text-red-600">{ratingsQuery.error.message}</p>
+        ) : (
+          <RatingEditor
+            key={`${movieId}-${rating?.ratingId ?? "new"}`}
+            movieId={movieId}
+            memberId={memberId}
+            rating={rating}
+          />
+        )
+      ) : (
+        <p className="mt-3 text-sm text-slate-600">
+          <Link to="/login" className="font-semibold text-blue-700 hover:underline">
+            로그인
+          </Link>
+          하면 평점을 남길 수 있어요.
+        </p>
+      )}
+    </div>
+  );
+}
+
+interface RatingEditorProps {
+  movieId: number;
+  memberId: number | null;
+  rating: Awaited<ReturnType<typeof getMemberRatings>>[number] | undefined;
+}
+
+function RatingEditor({ movieId, memberId, rating }: RatingEditorProps) {
+  const queryClient = useQueryClient();
+  const [score, setScore] = useState(rating?.score ?? 0);
+  const [comment, setComment] = useState(rating?.comment ?? "");
+  const saveMutation = useMutation({
+    mutationFn: () => {
+      if (rating) {
+        return updateRating(rating.ratingId, { score, comment });
+      }
+      return createRating({ movieId, score, comment });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["ratings", memberId] });
+    },
+  });
+  const deleteMutation = useMutation({
+    mutationFn: () => {
+      if (!rating) {
+        throw new Error("삭제할 평점이 없어요.");
+      }
+      return deleteRating(rating.ratingId);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["ratings", memberId] });
+    },
+  });
+
+  return (
+    <>
+      <div className="mt-4 flex gap-2" aria-label="평점 선택">
+        {[1, 2, 3, 4, 5].map((value) => (
+          <button
+            key={value}
+            type="button"
+            aria-label={`${value}점`}
+            aria-pressed={score === value}
+            onClick={() => setScore(value)}
+            className={`text-2xl ${score >= value ? "text-amber-400" : "text-slate-300"}`}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+      <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="rating-comment">
+        한줄평
+      </label>
+      <textarea
+        id="rating-comment"
+        maxLength={500}
+        value={comment}
+        onChange={(event) => setComment(event.target.value)}
+        className="mt-2 min-h-24 w-full rounded-lg border border-slate-300 p-3 text-sm"
+        placeholder="영화에 대한 감상을 남겨 주세요."
+      />
+      {(saveMutation.isError || deleteMutation.isError) && (
+        <p role="alert" className="mt-2 text-sm text-red-600">
+          {saveMutation.error?.message ?? deleteMutation.error?.message}
+        </p>
+      )}
+      <div className="mt-3 flex gap-3">
+        <button
+          type="button"
+          disabled={!score || saveMutation.isPending}
+          onClick={() => saveMutation.mutate()}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {saveMutation.isPending ? "저장 중..." : rating ? "평점 수정" : "평점 등록"}
+        </button>
+        {rating && (
+          <button
+            type="button"
+            disabled={deleteMutation.isPending}
+            onClick={() => deleteMutation.mutate()}
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            평점 삭제
+          </button>
+        )}
+      </div>
+    </>
   );
 }
