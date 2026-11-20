@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useState, type SubmitEvent } from "react";
 import { checkEmailDuplicate } from "../../api/members/check-email-duplicate";
 import { checkNicknameDuplicate } from "../../api/members/check-nickname-duplicate";
-import { signup } from "../../api/members/signup";
+import { useSignupMutation } from "../../hooks/use-signup-mutation";
 import { AccountField } from "../../components/account/account-field";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -14,13 +14,13 @@ type DefaultFormKey = keyof typeof DEFAULT_FORM;
 type DuplicateCheckKey = "email" | "nickname";
 
 export function SignupPage() {
-  const navigate = useNavigate();
+  const signupMutation = useSignupMutation();
   const [form, setForm] = useState(DEFAULT_FORM);
   const [duplicateCheck, setDuplicateCheck] = useState({
     email: DEFAULT_DUPLICATE_CHECK,
     nickname: DEFAULT_DUPLICATE_CHECK,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmitting = signupMutation.isPending;
 
   const isEmailValid = form.email.trim().length <= 254 && EMAIL_REGEX.test(form.email.trim());
   const isNicknameValid = form.nickname.trim().length >= 2 && form.nickname.trim().length <= 12;
@@ -57,28 +57,15 @@ export function SignupPage() {
     }
   }
 
-  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!canSubmit || isSubmitting) return;
 
-    setIsSubmitting(true);
-    try {
-      const response = await signup({
-        email: form.email.trim(),
-        nickname: form.nickname.trim(),
-        password: form.password,
-      });
-      if (!response.isSuccess) {
-        window.alert(response.message);
-        return;
-      }
-      window.alert(response.message);
-      void navigate({ to: "/login" });
-    } catch {
-      window.alert("회원가입에 실패했어요. 다시 시도해 주세요.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    signupMutation.mutate({
+      email: form.email.trim(),
+      nickname: form.nickname.trim(),
+      password: form.password,
+    });
   }
 
   function duplicateButton(key: DuplicateCheckKey, isValid: boolean, label: string) {
