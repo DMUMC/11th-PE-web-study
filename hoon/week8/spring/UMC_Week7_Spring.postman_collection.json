@@ -1,0 +1,267 @@
+{
+  "info": {
+    "name": "UMC 7주차 - Spring Boot 인증/인가",
+    "description": "UMC 7주차 필수 미션 검증용 Postman 컬렉션입니다.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0-1. 회원 A 가입 (POST /members)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"a@umc.com\",\n  \"password\": \"Password123!\",\n  \"nickname\": \"userA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/members",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["members"]
+        }
+      }
+    },
+    {
+      "name": "0-2. 회원 B 가입 (POST /members)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"b@umc.com\",\n  \"password\": \"Password123!\",\n  \"nickname\": \"userB\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/members",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["members"]
+        }
+      }
+    },
+    {
+      "name": "📸 [제출물 1] 회원 A 로그인 성공 (POST /auth/login)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"a@umc.com\",\n  \"password\": \"Password123!\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "회원 B 로그인 (POST /auth/login) - 토큰 B 발급용",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"b@umc.com\",\n  \"password\": \"Password123!\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "📸 [제출물 2] 토큰 없이 내 정보 조회 시 401 (GET /members/me)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/members/me",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["members", "me"]
+        }
+      }
+    },
+    {
+      "name": "내 정보 조회 정상 200 (GET /members/me - 토큰 A)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenA}}", "type": "string" }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/members/me",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["members", "me"]
+        }
+      }
+    },
+    {
+      "name": "📸 [제출물 4] 본인 토큰으로 평점 등록 성공 201 (POST /ratings)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenA}}", "type": "string" }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"movieId\": 550,\n  \"score\": 5,\n  \"comment\": \"인생 영화입니다! (memberId 없음)\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/ratings",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["ratings"]
+        }
+      }
+    },
+    {
+      "name": "동일 영화 중복 등록 409 (POST /ratings)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenA}}", "type": "string" }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"movieId\": 550,\n  \"score\": 4,\n  \"comment\": \"중복 등록 시도\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/ratings",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["ratings"]
+        }
+      }
+    },
+    {
+      "name": "본인 평점 수정 성공 200 (PATCH /ratings/1)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenA}}", "type": "string" }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"score\": 4,\n  \"comment\": \"다시 보니 4점입니다.\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/ratings/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["ratings", "1"]
+        }
+      }
+    },
+    {
+      "name": "📸 [제출물 3] 다른 회원 토큰으로 평점 수정 시도 시 403 (PATCH /ratings/1)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenB}}", "type": "string" }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"score\": 1,\n  \"comment\": \"남의 평점 수정 시도\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/ratings/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["ratings", "1"]
+        }
+      }
+    },
+    {
+      "name": "없는 평점 삭제 시도 404 (DELETE /ratings/99999)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenA}}", "type": "string" }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/ratings/99999",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["ratings", "99999"]
+        }
+      }
+    },
+    {
+      "name": "본인 평점 삭제 성공 200 (DELETE /ratings/1)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{tokenA}}", "type": "string" }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/ratings/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["ratings", "1"]
+        }
+      }
+    }
+  ]
+}
