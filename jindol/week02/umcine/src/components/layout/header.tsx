@@ -7,7 +7,7 @@ export function Header() {
   const navItems = [
     { to: "/", label: "영화" },
     { to: "/search", label: "검색" },
-    { to: "/profile", label: "내 정보" },
+    { to: "/mypage", label: "마이페이지" },
   ];
 
   return (
@@ -45,12 +45,12 @@ export function Header() {
           >
             <img src="/movie-icons/search.svg" alt="" className="h-4 w-4" />
           </button>
-          <button
-            type="button"
+          <Link
+            to="/login"
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
             로그인
-          </button>
+          </Link>
         </div>
       </div>
     </header>
