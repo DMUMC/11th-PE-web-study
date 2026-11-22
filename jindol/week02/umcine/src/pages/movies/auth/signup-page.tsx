@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { useSignupMutation } from "../../../hooks/use-signup-mutation";
 import "./auth-pages.css";
 
 // 이메일 형식 검사
@@ -19,6 +20,7 @@ type DefaultFormValue = (typeof DEFAULT_FORM)[DefaultFormKey];
 
 export function SignupPage() {
   const [form, setForm] = useState(DEFAULT_FORM);
+  const signupMutation = useSignupMutation();
 
   // 입력값의 유효성 검사
   const isEmailValid = EMAIL_REGEX.test(form.email.trim());
@@ -48,6 +50,16 @@ export function SignupPage() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!isFormValid || signupMutation.isPending) {
+      return;
+    }
+
+    signupMutation.mutate({
+      email: form.email.trim(),
+      nickname: form.nickname.trim(),
+      password: form.password,
+    });
   };
 
   return (
@@ -143,8 +155,12 @@ export function SignupPage() {
           )}
         </div>
 
-        <button className="auth-primary-button" type="submit" disabled={!isFormValid}>
-          가입하기
+        <button
+          className="auth-primary-button"
+          type="submit"
+          disabled={!isFormValid || signupMutation.isPending}
+        >
+          {signupMutation.isPending ? "가입 중..." : "가입하기"}
         </button>
         <p className="auth-footer">
           이미 계정이 있나요? <button type="button">로그인</button>
