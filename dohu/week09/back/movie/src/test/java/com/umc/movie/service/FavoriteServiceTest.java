@@ -1,0 +1,76 @@
+package com.umc.movie.service;
+
+import com.umc.movie.dto.CreateFavoriteRequest;
+import com.umc.movie.dto.FavoriteResponse;
+import com.umc.movie.entity.Favorite;
+import com.umc.movie.entity.Member;
+import com.umc.movie.exception.ApiException;
+import com.umc.movie.repository.FavoriteRepository;
+import com.umc.movie.repository.MemberRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
+// DB 없이 가짜 Repository로 서비스의 판단만 확인한다.
+@ExtendWith(MockitoExtension.class)
+class FavoriteServiceTest {
+
+    @Mock
+    private FavoriteRepository favoriteRepository;
+
+    @Mock
+    private MemberRepository memberRepository;
+
+    @InjectMocks
+    private FavoriteService favoriteService;
+
+    private final Member member = Member.builder()
+            .email("challenger@umc.com")
+            .password("암호화된비밀번호")
+            .nickname("영화조아")
+            .build();
+
+    @Test
+    @DisplayName("아직 즐겨찾기하지 않은 영화면 즐겨찾기를 저장한다")
+    void createFavorite() {
+        // given: 회원은 있고 아직 이 영화를 즐겨찾기하지 않았다
+        given(memberRepository.findById(1L)).willReturn(Optional.of(member));
+        given(favoriteRepository.existsByMember_MemberIdAndMovieId(1L, 550L)).willReturn(false);
+        given(favoriteRepository.saveAndFlush(any(Favorite.class)))
+                .willReturn(Favorite.builder().member(member).movieId(550L).build());
+
+        // when
+        FavoriteResponse response = favoriteService.create(1L, new CreateFavoriteRequest(550L));
+
+        // then: 영화 ID가 응답에 담기고 저장이 실제로 호출된다
+        assertThat(response.movieId()).isEqualTo(550L);
+        verify(favoriteRepository).saveAndFlush(any(Favorite.class));
+    }
+
+    @Test
+    @DisplayName("이미 즐겨찾기한 영화면 FAVORITE409_1 예외를 던지고 저장하지 않는다")
+    void createFavoriteWhenDuplicated() {
+        // given: 같은 회원이 같은 영화를 이미 즐겨찾기했다
+        given(memberRepository.findById(1L)).willReturn(Optional.of(member));
+        given(favoriteRepository.existsByMember_MemberIdAndMovieId(1L, 550L)).willReturn(true);
+
+        // when & then: 예외가 나고 저장은 시도하지 않는다
+        assertThatThrownBy(() -> favoriteService.create(1L, new CreateFavoriteRequest(550L)))
+                .isInstanceOf(ApiException.class)
+                .hasFieldOrPropertyWithValue("code", "FAVORITE409_1");
+
+        verify(favoriteRepository, never()).saveAndFlush(any(Favorite.class));
+    }
+}
