@@ -1,10 +1,5 @@
-import AlertButton from "./components/alert-button";
+import { MovieListPage } from "@/src/screens/movies/movie-list-page";
 
 export default function Home() {
-  return (
-    <div>
-      <h1>This is Home Page.</h1>
-      <AlertButton />
-    </div>
-  );
+  return <MovieListPage />;
 }

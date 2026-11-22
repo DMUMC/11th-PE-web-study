@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 interface DynamicPageProps {
   params: Promise<{ id: string }>;
@@ -18,6 +19,7 @@ export default function DynamicPage({ params }: DynamicPageProps) {
 
 async function DynamicPageScreen({ params }: DynamicPageProps) {
   const { id } = await params;
+  if (!/^\d+$/.test(id)) notFound();
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/todos/${id}`,
   );

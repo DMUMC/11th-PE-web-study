@@ -1,7 +1,4 @@
 import Image from "next/image";
-import { Geist } from "next/font/google";
-
-const geist = Geist({ subsets: ["latin"] });
 
 const imageUrl = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3";
 
