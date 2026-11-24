@@ -1,4 +1,4 @@
-﻿// src/dto/member-info-response.dto.ts
+// src/dto/member-info-response.dto.ts
 import { Member } from '../entity/member.entity.js';
 
 export class MemberInfoResponseDto {
@@ -6,7 +6,7 @@ export class MemberInfoResponseDto {
   nickname: string;
   createdAt: Date;
 
-  // ?뷀떚?곕? 洹몃?濡??묐떟?섎㈃ password源뚯? ?섍?踰꾨━誘濡?諛섎뱶??DTO濡???꺼 ?댁뒿?덈떎
+  // 엔티티를 그대로 응답하면 password까지 나가버리므로 반드시 DTO로 옮겨 담습니다
   static from(member: Member): MemberInfoResponseDto {
     return {
       email: member.email,

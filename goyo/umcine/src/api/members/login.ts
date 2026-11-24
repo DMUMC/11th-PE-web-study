@@ -16,5 +16,7 @@ export interface LoginResponse {
 }
 
 export function login(body: LoginRequest) {
-  return apiClient.post("auth/login", { json: body }).json<LoginResponse>();
+  return apiClient
+    .post("auth/login", { json: body })
+    .json<LoginResponse>();
 }

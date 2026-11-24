@@ -1,19 +1,26 @@
-﻿// src/dto/create-member.dto.ts
-import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+// src/dto/create-member.dto.ts
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateMemberDto {
-  @IsEmail({}, { message: '?щ컮瑜??대찓???뺤떇???꾨떃?덈떎.' })
+  @IsEmail({}, { message: '올바른 이메일 형식이 아닙니다.' })
   email: string;
 
   @IsString()
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/, {
-    message: '鍮꾨?踰덊샇???臾몄옄/?뚮Ц???レ옄/?뱀닔臾몄옄瑜??ы븿??8???댁긽?댁뼱???⑸땲??',
+    message: '비밀번호는 대문자/소문자/숫자/특수문자를 포함한 8자 이상이어야 합니다.',
   })
   password: string;
 
   @IsString()
-  @IsNotEmpty({ message: '?됰꽕?꾩쓣 ?낅젰?댁＜?몄슂.' })
-  @MinLength(2, { message: '?됰꽕?꾩? 2???댁긽?댁뼱???⑸땲??' })
-  @MaxLength(12, { message: '?됰꽕?꾩? 12???댄븯?ъ빞 ?⑸땲??' })
+  @IsNotEmpty({ message: '닉네임을 입력해주세요.' })
+  @MinLength(2, { message: '닉네임은 2자 이상이어야 합니다.' })
+  @MaxLength(12, { message: '닉네임은 12자 이하여야 합니다.' })
   nickname: string;
 }

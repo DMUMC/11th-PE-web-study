@@ -1,0 +1,5 @@
+package com.umc.movie.dto;
+import jakarta.validation.constraints.*;
+public record MovieRecordRequest(@NotNull @Positive Long movieId,
+        @NotNull @Min(1) @Max(5) Integer score, @Size(max=1000) String comment,
+        @NotNull Boolean addToFavorites) {}

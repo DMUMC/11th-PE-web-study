@@ -1,0 +1,10 @@
+현재 백엔드: http://localhost:8082 (MySQL 연결, 실행 중)
+Postman 오른쪽 끝에 추가한 3개 탭을 왼쪽부터 캡처하세요.
+1. POST /members — 회원가입 201 Created, memberId=3
+2. POST /members — 잘못된 비밀번호 400 Bad Request
+3. POST /members/3/ratings — 평점 등록 201 Created
+
+이미 요청을 실행해 응답을 남겨 두었습니다. 탭만 전환하면 됩니다.
+회원가입·평점 등록에서 Send를 다시 누르면 중복 요청이므로 409가 나옵니다.
+각 화면의 요청 주소, 요청 Body, 응답 상태와 JSON이 함께 보이도록 캡처하세요.
+화면을 캡처하는 Mac 단축키: Shift+Command+4 (영역 선택).

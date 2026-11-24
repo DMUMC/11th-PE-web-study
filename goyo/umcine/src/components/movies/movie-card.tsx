@@ -1,4 +1,3 @@
-
 import { Link } from "@tanstack/react-router";
 import type { TmdbMovieListItem } from "../../api/movies/model";
 

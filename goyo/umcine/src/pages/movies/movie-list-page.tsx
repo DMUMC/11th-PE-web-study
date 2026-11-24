@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
@@ -119,6 +118,7 @@ export default function MovieListPage() {
             <p className="text-sm text-[#606774]">
               영화 목록을 불러오지 못했어요.
             </p>
+
             <button
               type="button"
               onClick={() => void refetch()}

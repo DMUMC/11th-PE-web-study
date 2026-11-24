@@ -1,4 +1,4 @@
-﻿// src/exception/api.exception.ts
+// src/exception/api.exception.ts
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ApiException extends HttpException {

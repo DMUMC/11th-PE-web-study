@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:8082
+# 회원가입·평점 등록 응답의 실제 ID로 아래 값을 바꾸세요.
+@memberId = 1
+@ratingId = 1
+
+### 회원가입 (재실행 시 이메일/닉네임 변경)
+POST {{baseUrl}}/members
+Content-Type: application/json
+
+{"email":"umc@example.com","nickname":"moviefan","password":"Umc!1234"}
+
+### 평점 등록
+POST {{baseUrl}}/members/{{memberId}}/ratings
+Content-Type: application/json
+
+{"movieId":550,"score":5,"comment":"좋은 영화"}
+
+### 평점 수정
+PATCH {{baseUrl}}/members/{{memberId}}/ratings/{{ratingId}}
+Content-Type: application/json
+
+{"score":4,"comment":"수정한 후기"}
+
+### 평점 조회
+GET {{baseUrl}}/members/{{memberId}}/ratings
+
+### 평점 삭제 (204)
+DELETE {{baseUrl}}/members/{{memberId}}/ratings/{{ratingId}}
+
+### 소수 별점 (400)
+POST {{baseUrl}}/members/{{memberId}}/ratings
+Content-Type: application/json
+
+{"movieId":155,"score":2.5}

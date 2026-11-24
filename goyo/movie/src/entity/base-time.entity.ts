@@ -1,4 +1,4 @@
-﻿// src/entity/base-time.entity.ts
+// src/entity/base-time.entity.ts
 import { CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class BaseTimeEntity {

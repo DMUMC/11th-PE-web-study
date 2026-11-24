@@ -1,0 +1,11 @@
+{
+  "name": "mock-front",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5174 --strictPort"
+  },
+  "devDependencies": {
+    "vite": "8.3.0"
+  }
+}

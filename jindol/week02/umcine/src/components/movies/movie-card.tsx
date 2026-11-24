@@ -12,11 +12,17 @@ function MovieCard({ movie, onToggleBookmark }: MovieCardProps) {
     <article className="movie-card flex flex-col">
       <div className="relative overflow-hidden rounded-xl">
         <Link to="/movies/$movieId" params={{ movieId: String(movie.id) }} className="block">
-          <img
-            src={movie.posterPath}
-            alt={movie.title}
-            className="block h-[220px] w-full rounded-xl object-cover sm:h-[240px] md:h-[260px] xl:h-[280px]"
-          />
+          {movie.posterPath ? (
+            <img
+              src={movie.posterPath}
+              alt={movie.title}
+              className="block h-[220px] w-full rounded-xl object-cover sm:h-[240px] md:h-[260px] xl:h-[280px]"
+            />
+          ) : (
+            <div className="flex h-[220px] w-full items-center justify-center rounded-xl bg-slate-100 text-sm text-slate-500 sm:h-[240px] md:h-[260px] xl:h-[280px]">
+              포스터 없음
+            </div>
+          )}
         </Link>
 
         <button

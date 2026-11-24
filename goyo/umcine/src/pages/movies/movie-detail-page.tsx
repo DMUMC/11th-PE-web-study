@@ -340,6 +340,7 @@ function MovieDetailContent({
   if (movieQuery.isPending) {
     return (
       <main className="flex min-h-[400px] items-center justify-center bg-[#F6F7F9]">
+
         <p className="text-sm text-[#606774]">
           영화 정보를 불러오는 중이에요...
         </p>
@@ -352,20 +353,25 @@ function MovieDetailContent({
     return (
       <main className="flex min-h-[400px] flex-col items-center justify-center gap-4 bg-[#F6F7F9]">
         <p className="text-sm text-[#606774]">
+
           영화 정보를 불러오지 못했어요.
         </p>
 
         <button
           type="button"
+
           onClick={() => void movieQuery.refetch()}
           className="rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
+
         >
           다시 시도
         </button>
 
         <Link
           to="/"
+
           className="text-sm text-[#2563EB]"
+
         >
           영화 목록으로 돌아가기
         </Link>
@@ -400,14 +406,17 @@ function MovieDetailContent({
 
           {/* 영화 포스터 */}
           <div className="mx-auto w-full max-w-[280px] shrink-0 md:mx-0">
+
             {posterUrl ? (
               <img
                 src={posterUrl}
                 alt={`${movie.title} 포스터`}
+
                 className="aspect-[2/3] w-full rounded-xl object-cover"
               />
             ) : (
               <div className="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-[#E3E6EB] text-sm text-[#969DA8]">
+
                 이미지 없음
               </div>
             )}

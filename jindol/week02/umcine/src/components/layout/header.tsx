@@ -7,13 +7,14 @@ export function Header() {
   const navItems = [
     { to: "/", label: "영화" },
     { to: "/search", label: "검색" },
+    { to: "/mypage", label: "마이페이지" },
   ];
 
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold text-slate-900">
-          <img src="/movie-icons/logo.svg" alt="" className="h-8 w-8" />
+          <img src="/movie-icons/movie.svg" alt="" className="h-8 w-8" />
           <span>UMCine</span>
         </Link>
 
@@ -44,12 +45,12 @@ export function Header() {
           >
             <img src="/movie-icons/search.svg" alt="" className="h-4 w-4" />
           </button>
-          <button
-            type="button"
+          <Link
+            to="/login"
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
             로그인
-          </button>
+          </Link>
         </div>
       </div>
     </header>

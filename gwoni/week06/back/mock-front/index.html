@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>mock-front</title>
+  <style>
+    body { font-family: sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
+    section { border: 1px solid #ccc; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    h2 { font-size: 16px; margin: 0 0 8px; }
+    input { padding: 4px; margin-right: 4px; }
+    pre { background: #f4f4f4; padding: 8px; margin: 8px 0 0; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>mock-front → http://localhost:8080</h1>
+
+  <section>
+    <h2>회원가입 POST /members/register</h2>
+    <input id="reg-email" value="minseo@umc.com" />
+    <input id="reg-password" value="password1234" />
+    <input id="reg-nickname" value="민서" />
+    <button id="reg-btn">가입</button>
+    <pre id="reg-out"></pre>
+  </section>
+
+  <section>
+    <h2>로그인 POST /members/login</h2>
+    <input id="login-email" value="noco@umc.com" />
+    <input id="login-password" value="password1234" />
+    <button id="login-btn">로그인</button>
+    <pre id="login-out"></pre>
+  </section>
+
+  <section>
+    <h2>닉네임 중복 체크 GET /members/nickname/{nickname}</h2>
+    <input id="nickname" value="수현" />
+    <button id="nickname-btn">확인</button>
+    <pre id="nickname-out"></pre>
+  </section>
+
+  <section>
+    <h2>이메일 중복 체크 GET /members/email/{email}</h2>
+    <input id="email" value="noco@umc.com" />
+    <button id="email-btn">확인</button>
+    <pre id="email-out"></pre>
+  </section>
+
+  <section>
+    <h2>유저별 평점 조회 GET /members/{memberId}/ratings</h2>
+    <input id="member-id" value="1" />
+    <button id="ratings-btn">조회</button>
+    <pre id="ratings-out"></pre>
+  </section>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

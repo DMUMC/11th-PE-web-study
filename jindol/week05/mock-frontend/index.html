@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>영화 서비스 API 확인</title>
+    <style>
+      body {
+        max-width: 640px;
+        margin: 40px auto;
+        padding: 0 16px;
+        font-family: sans-serif;
+        line-height: 1.5;
+      }
+
+      section {
+        margin: 20px 0;
+        padding: 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+      input {
+        margin-right: 8px;
+        padding: 6px;
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 10px;
+        background: #f5f5f5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>영화 서비스 API 확인</h1>
+    <p>각 버튼을 눌러 백엔드 API 응답을 확인하세요.</p>
+
+    <section>
+      <h2>닉네임 중복 확인</h2>
+      <form data-endpoint="/members/nickname/" data-input="nickname" data-result="nickname-result">
+        <input id="nickname" value="noco" required aria-label="닉네임" />
+        <button type="submit">확인</button>
+      </form>
+      <pre id="nickname-result">아직 요청하지 않았습니다.</pre>
+    </section>
+
+    <section>
+      <h2>이메일 중복 확인</h2>
+      <form data-endpoint="/members/email/" data-input="email" data-result="email-result">
+        <input id="email" type="email" value="test@example.com" required aria-label="이메일" />
+        <button type="submit">확인</button>
+      </form>
+      <pre id="email-result">아직 요청하지 않았습니다.</pre>
+    </section>
+
+    <section>
+      <h2>회원 평점 조회</h2>
+      <form data-endpoint="/members/" data-input="memberId" data-suffix="/ratings" data-result="ratings-result">
+        <input id="memberId" type="number" min="1" value="1" required aria-label="회원 ID" />
+        <button type="submit">조회</button>
+      </form>
+      <pre id="ratings-result">아직 요청하지 않았습니다.</pre>
+    </section>
+
+    <script>
+      const apiBaseUrl = "http://localhost:8080";
+
+      document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const input = document.getElementById(form.dataset.input);
+          const result = document.getElementById(form.dataset.result);
+          const pathValue = encodeURIComponent(input.value.trim());
+          const suffix = form.dataset.suffix || "";
+          result.textContent = "요청 중...";
+
+          try {
+            const response = await fetch(
+              `${apiBaseUrl}${form.dataset.endpoint}${pathValue}${suffix}`
+            );
+            const body = await response.text();
+            let formattedBody = body;
+
+            try {
+              formattedBody = JSON.stringify(JSON.parse(body), null, 2);
+            } catch {
+              // Keep non-JSON error responses readable.
+            }
+
+            result.textContent = `HTTP ${response.status}\n${formattedBody || "(응답 본문 없음)"}`;
+          } catch (error) {
+            result.textContent = `요청 실패: ${error.message}\n백엔드가 localhost:8080에서 실행 중인지 확인하세요.`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

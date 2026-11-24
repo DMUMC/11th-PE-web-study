@@ -1,0 +1,93 @@
+<!-- mock-frontend/index.html -->
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>영화 API 실습</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        max-width: 960px;
+        margin: 32px auto;
+        padding: 0 20px;
+        color: #243347;
+        background: #f6f8fb;
+        font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      section { background: white; border: 1px solid #d7dfe8; border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; }
+      h1, h2 { margin: 0 0 16px; font-size: 22px; line-height: 1.4; }
+      button { min-height: 44px; padding: 9px 16px; border: 0; border-radius: 5px; color: white; background: #285f99; font: inherit; cursor: pointer; }
+      button:hover { background: #1d4b7b; }
+      button:disabled { opacity: .65; cursor: wait; }
+      button:focus-visible { outline: 3px solid #ab6400; outline-offset: 3px; }
+      p[id$="request"] { margin: 14px 0 8px; color: #4b5e73; font-size: 14px; overflow-wrap: anywhere; }
+      .response { background: #f0f4f8; border-left: 3px solid #809bb8; border-radius: 3px; padding: 12px 16px; margin: 8px 0 0; font-family: ui-monospace, monospace; font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+      p:empty, pre:empty { display: none; }
+      @media (max-width: 480px) { body { margin: 20px auto; padding: 0 12px; } section { padding: 20px 16px; } }
+    </style>
+  </head>
+  <body>
+    <section aria-labelledby="nickname-title">
+    <h1 id="nickname-title">닉네임 중복 체크</h1>
+    <button type="button" onclick="checkNickname(this)">'noco'으로 중복 체크</button>
+    <p id="nickname-request"></p>
+    <p id="result" class="response" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="email-title">
+    <h2 id="email-title">이메일 중복 체크</h2>
+    <button type="button" onclick="checkEmail(this)">'noco@umc.com'으로 중복 체크</button>
+    <p id="email-request"></p>
+    <p id="email-result" class="response" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="ratings-title">
+    <h2 id="ratings-title">회원별 평점 조회</h2>
+    <button type="button" onclick="getRatings(this)">1번 회원 평점 조회</button>
+    <p id="ratings-request"></p>
+    <pre id="ratings-result" class="response" aria-live="polite"></pre>
+    </section>
+
+    <script>
+      function checkNickname(button) {
+        return requestApi("/members/nickname/noco", "nickname-request", "result", button);
+      }
+
+      function checkEmail(button) {
+        return requestApi("/members/email/noco@umc.com", "email-request", "email-result", button);
+      }
+
+      function getRatings(button) {
+        return requestApi("/members/1/ratings", "ratings-request", "ratings-result", button, true);
+      }
+
+      async function requestApi(path, requestId, resultId, button, pretty = false) {
+        const url = "http://localhost:8081" + path;
+        const request = document.getElementById(requestId);
+        const result = document.getElementById(resultId);
+        request.innerText = "GET " + url;
+        result.innerText = "요청 중...";
+        button.disabled = true;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        try {
+          // 프록시 없이 브라우저에서 Spring 서버로 직접 요청합니다.
+          const res = await fetch(url, { signal: controller.signal, cache: "no-store" });
+          const data = await res.json();
+          request.innerText = "GET " + url + " — HTTP " + res.status + " " + res.statusText;
+          result.innerText = JSON.stringify(data, null, pretty ? 2 : undefined);
+          console.log("GET", url, res.status, data);
+        } catch (error) {
+          result.innerText = "요청 실패: " + error.message + " (Console에서 연결 및 CORS 오류 확인)";
+          console.error(error);
+        } finally {
+          clearTimeout(timeout);
+          button.disabled = false;
+        }
+      }
+    </script>
+  </body>
+</html>

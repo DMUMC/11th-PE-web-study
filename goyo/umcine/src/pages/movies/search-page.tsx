@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
@@ -14,6 +13,7 @@ import {
   deleteFavorite,
   getFavorites,
 } from "../../api/favorites";
+
 import MovieCard from "../../components/movies/movie-card";
 import { useAuthStore } from "../../stores/auth-store";
 
@@ -75,11 +75,13 @@ export function SearchPage() {
         await createFavorite(movieId);
       }
     },
+
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["favorites"],
       });
     },
+
     onError: () => {
       alert("북마크 처리에 실패했습니다.");
     },
@@ -117,6 +119,7 @@ export function SearchPage() {
       if (nextQuery) {
         void refetch();
       }
+
       return;
     }
 
