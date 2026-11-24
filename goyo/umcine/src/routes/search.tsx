@@ -1,9 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import  { SearchPage }  from "../pages/movies/search-page";
+import SearchPage from "../pages/movies/search-page";
 
 export const Route = createFileRoute("/search")({
-  validateSearch: (search): { query?: string } => ({
-    query: typeof search.query === "string" ? search.query : undefined,
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { query?: string } => ({
+    query:
+      typeof search.query === "string"
+        ? search.query
+        : undefined,
   }),
   component: SearchPage,
 });

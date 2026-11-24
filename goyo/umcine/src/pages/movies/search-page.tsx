@@ -1,32 +1,43 @@
-
+import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { useEffect, useState, type SubmitEvent } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+
 import { searchMovies } from "../../api/movies/search-movies";
+import {
+  createFavorite,
+  deleteFavorite,
+  getFavorites,
+} from "../../api/favorites";
+
 import MovieCard from "../../components/movies/movie-card";
-import { useBookmarkStore } from "../../stores/bookmark-store";
+import { useAuthStore } from "../../stores/auth-store";
 
 export function SearchPage() {
   const { query } = useSearch({ from: "/search" });
   const navigate = useNavigate({ from: "/search" });
+  const queryClient = useQueryClient();
 
-  const bookmarkIds = useBookmarkStore((state) => state.bookmarkIds);
-  const toggleBookmark = useBookmarkStore((state) => state.toggleBookmark);
+  const accessToken = useAuthStore(
+    (state) => state.accessToken,
+  );
+
+  const isLoggedIn = Boolean(accessToken);
 
   const [searchText, setSearchText] = useState(query ?? "");
-
   const normalizedQuery = query?.trim() ?? "";
 
-  // URL 검색어와 입력창 동기화
   useEffect(() => {
     setSearchText(query ?? "");
   }, [query]);
 
-  // TanStack Query를 이용한 영화 검색 API 요청
   const {
     data,
     isPending,
-    isFetching,
     isError,
     refetch,
   } = useQuery({
@@ -39,39 +50,89 @@ export function SearchPage() {
     enabled: normalizedQuery.length > 0,
   });
 
+  const {
+    data: favoritesResponse,
+    isPending: isFavoritesPending,
+    isError: isFavoritesError,
+  } = useQuery({
+    queryKey: ["favorites", accessToken],
+    queryFn: getFavorites,
+    enabled: isLoggedIn,
+    retry: false,
+  });
+
+  const bookmarkedIds = isLoggedIn
+    ? (favoritesResponse?.result ?? []).map(
+        (favorite) => favorite.movieId,
+      )
+    : [];
+
+  const favoriteMutation = useMutation({
+    mutationFn: async (movieId: number) => {
+      if (bookmarkedIds.includes(movieId)) {
+        await deleteFavorite(movieId);
+      } else {
+        await createFavorite(movieId);
+      }
+    },
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["favorites"],
+      });
+    },
+
+    onError: () => {
+      alert("북마크 처리에 실패했습니다.");
+    },
+  });
+
   const searchResults = data?.results ?? [];
   const totalResults = data?.total_results ?? 0;
-
   const loading = normalizedQuery.length > 0 && isPending;
 
-  // 검색 실행
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  function handleToggleBookmark(movieId: number) {
+    if (!isLoggedIn) {
+      alert("로그인이 필요한 기능입니다.");
+      void navigate({ to: "/login" });
+      return;
+    }
+
+    if (isFavoritesPending || favoriteMutation.isPending) {
+      return;
+    }
+
+    if (isFavoritesError) {
+      alert("북마크 정보를 불러오지 못했습니다.");
+      return;
+    }
+
+    favoriteMutation.mutate(movieId);
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const nextQuery = searchText.trim();
 
     if (nextQuery === normalizedQuery) {
       if (nextQuery) {
-        refetch();
+        void refetch();
       }
+
       return;
     }
 
-    navigate({
+    void navigate({
       search: nextQuery ? { query: nextQuery } : {},
     });
   }
 
-  // 검색어 초기화
   function handleClear() {
     setSearchText("");
-
-    navigate({
-      search: {},
-    });
+    void navigate({ search: {} });
   }
 
-  // 검색어가 없는 초기 화면
   if (!normalizedQuery) {
     return (
       <main className="min-h-[calc(100vh-64px)] bg-[#F6F7F9] font-[Pretendard,sans-serif]">
@@ -96,7 +157,9 @@ export function SearchPage() {
                 aria-label="검색어"
                 placeholder="예: 스파이더맨"
                 value={searchText}
-                onChange={(event) => setSearchText(event.target.value)}
+                onChange={(event) =>
+                  setSearchText(event.target.value)
+                }
                 className="min-w-0 flex-1 border-0 bg-transparent text-sm text-[#17191E] outline-none placeholder:text-[#969DA8]"
               />
 
@@ -113,7 +176,6 @@ export function SearchPage() {
     );
   }
 
-  // 검색 결과 화면
   return (
     <main className="min-h-[calc(100vh-64px)] bg-[#F6F7F9] font-[Pretendard,sans-serif]">
       <section className="mx-auto w-full max-w-[1440px] px-5 py-6 sm:px-10 lg:px-20">
@@ -135,7 +197,9 @@ export function SearchPage() {
             type="text"
             aria-label="검색어"
             value={searchText}
-            onChange={(event) => setSearchText(event.target.value)}
+            onChange={(event) =>
+              setSearchText(event.target.value)
+            }
             className="min-w-0 flex-1 border-0 bg-transparent text-sm font-medium text-[#17191E] outline-none placeholder:text-[#969DA8]"
           />
 
@@ -172,18 +236,13 @@ export function SearchPage() {
           </p>
         </div>
 
-        {/* 로딩 상태 */}
         {loading ? (
           <div className="flex min-h-[320px] items-center justify-center">
-            <p
-              role="status"
-              className="text-sm text-[#606774]"
-            >
+            <p role="status" className="text-sm text-[#606774]">
               영화를 검색하는 중이에요...
             </p>
           </div>
         ) : isError ? (
-          /* 에러 상태 */
           <div className="flex min-h-[320px] flex-col items-center justify-center gap-4">
             <p className="text-sm text-[#606774]">
               검색 결과를 불러오지 못했어요.
@@ -191,29 +250,29 @@ export function SearchPage() {
 
             <button
               type="button"
-              onClick={() => refetch()}
+              onClick={() => void refetch()}
               className="cursor-pointer rounded-lg bg-[#17191E] px-5 py-3 text-sm font-bold text-white"
             >
               다시 시도
             </button>
           </div>
         ) : searchResults.length === 0 ? (
-          /* 빈 결과 상태 */
           <div className="flex min-h-[320px] items-center justify-center">
             <p className="text-sm text-[#606774]">
               검색 결과가 없어요.
             </p>
           </div>
         ) : (
-          /* 검색 성공 상태 */
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10">
             {searchResults.map((movie) => (
               <MovieCard
                 key={movie.id}
                 movie={movie}
                 variant="search"
-                isBookmarked={bookmarkIds.includes(movie.id)}
-                onToggleBookmark={toggleBookmark}
+                isBookmarked={
+                  isLoggedIn && bookmarkedIds.includes(movie.id)
+                }
+                onToggleBookmark={handleToggleBookmark}
               />
             ))}
           </div>

@@ -5,6 +5,7 @@ interface MovieCardProps {
   movie: TmdbMovieListItem;
   isBookmarked?: boolean;
   onToggleBookmark?: (id: number) => void;
+  bookmarkPending?: boolean;
   variant?: "grid" | "search";
 }
 
@@ -14,11 +15,21 @@ export default function MovieCard({
   movie,
   isBookmarked = false,
   onToggleBookmark,
+  bookmarkPending = false,
   variant = "grid",
 }: MovieCardProps) {
   const posterUrl = movie.poster_path
     ? `${IMAGE_BASE_URL}${movie.poster_path}`
     : null;
+
+  const handleBookmark = () => {
+    if (bookmarkPending) return;
+    onToggleBookmark?.(movie.id);
+  };
+
+  const bookmarkIcon = isBookmarked
+    ? "/movie-icons/bookmark.svg"
+    : "/movie-icons/bookmark-outline.svg";
 
   if (variant === "search") {
     return (
@@ -55,21 +66,20 @@ export default function MovieCard({
 
             <button
               type="button"
-              aria-label={isBookmarked ? "북마크 해제" : "북마크 추가"}
+              aria-label={
+                isBookmarked ? "북마크 해제" : "북마크 추가"
+              }
               aria-pressed={isBookmarked}
-              onClick={() => onToggleBookmark?.(movie.id)}
-              className={`flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-lg border ${
+              disabled={bookmarkPending}
+              onClick={handleBookmark}
+              className={`flex h-[34px] w-[34px] shrink-0 cursor-pointer items-center justify-center rounded-lg border disabled:cursor-wait disabled:opacity-60 ${
                 isBookmarked
                   ? "border-[#2563EB] bg-[#2563EB]"
                   : "border-[#17191E] bg-[#17191E]"
               }`}
             >
               <img
-                src={
-                  isBookmarked
-                    ? "/movie-icons/bookmark.svg"
-                    : "/movie-icons/bookmark-outline.svg"
-                }
+                src={bookmarkIcon}
                 alt=""
                 className="block h-5 w-5"
               />
@@ -123,21 +133,20 @@ export default function MovieCard({
 
         <button
           type="button"
-          aria-label={isBookmarked ? "북마크 해제" : "북마크 추가"}
+          aria-label={
+            isBookmarked ? "북마크 해제" : "북마크 추가"
+          }
           aria-pressed={isBookmarked}
-          onClick={() => onToggleBookmark?.(movie.id)}
-          className={`absolute right-[6px] top-[7.5px] flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-lg border px-[6px] py-[7.5px] ${
+          disabled={bookmarkPending}
+          onClick={handleBookmark}
+          className={`absolute right-[6px] top-[7.5px] flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-lg border px-[6px] py-[7.5px] disabled:cursor-wait disabled:opacity-60 ${
             isBookmarked
               ? "border-[#2563EB] bg-[#2563EB]"
               : "border-white bg-[#17191E]"
           }`}
         >
           <img
-            src={
-              isBookmarked
-                ? "/movie-icons/bookmark.svg"
-                : "/movie-icons/bookmark-outline.svg"
-            }
+            src={bookmarkIcon}
             alt=""
             className="block h-5 w-5"
           />

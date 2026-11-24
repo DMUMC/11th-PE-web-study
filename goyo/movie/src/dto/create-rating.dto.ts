@@ -1,5 +1,11 @@
 // src/dto/create-rating.dto.ts
-import { IsInt, IsOptional, Max, MaxLength, Min } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  Max,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
 export class CreateRatingDto {
   @IsInt({ message: '영화 ID는 정수여야 합니다.' })

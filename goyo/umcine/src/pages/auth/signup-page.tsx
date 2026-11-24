@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 import { checkEmailDuplicate } from "../../api/members/check-email-duplicate";
 import { checkNicknameDuplicate } from "../../api/members/check-nickname-duplicate";
@@ -28,6 +27,8 @@ type DefaultFormKey = keyof typeof DEFAULT_FORM;
 type DuplicateCheckKey = "email" | "nickname";
 
 export function SignupPage() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState(DEFAULT_FORM);
 
   const [duplicateCheck, setDuplicateCheck] = useState({
@@ -196,6 +197,7 @@ export function SignupPage() {
       }
 
       alert(response.message);
+      await navigate({ to: "/login" });
     } catch {
       alert("회원가입에 실패했어요. 다시 시도해 주세요.");
     } finally {

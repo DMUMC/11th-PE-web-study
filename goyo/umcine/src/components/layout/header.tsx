@@ -1,4 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { useAuthStore } from "../../stores/auth-store";
 
 const navBaseClass =
   "text-sm font-bold whitespace-nowrap text-[#17191E] no-underline";
@@ -7,6 +10,43 @@ const navActiveClass =
   "underline underline-offset-[6px] decoration-2";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const accessToken = useAuthStore(
+    (state) => state.accessToken,
+  );
+
+  const setAccessToken = useAuthStore(
+    (state) => state.setAccessToken,
+  );
+
+  const isLoggedIn = Boolean(accessToken);
+
+  const handleMyPage = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요한 기능입니다.");
+      void navigate({ to: "/login" });
+      return;
+    }
+
+    void navigate({ to: "/members/me" });
+  };
+
+  const handleLogout = () => {
+    // 로그인 토큰 제거
+    setAccessToken(null);
+
+    // 이전 사용자의 서버 데이터 캐시 제거
+    queryClient.clear();
+
+    // 로그아웃 후 메인 페이지 이동
+    void navigate({
+      to: "/",
+      replace: true,
+    });
+  };
+
   return (
     <header className="flex h-16 w-full items-center justify-between bg-white px-4 font-[Pretendard,sans-serif] sm:px-8 lg:px-12">
       <div className="flex items-center gap-4 sm:gap-8">
@@ -49,12 +89,25 @@ export default function Header() {
             검색
           </Link>
 
-          <a
-            href="#"
-            className={navBaseClass}
-          >
-            내 정보
-          </a>
+          {isLoggedIn ? (
+            <Link
+              to="/members/me"
+              className={navBaseClass}
+              activeProps={{
+                className: `${navBaseClass} ${navActiveClass}`,
+              }}
+            >
+              내 정보
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={handleMyPage}
+              className={`${navBaseClass} cursor-pointer border-0 bg-transparent p-0`}
+            >
+              내 정보
+            </button>
+          )}
         </nav>
       </div>
 
@@ -71,12 +124,22 @@ export default function Header() {
           />
         </Link>
 
-        <button
-          type="button"
-          className="h-9 cursor-pointer whitespace-nowrap rounded-lg border-0 bg-[#2563EB] px-4 font-[Pretendard,sans-serif] text-sm font-bold text-white"
-        >
-          로그인
-        </button>
+        {isLoggedIn ? (
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="h-9 cursor-pointer whitespace-nowrap rounded-lg border-0 bg-[#2563EB] px-4 font-[Pretendard,sans-serif] text-sm font-bold text-white"
+          >
+            로그아웃
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            className="flex h-9 items-center justify-center whitespace-nowrap rounded-lg bg-[#2563EB] px-4 font-[Pretendard,sans-serif] text-sm font-bold text-white no-underline"
+          >
+            로그인
+          </Link>
+        )}
       </div>
     </header>
   );

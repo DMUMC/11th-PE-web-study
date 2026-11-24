@@ -1,55 +1,38 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 
 import { getMyInfo } from "../../api/members/get-my-info";
 import { updateMyInfo } from "../../api/members/update-my-info";
-import { env } from "../../config/env";
+import {
+  getFavorites,
+  deleteFavorite,
+} from "../../api/favorites";
+import { getMovieDetail } from "../../api/movies/get-movie-detail";
 
 import MovieCard from "../../components/movies/movie-card";
-import { useBookmarkStore } from "../../stores/bookmark-store";
-
-import type { TmdbMovieListItem } from "../../api/movies/model";
-
-async function getBookmarkedMovie(
-  movieId: number,
-): Promise<TmdbMovieListItem> {
-  const baseUrl = env.tmdbApiBaseUrl.replace(/\/$/, "");
-
-  const response = await fetch(
-    `${baseUrl}/movie/${movieId}?language=ko-KR`,
-    {
-      headers: {
-        Authorization: `Bearer ${env.tmdbAccessToken}`,
-        accept: "application/json",
-      },
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error("영화 정보를 불러오지 못했습니다.");
-  }
-
-  return response.json();
-}
+import { useAuthStore } from "../../stores/auth-store";
 
 export function MyPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const bookmarkIds = useBookmarkStore(
-    (state) => state.bookmarkIds,
+  const accessToken = useAuthStore(
+    (state) => state.accessToken,
   );
 
-  const toggleBookmark = useBookmarkStore(
-    (state) => state.toggleBookmark,
+  const setAccessToken = useAuthStore(
+    (state) => state.setAccessToken,
   );
 
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+
+  const [removingMovieId, setRemovingMovieId] =
+    useState<number | null>(null);
 
   const {
     data: memberResponse,
@@ -58,12 +41,31 @@ export function MyPage() {
     error: memberError,
     refetch: refetchMember,
   } = useQuery({
-    queryKey: ["members", "me"],
+    queryKey: ["members", "me", accessToken],
     queryFn: getMyInfo,
+    enabled: Boolean(accessToken),
     retry: false,
   });
 
   const member = memberResponse?.result;
+
+  const {
+    data: favoritesResponse,
+    isPending: isFavoritesPending,
+    isError: isFavoritesError,
+    refetch: refetchFavorites,
+  } = useQuery({
+    queryKey: ["favorites", accessToken],
+    queryFn: getFavorites,
+    enabled: Boolean(accessToken),
+    retry: false,
+  });
+
+  const favorites = favoritesResponse?.result ?? [];
+
+  const favoriteMovieIds = favorites
+    .map((favorite) => Number(favorite.movieId))
+    .filter((id) => Number.isInteger(id) && id > 0);
 
   const {
     data: bookmarkedMovies = [],
@@ -71,26 +73,59 @@ export function MyPage() {
     isError: isMoviesError,
     refetch: refetchMovies,
   } = useQuery({
-    queryKey: ["bookmarked-movies", bookmarkIds],
-    queryFn: () =>
-      Promise.all(
-        bookmarkIds.map((id) =>
-          getBookmarkedMovie(Number(id)),
-        ),
-      ),
-    enabled: bookmarkIds.length > 0,
+    queryKey: ["favorites", "movies", favoriteMovieIds],
+    queryFn: async () => {
+      const results = await Promise.allSettled(
+        favoriteMovieIds.map((id) => getMovieDetail(id)),
+      );
+
+      return results
+        .filter(
+          (
+            result,
+          ): result is PromiseFulfilledResult<
+            Awaited<ReturnType<typeof getMovieDetail>>
+          > => result.status === "fulfilled",
+        )
+        .map((result) => {
+          const movie = result.value;
+
+          return {
+            ...movie,
+            genre_ids: movie.genres.map((genre) => genre.id),
+          };
+        });
+    },
+    enabled:
+      Boolean(accessToken) &&
+      !isFavoritesPending &&
+      !isFavoritesError &&
+      favoriteMovieIds.length > 0,
   });
 
   useEffect(() => {
+    if (!accessToken) {
+      void navigate({ to: "/login", replace: true });
+      return;
+    }
+
     if (
       isMemberError &&
       memberError instanceof HTTPError &&
       memberError.response.status === 401
     ) {
-      localStorage.removeItem("accessToken");
-      navigate({ to: "/login" });
+      setAccessToken(null);
+      queryClient.clear();
+      void navigate({ to: "/login", replace: true });
     }
-  }, [isMemberError, memberError, navigate]);
+  }, [
+    accessToken,
+    isMemberError,
+    memberError,
+    navigate,
+    setAccessToken,
+    queryClient,
+  ]);
 
   useEffect(() => {
     if (member && !isEditing) {
@@ -99,7 +134,7 @@ export function MyPage() {
   }, [member, isEditing]);
 
   const handleUpdateNickname = async () => {
-    if (!member) return;
+    if (!member || isSaving) return;
 
     const trimmedNickname = nickname.trim();
 
@@ -124,6 +159,10 @@ export function MyPage() {
         nickname: trimmedNickname,
       });
 
+      if (!response.isSuccess) {
+        throw new Error(response.message);
+      }
+
       alert(response.message);
       await refetchMember();
       setIsEditing(false);
@@ -140,12 +179,35 @@ export function MyPage() {
     setIsEditing(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    navigate({ to: "/login" });
+  const handleRemoveFavorite = async (movieId: number) => {
+    if (removingMovieId !== null) return;
+
+    setRemovingMovieId(movieId);
+
+    try {
+      await deleteFavorite(movieId);
+
+      await queryClient.invalidateQueries({
+        queryKey: ["favorites"],
+      });
+    } catch {
+      alert("북마크 해제에 실패했습니다.");
+    } finally {
+      setRemovingMovieId(null);
+    }
   };
 
-  if (isMemberPending) {
+  const handleLogout = () => {
+    setAccessToken(null);
+    queryClient.clear();
+
+    void navigate({
+      to: "/login",
+      replace: true,
+    });
+  };
+
+  if (!accessToken || isMemberPending) {
     return (
       <main className="flex min-h-[calc(100vh-58px)] items-center justify-center bg-[#F7F8FA]">
         <p className="text-sm text-[#606774]">
@@ -164,7 +226,7 @@ export function MyPage() {
 
         <button
           type="button"
-          onClick={() => refetchMember()}
+          onClick={() => void refetchMember()}
           className="rounded-md bg-[#2563EB] px-5 py-2 text-sm text-white"
         >
           다시 시도
@@ -229,7 +291,7 @@ export function MyPage() {
                   <button
                     type="button"
                     disabled={isSaving}
-                    onClick={handleUpdateNickname}
+                    onClick={() => void handleUpdateNickname()}
                     className="h-[38px] rounded-md bg-[#2563EB] px-4 text-[12px] font-semibold text-white disabled:opacity-50"
                   >
                     {isSaving ? "저장 중" : "저장"}
@@ -280,11 +342,31 @@ export function MyPage() {
             </h2>
 
             <span className="text-[13px] text-[#969DA8]">
-              총 {bookmarkIds.length}개
+              총 {favorites.length}개
             </span>
           </div>
 
-          {bookmarkIds.length === 0 ? (
+          {isFavoritesPending ? (
+            <div className="flex min-h-[220px] items-center justify-center">
+              <p className="text-sm text-[#606774]">
+                북마크 목록을 불러오는 중입니다.
+              </p>
+            </div>
+          ) : isFavoritesError ? (
+            <div className="flex min-h-[220px] flex-col items-center justify-center gap-4">
+              <p className="text-sm text-[#606774]">
+                북마크 목록을 불러오지 못했습니다.
+              </p>
+
+              <button
+                type="button"
+                onClick={() => void refetchFavorites()}
+                className="rounded-md bg-[#2563EB] px-4 py-2 text-sm text-white"
+              >
+                다시 시도
+              </button>
+            </div>
+          ) : favorites.length === 0 ? (
             <div className="flex min-h-[220px] flex-col items-center justify-center rounded-xl border border-[#E5E7EB] bg-white">
               <p className="text-[14px] text-[#606774]">
                 아직 북마크한 영화가 없습니다.
@@ -304,11 +386,17 @@ export function MyPage() {
 
               <button
                 type="button"
-                onClick={() => refetchMovies()}
+                onClick={() => void refetchMovies()}
                 className="rounded-md bg-[#2563EB] px-4 py-2 text-sm text-white"
               >
                 다시 시도
               </button>
+            </div>
+          ) : bookmarkedMovies.length === 0 ? (
+            <div className="flex min-h-[220px] items-center justify-center">
+              <p className="text-sm text-[#606774]">
+                표시할 수 있는 영화 정보가 없습니다.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -316,8 +404,10 @@ export function MyPage() {
                 <MovieCard
                   key={movie.id}
                   movie={movie}
-                  isBookmarked={bookmarkIds.includes(movie.id)}
-                  onToggleBookmark={toggleBookmark}
+                  isBookmarked={true}
+                  onToggleBookmark={(movieId) => {
+                    void handleRemoveFavorite(movieId);
+                  }}
                 />
               ))}
             </div>
@@ -327,3 +417,5 @@ export function MyPage() {
     </main>
   );
 }
+
+export default MyPage;

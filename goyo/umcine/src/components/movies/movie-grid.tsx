@@ -4,35 +4,27 @@ import MovieCard from "./movie-card";
 interface MovieGridProps {
   movies: TmdbMovieListItem[];
   bookmarkedIds: number[];
-  onToggleBookmark: (id: number) => void;
+  onToggleBookmark: (movieId: number) => void;
+  bookmarkPending?: boolean;
 }
 
 export default function MovieGrid({
   movies,
   bookmarkedIds,
   onToggleBookmark,
+  bookmarkPending = false,
 }: MovieGridProps) {
   return (
-    <section
-      className="
-        grid w-full
-        grid-cols-1
-        gap-x-4 gap-y-6
-        bg-[#F6F7F9]
-        sm:grid-cols-2
-        md:grid-cols-3
-        lg:grid-cols-4
-        xl:grid-cols-5
-      "
-    >
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}
           movie={movie}
           isBookmarked={bookmarkedIds.includes(movie.id)}
           onToggleBookmark={onToggleBookmark}
+          bookmarkPending={bookmarkPending}
         />
       ))}
-    </section>
+    </div>
   );
 }

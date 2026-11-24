@@ -1,4 +1,3 @@
-
 import { apiClient } from "../api-client";
 
 export interface LoginRequest {
@@ -11,6 +10,7 @@ export interface LoginResponse {
   code: string;
   message: string;
   result: {
+    nickname: string;
     accessToken: string;
   };
 }

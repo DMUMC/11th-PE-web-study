@@ -1,11 +1,18 @@
-
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { login } from "../../api/members/login";
+import { useAuthStore } from "../../stores/auth-store";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const setAccessToken = useAuthStore(
+    (state) => state.setAccessToken,
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,16 +40,17 @@ export function LoginPage() {
         password,
       });
 
-      if (!response.isSuccess) {
+      if (!response.isSuccess || !response.result?.accessToken) {
         throw new Error(response.message);
       }
 
-      localStorage.setItem(
-        "accessToken",
-        response.result.accessToken,
-      );
+      queryClient.clear();
+      setAccessToken(response.result.accessToken);
 
-      await navigate({ to: "/members/me" });
+      await navigate({
+        to: "/members/me",
+        replace: true,
+      });
     } catch {
       setError("이메일 또는 비밀번호를 확인해주세요.");
     } finally {
@@ -127,3 +135,5 @@ export function LoginPage() {
     </main>
   );
 }
+
+export default LoginPage;

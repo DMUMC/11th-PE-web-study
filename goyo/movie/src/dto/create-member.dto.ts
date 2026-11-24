@@ -1,5 +1,12 @@
 // src/dto/create-member.dto.ts
-import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateMemberDto {
   @IsEmail({}, { message: '올바른 이메일 형식이 아닙니다.' })
