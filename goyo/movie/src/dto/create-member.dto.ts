@@ -1,0 +1,19 @@
+﻿// src/dto/create-member.dto.ts
+import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+
+export class CreateMemberDto {
+  @IsEmail({}, { message: '?щ컮瑜??대찓???뺤떇???꾨떃?덈떎.' })
+  email: string;
+
+  @IsString()
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/, {
+    message: '鍮꾨?踰덊샇???臾몄옄/?뚮Ц???レ옄/?뱀닔臾몄옄瑜??ы븿??8???댁긽?댁뼱???⑸땲??',
+  })
+  password: string;
+
+  @IsString()
+  @IsNotEmpty({ message: '?됰꽕?꾩쓣 ?낅젰?댁＜?몄슂.' })
+  @MinLength(2, { message: '?됰꽕?꾩? 2???댁긽?댁뼱???⑸땲??' })
+  @MaxLength(12, { message: '?됰꽕?꾩? 12???댄븯?ъ빞 ?⑸땲??' })
+  nickname: string;
+}
