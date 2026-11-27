@@ -105,6 +105,14 @@ class WriteApiTests {
     }
 
     @Test
+    void rejectsRatingRegistrationWithoutToken() throws Exception {
+        mvc.perform(post("/ratings").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"movieId\":155,\"score\":4}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("AUTH401_2"));
+    }
+
+    @Test
     void createsUpdatesAndDeletesRating() throws Exception {
         var response = createRating(owner.getMemberId(), Map.of("movieId", 155, "score", 4, "comment", "등록 후기"))
                 .andExpect(status().isCreated())
