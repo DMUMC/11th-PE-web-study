@@ -1,9 +1,4 @@
 import profileImg from "../../assets/profileImg.png";
-import spiderman from "../../assets/spiderman.png";
-import odisay from "../../assets/odisay.png";
-import minion from "../../assets/minion.png";
-import leftArrow from "../../assets/leftArrow.png";
-import rightArrow from "../../assets/rightArrow.png";
 import profileEdit from "../../assets/profileEdit.png";
 import { Link } from "@tanstack/react-router";
 

@@ -1,8 +1,7 @@
 import { useState } from "react";
+import { useSignupMutation } from "../../hooks/use-signup-mutation";
 import { checkEmailDuplicate } from "../../api/members/check-email-duplicate";
 import { checkNicknameDuplicate } from "../../api/members/check-nickname-duplicate";
-import { signup } from "../../api/members/signup"
-
 const DEFAULT_DUPLICATE_CHECK = {
     isChecking: false,
     isAvailable: false,
@@ -110,28 +109,17 @@ export function SignupPage() {
         }
     };
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    // const navigate = useNavigate();
+    const signupMutation = useSignupMutation();
 
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!canSubmit || isSubmitting) return;
+        if (!canSubmit || signupMutation.isPending) return;
 
-        setIsSubmitting(true);
-        try {
-            const response = await signup({
-                email: form.email.trim(),
-                nickname: form.nickname.trim(),
-                password: form.password,
-            });
-            alert(response.message);
-            // 로그인 페이지 연결 후 주석 해제
-            // navigate({ to: "/login" });
-        } catch {
-            alert("회원가입에 실패했어요. 다시 시도해 주세요.");
-        } finally {
-            setIsSubmitting(false);
-        }
+        signupMutation.mutate({
+            email: form.email.trim(),
+            nickname: form.nickname.trim(),
+            password: form.password,
+        });
     };
     // noValidate는 폼 제출 시 브라우저의 기본 유효성 검사를 끔
     return (
@@ -141,20 +129,29 @@ export function SignupPage() {
                 <div className="mt-[10px]">
                     <p className="text-[13px] font-bold">이메일</p>
                     <input
+                        name="email" value={form.email}
+                        onChange={(e) => handleChangeField("email", e.target.value)}
+                        type="email"
                         placeholder="name@example.com"
                         className="flex items-center placeholder:text-[14px] w-full h-[50px] border-1 border-[#E3E6EB] bg-white rounded-[8px] px-[13px] py-[14px]" />
-                    <p className="text-[12px] ml-[360px] mt-[-34px] font-bold text-[#2563EB] cursor-pointer">중복 확인</p>
+                    <p className="text-[12px] ml-[360px] mt-[-34px] font-bold text-[#2563EB] cursor-pointer" onClick={() => handleCheckDuplicate("email")}>중복 확인</p>
                 </div>
                 <div className="mt-[30px]">
                     <p className="text-[13px] font-bold">닉네임</p>
                     <input
+                        name="nickname" value={form.nickname}
+                        onChange={(e) => handleChangeField("nickname", e.target.value)}
+                        type="text"
                         placeholder="2~12자"
                         className="flex items-center placeholder:text-[14px] w-full h-[50px] border-1 border-[#E3E6EB] bg-white rounded-[8px] px-[13px] py-[14px]" />
-                    <p className="text-[12px] ml-[360px] mt-[-34px] font-bold text-[#2563EB] cursor-pointer">중복 확인</p>
+                    <p className="text-[12px] ml-[360px] mt-[-34px] font-bold text-[#2563EB] cursor-pointer" onClick={() => handleCheckDuplicate("nickname")}>중복 확인</p>
                 </div>
                 <div className="mt-[30px]">
                     <p className="text-[13px] font-bold">비밀번호</p>
                     <input
+                        name="password" value={form.password}
+                        onChange={(e) => handleChangeField("password", e.target.value)}
+                        type="password"
                         placeholder="8자 이상"
                         className="flex items-center placeholder:text-[14px] w-full h-[50px] border-1 border-[#E3E6EB] bg-white rounded-[8px] px-[13px] py-[14px]" />
                     <p className="text-[11px] text-[#969DA8]">영문 대·소문자, 숫자, 특수문자를 모두 포함해 8자 이상 입력해 주세요</p>
@@ -162,16 +159,23 @@ export function SignupPage() {
                 <div className="mt-[10px]">
                     <p className="text-[13px] font-bold">비밀번호 확인</p>
                     <input
+                        name="passwordConfirm" value={form.passwordConfirm}
+                        onChange={(e) => handleChangeField("passwordConfirm", e.target.value)}
+                        type="password"
                         placeholder="다시 입력"
                         className="flex items-center placeholder:text-[14px] w-full h-[50px] border-1 border-[#E3E6EB] bg-white rounded-[8px] px-[13px] py-[14px]" />
                 </div>
+                {showEmailError && <p role="alert">올바른 이메일을 입력해 주세요.</p>}
+                {showNicknameError && <p role="alert">닉네임은 2~12자로 입력해 주세요.</p>}
+                {showPasswordError && <p role="alert">비밀번호 형식을 확인해 주세요.</p>}
+                {showPasswordConfirmError && <p role="alert">비밀번호가 일치하지 않습니다.</p>}
                 <div className="flex flex-col">
                     <form onSubmit={handleSubmit} noValidate
                         className="h-[48px] mt-[30px] flex items-center justify-center text-[#FFFFFF] font-bold bg-[#2563EB] rounded-[8px] cursor-pointer">
                         {/* UI 구현 */}
-                        <button type="submit" disabled={!canSubmit || isSubmitting}
+                        <button type="submit" disabled={!canSubmit || signupMutation.isPending}
                             className="cursor-pointer">
-                            {isSubmitting ? "가입 중" : "가입하기"}
+                            {signupMutation.isPending ? "가입 중" : "가입하기"}
                         </button>
                     </form>
                     <div className="mt-[20px] flex items-center justify-center gap-[6px]">
