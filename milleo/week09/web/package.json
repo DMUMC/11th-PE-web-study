@@ -1,0 +1,35 @@
+{
+  "name": "week09-umcine",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@12.4.1",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 5189",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 5189",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.107.1",
+    "clsx": "^2.1.1",
+    "ky": "^2.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.0.0",
+    "zustand": "^5.0.15",
+    "next": "16.4.6"
+  },
+  "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.107.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.9.3",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
