@@ -1,0 +1,10 @@
+import type { Metadata } from "next";
+import { MyPage } from "@/views/members/my-page";
+
+export const instant = false;
+
+export const metadata: Metadata = { title: "내 정보" };
+
+export default function Page() {
+  return <MyPage />;
+}

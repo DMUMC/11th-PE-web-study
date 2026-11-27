@@ -1,0 +1,10 @@
+import type { Metadata } from "next";
+import { MyEditPage } from "@/views/members/my-edit-page";
+
+export const instant = false;
+
+export const metadata: Metadata = { title: "내 정보 수정" };
+
+export default function Page() {
+  return <MyEditPage />;
+}
