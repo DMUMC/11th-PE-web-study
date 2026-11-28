@@ -1,0 +1,92 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import assert from 'node:assert/strict';
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : '@playwright/test');
+const output = new URL('../../docs/screenshots/', import.meta.url);
+await mkdir(output, { recursive: true });
+const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
+page.setDefaultTimeout(15000);
+const origin = process.env.WEB_URL || 'http://127.0.0.1:5179';
+const api = process.env.API_URL || 'http://127.0.0.1:8083';
+const email = `capture${Date.now()}@example.com`;
+const password = 'Umc!1234';
+const results = [];
+const errors = [];
+page.on('pageerror', error => errors.push(error.message));
+async function shot(name) {
+  await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.complete ? Promise.resolve() : new Promise(resolve => { i.onload = resolve; i.onerror = resolve; }))); });
+  await page.screenshot({ path: fileURLToPath(new URL(name + '.png', output)), fullPage: true });
+}
+async function request(title, method, path, body, token, expected) {
+  const response = await fetch(api + path, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
+  const data = await response.json();
+  assert.equal(response.status, expected, title + JSON.stringify(data));
+  results.push({ title, method, path, status: response.status, request: body, response: data });
+  return data;
+}
+try {
+  await request('capture account', 'POST', '/members', { email, nickname: `d${Date.now().toString().slice(-9)}`, password }, null, 201);
+  results.length = 0;
+  await page.goto(origin + '/login');
+  await page.locator('#login-email').fill(email);
+  await page.locator('#login-password').fill(password);
+  await shot('01-login');
+  await page.getByRole('button', { name: '로그인', exact: true }).click();
+  await page.waitForURL(origin + '/?page=1');
+  await page.getByRole('button', { name: '로그아웃' }).waitFor();
+  await page.goto(origin + '/movies/1');
+  await page.getByRole('button', { name: '즐겨찾기', exact: true }).click();
+  await page.getByRole('button', { name: '즐겨찾기 해제', exact: true }).waitFor();
+  await page.getByLabel('별점', { exact: true }).selectOption('5');
+  await page.getByLabel('영화 후기').fill('다시 보고 싶은 영화입니다.');
+  await page.getByRole('button', { name: '평점 저장', exact: true }).click();
+  await page.getByRole('button', { name: '평점 수정', exact: true }).waitFor();
+  await shot('02-detail-rating');
+  await page.getByLabel('별점', { exact: true }).selectOption('4');
+  await page.getByLabel('영화 후기').fill('수정한 후기입니다. 다시 보고 싶어요.');
+  const updated = page.waitForResponse(r => r.url().includes('/api/ratings/') && r.request().method() === 'PATCH');
+  await page.getByRole('button', { name: '평점 수정', exact: true }).click();
+  assert.equal((await updated).status(), 200);
+  await page.getByRole('button', { name: '평점 수정', exact: true }).waitFor();
+  await page.reload();
+  await page.getByRole('button', { name: '평점 수정', exact: true }).waitFor();
+  assert.equal(await page.getByLabel('별점', { exact: true }).inputValue(), '4');
+  await shot('03-rating-updated');
+  await page.goto(origin + '/mypage');
+  await page.getByRole('heading', { name: '내 정보', exact: true }).waitFor();
+  await page.locator('article').first().waitFor();
+  await shot('04-mypage-favorites');
+  await page.goto(origin + '/mypage/edit');
+  await page.locator('#profile-nickname').fill('doeyat8');
+  await page.locator('#profile-introduction').fill('좋아하는 영화를 기록하고 공유합니다.');
+  await page.getByRole('button', { name: '저장하기' }).click();
+  await page.getByRole('status').waitFor();
+  await shot('05-profile-updated');
+  const token = await page.evaluate(() => JSON.parse(localStorage.getItem('umcine-auth-store')).state.accessToken);
+  await request('즐겨찾기 등록', 'POST', '/favorites', { movieId: 238 }, token, 201);
+  await request('중복 등록 거절', 'POST', '/favorites', { movieId: 238 }, token, 409);
+  await request('내 즐겨찾기 목록', 'GET', '/favorites', null, token, 200);
+  await request('즐겨찾기 여부', 'GET', '/favorites/238', null, token, 200);
+  await request('즐겨찾기 삭제', 'DELETE', '/favorites/238', null, token, 200);
+  await request('영화 기록 동시 저장', 'POST', '/movie-records', { movieId: 238, score: 5, comment: '다시 보고 싶은 영화입니다.', addToFavorites: true }, token, 201);
+  await writeFile(new URL('api-results.json', output), JSON.stringify(results, null, 2));
+  const report = await browser.newPage({ viewport: { width: 1200, height: 900 } });
+  for (let i = 0; i < results.length; i++) {
+    const r = results[i];
+    await report.setContent('<html lang="ko"><meta charset="utf-8"><style>body{margin:0;background:#f1f5f9;font-family:Arial,"Malgun Gothic",sans-serif;padding:48px;color:#172033}h1{font-size:30px}p{font-size:20px}pre{background:white;border:1px solid #d8e0ea;border-radius:12px;padding:28px;font:18px/1.6 Consolas,monospace;white-space:pre-wrap}</style><h1></h1><p></p><pre></pre><small>실제 로컬 Spring Boot API 응답 · H2 캡처용 DB · 인증 토큰 생략</small></html>');
+    await report.locator('h1').evaluate((el, text) => el.textContent = text, r.title);
+    await report.locator('p').evaluate((el, text) => el.textContent = text, `${r.method} ${r.path} → HTTP ${r.status}`);
+    await report.locator('pre').evaluate((el, text) => el.textContent = text, JSON.stringify({ ...(r.request ? { request: r.request } : {}), response: r.response }, null, 2));
+    await report.screenshot({ path: fileURLToPath(new URL(`api-${String(i + 1).padStart(2, '0')}.png`, output)), fullPage: true });
+  }
+  await page.goto(origin + '/movies/1');
+  await page.getByRole('button', { name: '평점 삭제', exact: true }).click();
+  await page.getByRole('button', { name: '평점 저장', exact: true }).waitFor();
+  await shot('06-rating-deleted');
+  await page.getByRole('button', { name: '로그아웃' }).click();
+  await page.goto(origin + '/mypage');
+  await page.waitForURL('**/login');
+  assert.deepEqual(errors, []);
+  console.log('Captured 12 screenshots; UI persistence, rating deletion, protected route, and API responses verified.');
+} finally { await browser.close(); }
