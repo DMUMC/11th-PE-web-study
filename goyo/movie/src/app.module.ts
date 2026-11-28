@@ -31,7 +31,7 @@ import { FavoriteService } from "./service/favorite.service.js";
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: process.env.DB_SYNC === 'true',
     }),
 
     TypeOrmModule.forFeature([
