@@ -1,4 +1,3 @@
-// src/service/favorite.service.ts
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,8 +17,12 @@ export class FavoriteService {
     private readonly memberRepository: Repository<Member>,
   ) {}
 
-  async create(memberId: number, dto: CreateFavoriteDto): Promise<FavoriteResponseDto> {
+  async create(
+    memberId: number,
+    dto: CreateFavoriteDto,
+  ): Promise<FavoriteResponseDto> {
     const member = await this.memberRepository.findOneBy({ memberId });
+
     if (!member) {
       throw new ApiException(
         HttpStatus.NOT_FOUND,
@@ -28,9 +31,11 @@ export class FavoriteService {
       );
     }
 
+   
     const existing = await this.favoriteRepository.findOne({
       where: { member: { memberId }, movieId: dto.movieId },
     });
+
     if (existing) {
       throw new ApiException(
         HttpStatus.CONFLICT,
@@ -38,18 +43,26 @@ export class FavoriteService {
         '이미 이 영화를 즐겨찾기하셨습니다.',
       );
     }
+    
 
     const saved = await this.favoriteRepository.save(
-      this.favoriteRepository.create({ member, movieId: dto.movieId }),
+      this.favoriteRepository.create({
+        member,
+        movieId: dto.movieId,
+      }),
     );
+
     return FavoriteResponseDto.from(saved);
   }
 
-  async getMyFavorites(memberId: number): Promise<FavoriteResponseDto[]> {
+  async getMyFavorites(
+    memberId: number,
+  ): Promise<FavoriteResponseDto[]> {
     const favorites = await this.favoriteRepository.find({
       where: { member: { memberId } },
       order: { favoriteId: 'DESC' },
     });
+
     return favorites.map(FavoriteResponseDto.from);
   }
 
@@ -60,6 +73,7 @@ export class FavoriteService {
     const isFavorite = await this.favoriteRepository.exists({
       where: { member: { memberId }, movieId },
     });
+
     return FavoriteStatusResponseDto.from(isFavorite);
   }
 
@@ -67,6 +81,7 @@ export class FavoriteService {
     const favorite = await this.favoriteRepository.findOne({
       where: { member: { memberId }, movieId },
     });
+
     if (!favorite) {
       throw new ApiException(
         HttpStatus.NOT_FOUND,
