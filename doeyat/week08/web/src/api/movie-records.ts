@@ -7,6 +7,6 @@ export const records = {
  add: (movieId:number) => write<Favorite>('/favorites','POST',{movieId}),
  remove: (id:number) => write<void>(`/favorites/${id}`,'DELETE'),
  ratings: (id:number) => request<Rating[]>(`/members/${id}/ratings`),
- save: (body:{movieId:number;score:number;comment:string}, id?:number) => write<Rating>(id ? `/ratings/${id}` : '/ratings',id ? 'PATCH' : 'POST',body),
+ save: (body:{movieId:number;score:number;comment:string}, id?:number) => write<Rating>(id ? `/ratings/${id}` : '/ratings',id ? 'PATCH' : 'POST',id ? { score: body.score, comment: body.comment } : body),
  deleteRating: (id:number) => write<void>(`/ratings/${id}`,'DELETE'),
 };
