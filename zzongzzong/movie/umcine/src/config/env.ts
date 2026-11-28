@@ -1,11 +1,12 @@
-const tmdbApiBaseUrl = import.meta.env.VITE_TMDB_API_BASE_URL;
-const tmdbAccessToken = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
+const tmdbApiBaseUrl = process.env.NEXT_PUBLIC_TMDB_API_BASE_URL;
+const tmdbAccessToken = process.env.NEXT_PUBLIC_TMDB_ACCESS_TOKEN;
+
 if (!tmdbApiBaseUrl || !tmdbAccessToken) {
-    throw new Error("TMDB 환경 변수가 필요해요.");
+  throw new Error("NEXT_PUBLIC_TMDB_API_BASE_URL과 NEXT_PUBLIC_TMDB_ACCESS_TOKEN 환경 변수가 필요해요.");
 }
 
 export const env = {
-    apiBaseUrl: import.meta.env.VITE_API_BASE_URL || '',
-    tmdbApiBaseUrl,
-    tmdbAccessToken,
+  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "",
+  tmdbApiBaseUrl,
+  tmdbAccessToken,
 };

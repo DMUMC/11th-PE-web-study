@@ -1,5 +1,6 @@
+"use client";
 import type { Movie } from "../../types/movie";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { useBookmarkStore } from "../../stores/bookmark-store";
 
 export default function MovieCard(props: Movie) {
@@ -15,8 +16,7 @@ export default function MovieCard(props: Movie) {
         <div className="relative">
             <li className="list-none">
                 <Link
-                    to="/movies/$movieId"
-                    params={{ movieId: String(props.id) }}
+                    href={`/movies/${props.id}`}
                 >
                     {props.posterPath ? (
                         <img

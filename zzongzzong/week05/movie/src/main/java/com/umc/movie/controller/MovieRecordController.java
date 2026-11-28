@@ -6,6 +6,10 @@ import com.umc.movie.dto.CreateMovieRecordRequest;
 import com.umc.movie.dto.MovieRecordResponse;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.MovieRecordService;
+import com.umc.movie.config.SwaggerConfig;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "영화 기록", description = "평점과 즐겨찾기를 함께 기록하는 API")
+@SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
 public class MovieRecordController {
 
     private final MovieRecordService movieRecordService;
 
+    @Operation(summary = "영화 기록 저장", description = "토큰의 회원에게 평점을 저장합니다. addToFavorites가 true이면 즐겨찾기도 같은 트랜잭션으로 저장합니다.")
     @PostMapping("/movie-records")
     public ResponseEntity<ApiResponse<MovieRecordResponse>> create(
             @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,

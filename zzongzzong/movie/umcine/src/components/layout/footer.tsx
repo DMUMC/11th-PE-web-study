@@ -12,7 +12,7 @@ export default function Footer() {
                 rel="noreferrer"
             >
                 <img
-                    src="/images/tmdb-logo.svg"
+                    src="/images/logos/tmdb-logo.svg"
                     alt="TMDB"
                     className="w-[80px]"
                 />
