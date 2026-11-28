@@ -1,0 +1,1899 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "doeyat 영화 서비스 API",
+    "description": "9주차: 회원·평점·즐겨찾기 문서와 테스트. 공개 API는 토큰 없이 호출하고, 자물쇠가 있는 API는 Authorize에 JWT만 입력합니다.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8089",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/ratings": {
+      "post": {
+        "tags": [
+          "평점"
+        ],
+        "summary": "평점 등록",
+        "description": "토큰 필요. 로그인한 회원의 영화 평점을 등록합니다. 같은 영화에 중복 등록할 수 없습니다.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RatingCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "COMMON201 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseRatingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "COMMON400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON400": {
+                    "description": "COMMON400",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON400",
+                      "message": "score는 1~5 정수여야 합니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "MEMBER404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "MEMBER404_1": {
+                    "description": "MEMBER404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER404_1",
+                      "message": "해당 회원을 찾을 수 없습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "RATING409_1 / COMMON409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "RATING409_1": {
+                    "description": "RATING409_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "RATING409_1",
+                      "message": "이미 이 영화에 평점을 남기셨습니다.",
+                      "result": null
+                    }
+                  },
+                  "COMMON409": {
+                    "description": "COMMON409",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON409",
+                      "message": "데이터 제약 조건 충돌",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/movie-records": {
+      "post": {
+        "tags": [
+          "movie-record-controller"
+        ],
+        "summary": "평점과 즐겨찾기 동시 저장",
+        "description": "JWT 회원의 영화 기록을 하나의 트랜잭션으로 저장합니다.",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieRecordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseResult"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/members": {
+      "post": {
+        "tags": [
+          "회원"
+        ],
+        "summary": "회원가입",
+        "description": "공개 API. 이메일·닉네임 중복을 검사하고 비밀번호를 해싱해 저장합니다.",
+        "operationId": "signup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "COMMON201 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseMemberResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "COMMON400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON400": {
+                    "description": "COMMON400",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON400",
+                      "message": "입력값을 확인해 주세요.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "MEMBER4091 / MEMBER4092 / COMMON409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "MEMBER4091": {
+                    "description": "MEMBER4091",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER4091",
+                      "message": "이미 사용 중인 이메일입니다.",
+                      "result": null
+                    }
+                  },
+                  "MEMBER4092": {
+                    "description": "MEMBER4092",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER4092",
+                      "message": "이미 사용 중인 닉네임입니다.",
+                      "result": null
+                    }
+                  },
+                  "COMMON409": {
+                    "description": "COMMON409",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON409",
+                      "message": "데이터 제약 조건 충돌",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites": {
+      "get": {
+        "tags": [
+          "즐겨찾기"
+        ],
+        "summary": "내 즐겨찾기 조회",
+        "description": "토큰 필요. 내 즐겨찾기를 최신 등록순으로 조회합니다. 결과가 없으면 빈 배열입니다.",
+        "operationId": "list",
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListFavoriteResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "즐겨찾기"
+        ],
+        "summary": "즐겨찾기 등록",
+        "description": "토큰 필요. 내 계정에 영화를 즐겨찾기합니다. 동일 영화의 중복 등록은 409입니다.",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFavoriteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "COMMON201 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseFavoriteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "COMMON400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON400": {
+                    "description": "COMMON400",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON400",
+                      "message": "movieId는 양의 정수여야 합니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "MEMBER404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "MEMBER404_1": {
+                    "description": "MEMBER404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER404_1",
+                      "message": "해당 회원을 찾을 수 없습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "FAVORITE409_1 / COMMON409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "FAVORITE409_1": {
+                    "description": "FAVORITE409_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "FAVORITE409_1",
+                      "message": "이미 즐겨찾기한 영화입니다.",
+                      "result": null
+                    }
+                  },
+                  "COMMON409": {
+                    "description": "COMMON409",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON409",
+                      "message": "데이터 제약 조건 충돌",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "인증·내 정보"
+        ],
+        "summary": "이메일 로그인",
+        "description": "공개 API. 이메일과 비밀번호로 JWT를 발급합니다. Authorize에는 accessToken 값만 넣습니다.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "COMMON400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON400": {
+                    "description": "COMMON400",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON400",
+                      "message": "입력값을 확인해 주세요.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_1": {
+                    "description": "AUTH401_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_1",
+                      "message": "이메일 또는 비밀번호가 올바르지 않습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/{ratingId}": {
+      "delete": {
+        "tags": [
+          "평점"
+        ],
+        "summary": "평점 삭제",
+        "description": "토큰 필요. 본인의 평점을 삭제하며 200과 COMMON200을 반환합니다.",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "ratingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RATING403_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "RATING403_1": {
+                    "description": "RATING403_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "RATING403_1",
+                      "message": "본인이 작성한 평점만 수정하거나 삭제할 수 있습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "RATING404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "RATING404_1": {
+                    "description": "RATING404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "RATING404_1",
+                      "message": "해당 평점을 찾을 수 없습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "평점"
+        ],
+        "summary": "평점 수정",
+        "description": "토큰 필요. 본인이 작성한 평점만 수정할 수 있습니다.",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "ratingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RatingUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseRatingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "COMMON400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON400": {
+                    "description": "COMMON400",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON400",
+                      "message": "입력값을 확인해 주세요.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "RATING403_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "RATING403_1": {
+                    "description": "RATING403_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "RATING403_1",
+                      "message": "본인이 작성한 평점만 수정하거나 삭제할 수 있습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "RATING404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "RATING404_1": {
+                    "description": "RATING404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "RATING404_1",
+                      "message": "해당 평점을 찾을 수 없습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/members/me": {
+      "get": {
+        "tags": [
+          "인증·내 정보"
+        ],
+        "summary": "내 정보 조회",
+        "description": "토큰 필요. JWT의 회원 ID에 해당하는 내 정보를 조회합니다.",
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseProfileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "MEMBER404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "MEMBER404_1": {
+                    "description": "MEMBER404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER404_1",
+                      "message": "해당 회원을 찾을 수 없습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "인증·내 정보"
+        ],
+        "summary": "내 정보 수정",
+        "description": "토큰 필요. 내 이메일·닉네임·소개를 수정합니다. nickname은 필수이고 생략한 email과 introduction은 유지합니다.",
+        "operationId": "update_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "COMMON400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON400": {
+                    "description": "COMMON400",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON400",
+                      "message": "입력값을 확인해 주세요.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "MEMBER404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "MEMBER404_1": {
+                    "description": "MEMBER404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER404_1",
+                      "message": "해당 회원을 찾을 수 없습니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "MEMBER4091 / MEMBER409_1 / COMMON409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "MEMBER4091": {
+                    "description": "MEMBER4091",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER4091",
+                      "message": "이미 사용 중인 이메일입니다.",
+                      "result": null
+                    }
+                  },
+                  "MEMBER409_1": {
+                    "description": "MEMBER409_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "MEMBER409_1",
+                      "message": "이미 사용 중인 닉네임입니다.",
+                      "result": null
+                    }
+                  },
+                  "COMMON409": {
+                    "description": "COMMON409",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON409",
+                      "message": "데이터 제약 조건 충돌",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/members/{memberId}/ratings": {
+      "get": {
+        "tags": [
+          "평점"
+        ],
+        "summary": "유저별 평점 조회",
+        "description": "공개 API. 지정한 회원의 평점을 최신순으로 조회합니다.",
+        "operationId": "list_1",
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListRatingResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "COMMON404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "COMMON404": {
+                    "description": "COMMON404",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "COMMON404",
+                      "message": "존재하지 않는 유저입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/members/nickname/{nickname}": {
+      "get": {
+        "tags": [
+          "회원"
+        ],
+        "summary": "닉네임 중복 확인",
+        "description": "공개 API. available이 true이면 사용 가능한 닉네임입니다.",
+        "operationId": "checkNickname",
+        "parameters": [
+          {
+            "name": "nickname",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseNicknameCheckResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/members/email/{email}": {
+      "get": {
+        "tags": [
+          "회원"
+        ],
+        "summary": "이메일 중복 확인",
+        "description": "공개 API. available이 true이면 사용 가능한 이메일입니다.",
+        "operationId": "checkEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseEmailCheckResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites/{movieId}": {
+      "get": {
+        "tags": [
+          "즐겨찾기"
+        ],
+        "summary": "즐겨찾기 여부 조회",
+        "description": "토큰 필요. 즐겨찾기하지 않은 영화도 200과 isFavorite false를 반환합니다.",
+        "operationId": "status",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseFavoriteStatusResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "즐겨찾기"
+        ],
+        "summary": "즐겨찾기 해제",
+        "description": "토큰 필요. 내 즐겨찾기에서 영화 ID로 해제합니다.",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "COMMON200 — 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH401_2 / AUTH401_3 / AUTH401_4",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "AUTH401_2": {
+                    "description": "AUTH401_2",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_2",
+                      "message": "로그인이 필요한 요청입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_3": {
+                    "description": "AUTH401_3",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_3",
+                      "message": "유효하지 않은 토큰입니다.",
+                      "result": null
+                    }
+                  },
+                  "AUTH401_4": {
+                    "description": "AUTH401_4",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "AUTH401_4",
+                      "message": "만료된 토큰입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "FAVORITE404_1",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "examples": {
+                  "FAVORITE404_1": {
+                    "description": "FAVORITE404_1",
+                    "value": {
+                      "isSuccess": false,
+                      "code": "FAVORITE404_1",
+                      "message": "즐겨찾기하지 않은 영화입니다.",
+                      "result": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RatingCreateRequest": {
+        "type": "object",
+        "properties": {
+          "movieId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "영화 ID",
+            "example": 550
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32",
+            "description": "평점: 1~5 정수",
+            "example": 5,
+            "maximum": 5,
+            "minimum": 1
+          },
+          "comment": {
+            "type": "string",
+            "description": "감상: 최대 500자",
+            "example": "다시 보고 싶은 영화",
+            "maxLength": 500,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "movieId",
+          "score"
+        ]
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {}
+        }
+      },
+      "ApiResponseRatingResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/RatingResponse"
+          }
+        }
+      },
+      "RatingResponse": {
+        "type": "object",
+        "properties": {
+          "ratingId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "movieId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MovieRecordRequest": {
+        "type": "object",
+        "properties": {
+          "movieId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 5,
+            "minimum": 1
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "addToFavorites": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "addToFavorites",
+          "movieId",
+          "score"
+        ]
+      },
+      "ApiResponseResult": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Result"
+          }
+        }
+      },
+      "FavoriteResponse": {
+        "type": "object",
+        "properties": {
+          "favoriteId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "movieId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "$ref": "#/components/schemas/RatingResponse"
+          },
+          "favorite": {
+            "$ref": "#/components/schemas/FavoriteResponse"
+          }
+        }
+      },
+      "SignupRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 0
+          },
+          "nickname": {
+            "type": "string",
+            "maxLength": 12,
+            "minLength": 2
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 72,
+            "minLength": 8,
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\\s])\\S+$"
+          }
+        },
+        "required": [
+          "email",
+          "nickname",
+          "password"
+        ]
+      },
+      "ApiResponseMemberResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/MemberResponse"
+          }
+        }
+      },
+      "MemberResponse": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "email": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateFavoriteRequest": {
+        "type": "object",
+        "properties": {
+          "movieId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "즐겨찾기할 영화 ID",
+            "example": 550
+          }
+        },
+        "required": [
+          "movieId"
+        ]
+      },
+      "ApiResponseFavoriteResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/FavoriteResponse"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "가입한 이메일",
+            "example": "doeyat@example.com",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "description": "가입 시 설정한 비밀번호",
+            "example": "Umc!1234",
+            "maxLength": 72,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "ApiResponseLoginResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/LoginResponse"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          }
+        }
+      },
+      "RatingUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "integer",
+            "format": "int32",
+            "description": "수정할 평점: 1~5 정수",
+            "example": 4,
+            "maximum": 5,
+            "minimum": 1
+          },
+          "comment": {
+            "type": "string",
+            "description": "수정할 감상: 최대 500자",
+            "example": "두 번째 감상",
+            "maxLength": 500,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "score"
+        ]
+      },
+      "ProfileUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 0
+          },
+          "nickname": {
+            "type": "string",
+            "maxLength": 12,
+            "minLength": 2
+          },
+          "introduction": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "nickname"
+        ]
+      },
+      "ApiResponseProfileResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/ProfileResponse"
+          }
+        }
+      },
+      "ProfileResponse": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "email": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "introduction": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseListRatingResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RatingResponse"
+            }
+          }
+        }
+      },
+      "ApiResponseNicknameCheckResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/NicknameCheckResponse"
+          }
+        }
+      },
+      "NicknameCheckResponse": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseEmailCheckResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/EmailCheckResponse"
+          }
+        }
+      },
+      "EmailCheckResponse": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseListFavoriteResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FavoriteResponse"
+            }
+          }
+        }
+      },
+      "ApiResponseFavoriteStatusResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/FavoriteStatusResponse"
+          }
+        }
+      },
+      "FavoriteStatusResponse": {
+        "type": "object",
+        "properties": {
+          "isFavorite": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseVoid": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {}
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

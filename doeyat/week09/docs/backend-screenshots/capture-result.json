@@ -1,0 +1,33 @@
+{
+  "capturedAt": "2026-11-28T06:19:44.156Z",
+  "origin": "http://127.0.0.1:8089",
+  "screenshots": [
+    "01-swagger-all.png",
+    "02-rating-create.png",
+    "03-rating-update.png",
+    "04-rating-delete.png",
+    "05-rating-list-public.png",
+    "06-profile-get.png",
+    "07-profile-update.png",
+    "08-favorite-list.png",
+    "09-favorite-status.png",
+    "10-favorite-delete.png",
+    "11-favorite-create.png",
+    "12-rating-without-token-401.png",
+    "13-rating-authorized-201.png",
+    "14-rating-duplicate-409.png",
+    "15-favorite-authorized-201.png",
+    "16-favorite-duplicate-409.png",
+    "17-all-tests-passed.png",
+    "18-rating-unit-tests.png",
+    "19-rating-integration-tests.png"
+  ],
+  "apiStatuses": {
+    "withoutToken": 401,
+    "ratingCreated": 201,
+    "ratingDuplicate": 409,
+    "favoriteCreated": 201,
+    "favoriteDuplicate": 409
+  },
+  "tokenSaved": false
+}

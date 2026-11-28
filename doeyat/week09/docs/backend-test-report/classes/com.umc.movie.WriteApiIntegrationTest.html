@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - WriteApiIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>WriteApiIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt;
+<a href="../packages/com.umc.movie.html">com.umc.movie</a> &gt; WriteApiIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">18</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.607s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">concurrentSignupReturnsOneCreatedAndOneConflict()</td>
+<td class="success">concurrentSignupReturnsOneCreatedAndOneConflict()</td>
+<td class="success">0.108s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createsUpdatesListsAndDeletesRating()</td>
+<td class="success">createsUpdatesListsAndDeletesRating()</td>
+<td class="success">0.026s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">databaseRejectsDuplicatesEvenWithoutServicePrecheck()</td>
+<td class="success">databaseRejectsDuplicatesEvenWithoutServicePrecheck()</td>
+<td class="success">0.015s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">duplicateRatingIsNotStoredButDifferentMemberCanRateSameMovie()</td>
+<td class="success">duplicateRatingIsNotStoredButDifferentMemberCanRateSameMovie()</td>
+<td class="success">0.022s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">missingMemberAndMalformedRequestsUseEnvelope()</td>
+<td class="success">missingMemberAndMalformedRequestsUseEnvelope()</td>
+<td class="success">0.016s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">rejectsDuplicateEmailAndNickname()</td>
+<td class="success">rejectsDuplicateEmailAndNickname()</td>
+<td class="success">0.016s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[1] password=short</td>
+<td class="success">rejectsInvalidPasswords(String)[1]</td>
+<td class="success">0.017s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[2] password=abcdefgh!1</td>
+<td class="success">rejectsInvalidPasswords(String)[2]</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[3] password=ABCDEFGH!1</td>
+<td class="success">rejectsInvalidPasswords(String)[3]</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[4] password=Abcdefgh!</td>
+<td class="success">rejectsInvalidPasswords(String)[4]</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[5] password=Abcdefg123</td>
+<td class="success">rejectsInvalidPasswords(String)[5]</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[6] password=Umc! 1234</td>
+<td class="success">rejectsInvalidPasswords(String)[6]</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">[7] password=</td>
+<td class="success">rejectsInvalidPasswords(String)[7]</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">signupHashesPasswordAndDoesNotExposeIt()</td>
+<td class="success">signupHashesPasswordAndDoesNotExposeIt()</td>
+<td class="success">0.208s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">validatesEmailNicknameAndBcryptByteLimit()</td>
+<td class="success">validatesEmailNicknameAndBcryptByteLimit()</td>
+<td class="success">0.012s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">validatesRatingAndRejectsFractionalNumbers()</td>
+<td class="success">validatesRatingAndRejectsFractionalNumbers()</td>
+<td class="success">0.071s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">writesAllowCorsPreflight()</td>
+<td class="success">writesAllowCorsPreflight()</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">wrongOwnerIsForbiddenAndMissingRatingIsNotFound()</td>
+<td class="success">wrongOwnerIsForbiddenAndMissingRatingIsNotFound()</td>
+<td class="success">0.041s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-11-28T15:18:28.967+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [WriteApiIntegrationTest]: using SpringBootContextLoader
+2026-11-28T15:18:28.968+09:00  INFO 24380 --- [movie-week09] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.umc.movie.WriteApiIntegrationTest]: WriteApiIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-28T15:18:28.968+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizerFactory implementations for test class [WriteApiIntegrationTest]: [OnFailureConditionReportContextCustomizerFactory, OverrideAutoConfigurationContextCustomizerFactory, ObservabilityContextCustomizerFactory, TypeExcludeFiltersContextCustomizerFactory, PropertyMappingContextCustomizerFactory, WebDriverContextCustomizerFactory, ImportsContextCustomizerFactory, ExcludeFilterContextCustomizerFactory, HttpGraphQlTesterContextCustomizerFactory, DuplicateJsonObjectContextCustomizerFactory, MockitoContextCustomizerFactory, TestRestTemplateContextCustomizerFactory, WebTestClientContextCustomizerFactory, DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory, BeanOverrideContextCustomizerFactory, MockServerContainerContextCustomizerFactory, DynamicPropertiesContextCustomizerFactory]
+2026-11-28T15:18:28.970+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizers for test class [WriteApiIntegrationTest]: [OnFailureConditionReportContextCustomizer, DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, WebDriverContextCustomizer, ImportsContextCustomizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer, DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer, DynamicPropertiesContextCustomizer]
+2026-11-28T15:18:28.970+09:00  INFO 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.umc.movie.MovieApplication for test class com.umc.movie.WriteApiIntegrationTest
+2026-11-28T15:18:28.971+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners for test class [WriteApiIntegrationTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, BeanOverrideTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, CommonCachesTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener, MockitoResetTestExecutionListener]
+2026-11-28T15:18:28.977+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:28.979+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:28.981+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:28.982+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=member@example.com, nickname=영화팬, password=Umc!1234]]
+2026-11-28T15:18:28.983+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.email=? fetch first ? rows only
+2026-11-28T15:18:28.984+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.nickname=? fetch first ? rows only
+2026-11-28T15:18:29.097+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.099+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.099+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=회원가입에 성공했습니다., result=MemberResponse[memberId=9, (truncated)...]
+2026-11-28T15:18:29.101+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.185+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.186+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.188+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.189+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.192+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.193+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=0, comment=null]]
+2026-11-28T15:18:29.208+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.209+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.209+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=score: must be greater than or equal to 1, resu (truncated)...]
+2026-11-28T15:18:29.210+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'score': rejected value [0]; codes [Min.ratingCreateRequest.score,Min.score,Min.java.lang.Integer,Min]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.score,score]; arguments []; default message [score],1]; default message [must be greater than or equal to 1]] ]
+2026-11-28T15:18:29.212+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.213+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=6, comment=null]]
+2026-11-28T15:18:29.214+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.214+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.214+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=score: must be less than or equal to 5, result= (truncated)...]
+2026-11-28T15:18:29.215+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'score': rejected value [6]; codes [Max.ratingCreateRequest.score,Max.score,Max.java.lang.Integer,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.score,score]; arguments []; default message [score],5]; default message [must be less than or equal to 5]] ]
+2026-11-28T15:18:29.216+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.216+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=-1, comment=null]]
+2026-11-28T15:18:29.217+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.217+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.217+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=score: must be greater than or equal to 1, resu (truncated)...]
+2026-11-28T15:18:29.217+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'score': rejected value [-1]; codes [Min.ratingCreateRequest.score,Min.score,Min.java.lang.Integer,Min]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.score,score]; arguments []; default message [score],1]; default message [must be greater than or equal to 1]] ]
+2026-11-28T15:18:29.221+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.222+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.web.method.HandlerMethod             : Could not resolve parameter [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): JSON parse error: Cannot coerce Floating-point value (2.5) to `java.lang.Integer` value (but could if coercion was enabled using `CoercionConfig`)
+2026-11-28T15:18:29.222+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#malformed(Exception)
+2026-11-28T15:18:29.223+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.223+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=요청 형식과 숫자 타입을 확인해 주세요., result=null]]
+2026-11-28T15:18:29.223+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot coerce Floating-point value (2.5) to `java.lang.Integer` value (but could if coercion was enabled using `CoercionConfig`)]
+2026-11-28T15:18:29.224+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.225+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=0, score=5, comment=null]]
+2026-11-28T15:18:29.226+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.226+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.226+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=movieId: must be greater than 0, result=null]]
+2026-11-28T15:18:29.226+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'movieId': rejected value [0]; codes [Positive.ratingCreateRequest.movieId,Positive.movieId,Positive.java.lang.Long,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.movieId,movieId]; arguments []; default message [movieId]]; default message [must be greater than 0]] ]
+2026-11-28T15:18:29.227+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.228+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=-1, score=5, comment=null]]
+2026-11-28T15:18:29.228+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.229+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.229+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=movieId: must be greater than 0, result=null]]
+2026-11-28T15:18:29.229+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'movieId': rejected value [-1]; codes [Positive.ratingCreateRequest.movieId,Positive.movieId,Positive.java.lang.Long,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.movieId,movieId]; arguments []; default message [movieId]]; default message [must be greater than 0]] ]
+2026-11-28T15:18:29.229+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.230+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.web.method.HandlerMethod             : Could not resolve parameter [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): JSON parse error: Cannot coerce Floating-point value (1.5) to `java.lang.Long` value (but could if coercion was enabled using `CoercionConfig`)
+2026-11-28T15:18:29.230+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#malformed(Exception)
+2026-11-28T15:18:29.231+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.231+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=요청 형식과 숫자 타입을 확인해 주세요., result=null]]
+2026-11-28T15:18:29.231+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot coerce Floating-point value (1.5) to `java.lang.Long` value (but could if coercion was enabled using `CoercionConfig`)]
+2026-11-28T15:18:29.232+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.232+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=null, comment=null]]
+2026-11-28T15:18:29.233+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.233+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.233+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=score: must not be null, result=null]]
+2026-11-28T15:18:29.233+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'score': rejected value [null]; codes [NotNull.ratingCreateRequest.score,NotNull.score,NotNull.java.lang.Integer,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.score,score]; arguments []; default message [score]]; default message [must not be null]] ]
+2026-11-28T15:18:29.234+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.235+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa (truncated)...]
+2026-11-28T15:18:29.235+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.236+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.236+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=comment: size must be between 0 and 500, result (truncated)...]
+2026-11-28T15:18:29.236+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt;&gt; com.umc.movie.controller.RatingController.create(java.lang.Long,com.umc.movie.dto.RatingCreateRequest): [Field error in object 'ratingCreateRequest' on field 'comment': rejected value [aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]; codes [Size.ratingCreateRequest.comment,Size.comment,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingCreateRequest.comment,comment]; arguments []; default message [comment],500,0]; default message [size must be between 0 and 500]] ]
+2026-11-28T15:18:29.237+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from rating r1_0
+2026-11-28T15:18:29.238+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.239+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=좋아요]]
+2026-11-28T15:18:29.239+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.241+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? and r1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:29.242+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.243+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.243+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=평점을 등록했습니다., result=RatingResponse[ratingId=302, (truncated)...]
+2026-11-28T15:18:29.244+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#update(Long, Long, RatingUpdateRequest)
+2026-11-28T15:18:29.247+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingUpdateRequest[score=6, comment=null]]
+2026-11-28T15:18:29.250+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.250+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.250+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=score: must be less than or equal to 5, result= (truncated)...]
+2026-11-28T15:18:29.250+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [2] in public com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt; com.umc.movie.controller.RatingController.update(java.lang.Long,java.lang.Long,com.umc.movie.dto.RatingUpdateRequest): [Field error in object 'ratingUpdateRequest' on field 'score': rejected value [6]; codes [Max.ratingUpdateRequest.score,Max.score,Max.java.lang.Integer,Max]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingUpdateRequest.score,score]; arguments []; default message [score],5]; default message [must be less than or equal to 5]] ]
+2026-11-28T15:18:29.251+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#update(Long, Long, RatingUpdateRequest)
+2026-11-28T15:18:29.252+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingUpdateRequest[score=null, comment=점수 누락]]
+2026-11-28T15:18:29.252+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.252+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.252+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=score: must not be null, result=null]]
+2026-11-28T15:18:29.253+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [2] in public com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.RatingResponse&gt; com.umc.movie.controller.RatingController.update(java.lang.Long,java.lang.Long,com.umc.movie.dto.RatingUpdateRequest): [Field error in object 'ratingUpdateRequest' on field 'score': rejected value [null]; codes [NotNull.ratingUpdateRequest.score,NotNull.score,NotNull.java.lang.Integer,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [ratingUpdateRequest.score,score]; arguments []; default message [score]]; default message [must not be null]] ]
+2026-11-28T15:18:29.259+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.265+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from rating where rating_id=?
+2026-11-28T15:18:29.267+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.268+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.269+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.270+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.272+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.273+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=좋아요]]
+2026-11-28T15:18:29.273+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.275+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? and r1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:29.277+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.278+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.278+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=평점을 등록했습니다., result=RatingResponse[ratingId=303, (truncated)...]
+2026-11-28T15:18:29.279+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#update(Long, Long, RatingUpdateRequest)
+2026-11-28T15:18:29.280+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingUpdateRequest[score=1, comment=null]]
+2026-11-28T15:18:29.282+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.283+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.284+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.284+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=RATING403_1, message=본인이 작성한 평점만 수정하거나 삭제할 수 있습니다., result=null]]
+2026-11-28T15:18:29.284+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 본인이 작성한 평점만 수정하거나 삭제할 수 있습니다.]
+2026-11-28T15:18:29.285+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#delete(Long, Long)
+2026-11-28T15:18:29.286+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.287+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.287+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.287+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=RATING403_1, message=본인이 작성한 평점만 수정하거나 삭제할 수 있습니다., result=null]]
+2026-11-28T15:18:29.287+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 본인이 작성한 평점만 수정하거나 삭제할 수 있습니다.]
+2026-11-28T15:18:29.288+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.289+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#update(Long, Long, RatingUpdateRequest)
+2026-11-28T15:18:29.290+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingUpdateRequest[score=1, comment=null]]
+2026-11-28T15:18:29.291+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.291+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.291+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.291+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=RATING404_1, message=해당 평점을 찾을 수 없습니다., result=null]]
+2026-11-28T15:18:29.291+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 해당 평점을 찾을 수 없습니다.]
+2026-11-28T15:18:29.293+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#delete(Long, Long)
+2026-11-28T15:18:29.294+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.295+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.295+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.295+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=RATING404_1, message=해당 평점을 찾을 수 없습니다., result=null]]
+2026-11-28T15:18:29.295+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 해당 평점을 찾을 수 없습니다.]
+2026-11-28T15:18:29.299+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.300+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from rating where rating_id=?
+2026-11-28T15:18:29.301+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.302+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.303+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.304+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping$HttpOptionsHandler#handle()
+2026-11-28T15:18:29.304+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#update(Long, Long, RatingUpdateRequest)
+2026-11-28T15:18:29.305+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#delete(Long, Long)
+2026-11-28T15:18:29.309+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.310+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.311+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.313+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.313+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=영화팬@example.com, nickname=새닉네임, password=Umc!1234]]
+2026-11-28T15:18:29.314+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.email=? fetch first ? rows only
+2026-11-28T15:18:29.315+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.315+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.315+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=MEMBER4091, message=이미 사용 중인 이메일입니다., result=null]]
+2026-11-28T15:18:29.315+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 이미 사용 중인 이메일입니다.]
+2026-11-28T15:18:29.316+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.316+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=new@example.com, nickname=영화팬, password=Umc!1234]]
+2026-11-28T15:18:29.317+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.email=? fetch first ? rows only
+2026-11-28T15:18:29.318+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.nickname=? fetch first ? rows only
+2026-11-28T15:18:29.319+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.319+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.319+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=MEMBER4092, message=이미 사용 중인 닉네임입니다., result=null]]
+2026-11-28T15:18:29.319+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 이미 사용 중인 닉네임입니다.]
+2026-11-28T15:18:29.321+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.325+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.326+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.327+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.328+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.329+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.330+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=좋아요]]
+2026-11-28T15:18:29.331+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.332+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? and r1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:29.333+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.334+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.334+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=평점을 등록했습니다., result=RatingResponse[ratingId=304, (truncated)...]
+2026-11-28T15:18:29.335+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#update(Long, Long, RatingUpdateRequest)
+2026-11-28T15:18:29.335+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingUpdateRequest[score=3, comment=수정 후기]]
+2026-11-28T15:18:29.336+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.337+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : update rating set comment=?,member_id=?,movie_id=?,score=?,updated_at=? where rating_id=?
+2026-11-28T15:18:29.338+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.338+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=평점을 수정했습니다., result=RatingResponse[ratingId=304, (truncated)...]
+2026-11-28T15:18:29.339+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+2026-11-28T15:18:29.339+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.340+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? order by r1_0.rating_id desc
+2026-11-28T15:18:29.341+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.341+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=[RatingResponse[ratingId=304 (truncated)...]
+2026-11-28T15:18:29.342+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#delete(Long, Long)
+2026-11-28T15:18:29.343+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 where r1_0.rating_id=?
+2026-11-28T15:18:29.344+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from rating where rating_id=?
+2026-11-28T15:18:29.345+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.345+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=평점을 삭제했습니다., result=null]]
+2026-11-28T15:18:29.345+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from rating r1_0
+2026-11-28T15:18:29.346+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+2026-11-28T15:18:29.347+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.347+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? order by r1_0.rating_id desc
+2026-11-28T15:18:29.348+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.348+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=[]]]
+2026-11-28T15:18:29.372+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.374+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.376+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.381+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.382+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=short]]
+2026-11-28T15:18:29.383+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.384+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.384+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: size must be between 8 and 72, result (truncated)...]
+2026-11-28T15:18:29.384+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest) with 2 errors: [Field error in object 'signupRequest' on field 'password': rejected value [short]; codes [Size.signupRequest.password,Size.password,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],72,8]; default message [size must be between 8 and 72]] [Field error in object 'signupRequest' on field 'password': rejected value [short]; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] ]
+2026-11-28T15:18:29.385+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.391+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.393+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.394+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.394+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=abcdefgh!1]]
+2026-11-28T15:18:29.395+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.395+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.395+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: 비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.,  (truncated)...]
+2026-11-28T15:18:29.396+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'password': rejected value [abcdefgh!1]; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] ]
+2026-11-28T15:18:29.397+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.402+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.403+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.404+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.404+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=ABCDEFGH!1]]
+2026-11-28T15:18:29.405+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.405+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.405+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: 비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.,  (truncated)...]
+2026-11-28T15:18:29.405+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'password': rejected value [ABCDEFGH!1]; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] ]
+2026-11-28T15:18:29.406+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.411+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.412+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.413+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.413+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=Abcdefgh!]]
+2026-11-28T15:18:29.414+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.414+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.414+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: 비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.,  (truncated)...]
+2026-11-28T15:18:29.414+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'password': rejected value [Abcdefgh!]; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] ]
+2026-11-28T15:18:29.415+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.419+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.420+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.420+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.421+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=Abcdefg123]]
+2026-11-28T15:18:29.421+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.422+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.422+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: 비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.,  (truncated)...]
+2026-11-28T15:18:29.422+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'password': rejected value [Abcdefg123]; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] ]
+2026-11-28T15:18:29.423+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.426+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.427+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.428+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.428+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=Umc! 1234]]
+2026-11-28T15:18:29.429+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.429+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.429+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: 비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.,  (truncated)...]
+2026-11-28T15:18:29.430+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'password': rejected value [Umc! 1234]; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] ]
+2026-11-28T15:18:29.430+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.434+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.435+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.436+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.436+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=]]
+2026-11-28T15:18:29.437+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.437+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.438+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=password: must not be blank, result=null]]
+2026-11-28T15:18:29.438+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest) with 3 errors: [Field error in object 'signupRequest' on field 'password': rejected value []; codes [Pattern.signupRequest.password,Pattern.password,Pattern.java.lang.String,Pattern]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],[Ljakarta.validation.constraints.Pattern$Flag;@15774e00,^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9\s])\S+$]; default message [비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.]] [Field error in object 'signupRequest' on field 'password': rejected value []; codes [Size.signupRequest.password,Size.password,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password],72,8]; default message [size must be between 8 and 72]] [Field error in object 'signupRequest' on field 'password': rejected value []; codes [NotBlank.signupRequest.password,NotBlank.password,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.password,password]; arguments []; default message [password]]; default message [must not be blank]] ]
+2026-11-28T15:18:29.439+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.443+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.444+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.445+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.445+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.446+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=race@example.com, nickname=동시가입, password=Umc!1234]]
+2026-11-28T15:18:29.446+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=race@example.com, nickname=동시가입, password=Umc!1234]]
+2026-11-28T15:18:29.447+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.email=? fetch first ? rows only
+2026-11-28T15:18:29.447+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.email=? fetch first ? rows only
+2026-11-28T15:18:29.448+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.nickname=? fetch first ? rows only
+2026-11-28T15:18:29.449+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.nickname=? fetch first ? rows only
+2026-11-28T15:18:29.528+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.529+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.530+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.530+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=회원가입에 성공했습니다., result=MemberResponse[memberId=15 (truncated)...]
+2026-11-28T15:18:29.533+09:00  WARN 24380 --- [movie-week09] [pool-2-thread-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23505, SQLState: 23505
+2026-11-28T15:18:29.533+09:00 ERROR 24380 --- [movie-week09] [pool-2-thread-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : Unique index or primary key violation: &quot;PUBLIC.CONSTRAINT_INDEX_8 ON PUBLIC.MEMBER(NICKNAME NULLS FIRST) VALUES ( /* 15 */ U&amp;'\\b3d9\\c2dc\\ac00\\c785' )&quot;; SQL statement:
+insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default) [23505-232]
+2026-11-28T15:18:29.538+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#constraint(DataIntegrityViolationException)
+2026-11-28T15:18:29.538+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.538+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON409, message=중복 데이터 또는 데이터 제약 조건 충돌입니다., result=null]]
+2026-11-28T15:18:29.539+09:00 DEBUG 24380 --- [movie-week09] [pool-2-thread-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DataIntegrityViolationException: could not execute statement [Unique index or primary key violation: &quot;PUBLIC.CONSTRAINT_INDEX_8 ON PUBLIC.MEMBER(NICKNAME NULLS FIRST) VALUES ( /* 15 */ U&amp;'\\b3d9\\c2dc\\ac00\\c785' )&quot;; SQL statement:&lt;EOL&gt;insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default) [23505-232]] [insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)]; SQL [insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)]; constraint [PUBLIC.CONSTRAINT_INDEX_8]]
+2026-11-28T15:18:29.545+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.552+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.553+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.555+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.556+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.557+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=null]]
+2026-11-28T15:18:29.558+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.558+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.558+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.558+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=MEMBER404_1, message=해당 회원을 찾을 수 없습니다., result=null]]
+2026-11-28T15:18:29.559+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 해당 회원을 찾을 수 없습니다.]
+2026-11-28T15:18:29.559+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.559+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.web.method.HandlerMethod             : Could not resolve parameter [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): JSON parse error: Unexpected end-of-input: expected close marker for Object (start marker at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 1])
+2026-11-28T15:18:29.559+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#malformed(Exception)
+2026-11-28T15:18:29.560+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.560+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=요청 형식과 숫자 타입을 확인해 주세요., result=null]]
+2026-11-28T15:18:29.560+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected end-of-input: expected close marker for Object (start marker at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 1])]
+2026-11-28T15:18:29.561+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#delete(Long, Long)
+2026-11-28T15:18:29.564+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.web.method.HandlerMethod             : Could not resolve parameter [1] in public com.umc.movie.dto.ApiResponse&lt;java.lang.Void&gt; com.umc.movie.controller.RatingController.delete(java.lang.Long,java.lang.Long): Method parameter 'ratingId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: &quot;abc&quot;
+2026-11-28T15:18:29.564+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#malformed(Exception)
+2026-11-28T15:18:29.564+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.564+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=요청 형식과 숫자 타입을 확인해 주세요., result=null]]
+2026-11-28T15:18:29.564+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'ratingId': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: &quot;abc&quot;]
+2026-11-28T15:18:29.568+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.569+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.570+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.570+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=invalid, nickname=영화팬, password=Umc!1234]]
+2026-11-28T15:18:29.571+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.571+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.571+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=email: must be a well-formed email address, res (truncated)...]
+2026-11-28T15:18:29.571+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'email': rejected value [invalid]; codes [Email.signupRequest.email,Email.email,Email.java.lang.String,Email]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.email,email]; arguments []; default message [email],[Ljakarta.validation.constraints.Pattern$Flag;@79863795,.*]; default message [must be a well-formed email address]] ]
+2026-11-28T15:18:29.571+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.572+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=a, password=Umc!1234]]
+2026-11-28T15:18:29.572+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.573+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.573+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=nickname: size must be between 2 and 12, result (truncated)...]
+2026-11-28T15:18:29.573+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'nickname': rejected value [a]; codes [Size.signupRequest.nickname,Size.nickname,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.nickname,nickname]; arguments []; default message [nickname],12,2]; default message [size must be between 2 and 12]] ]
+2026-11-28T15:18:29.573+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.574+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=aaaaaaaaaaaaa, password=Umc!1234]]
+2026-11-28T15:18:29.574+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.574+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.574+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=nickname: size must be between 2 and 12, result (truncated)...]
+2026-11-28T15:18:29.575+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'nickname': rejected value [aaaaaaaaaaaaa]; codes [Size.signupRequest.nickname,Size.nickname,Size.java.lang.String,Size]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.nickname,nickname]; arguments []; default message [nickname],12,2]; default message [size must be between 2 and 12]] ]
+2026-11-28T15:18:29.575+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.575+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=  , password=Umc!1234]]
+2026-11-28T15:18:29.576+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.576+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.576+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=nickname: must not be blank, result=null]]
+2026-11-28T15:18:29.576+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'nickname': rejected value [  ]; codes [NotBlank.signupRequest.nickname,NotBlank.nickname,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.nickname,nickname]; arguments []; default message [nickname]]; default message [must not be blank]] ]
+2026-11-28T15:18:29.576+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#signup(SignupRequest)
+2026-11-28T15:18:29.576+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [SignupRequest[email=user@example.com, nickname=영화팬, password=Aa1!한한한한한한한한한한한한한한한한한한한한한한한]]
+2026-11-28T15:18:29.577+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#validation(MethodArgumentNotValidException)
+2026-11-28T15:18:29.577+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.577+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON400, message=passwordWithinBcryptLimit: 비밀번호는 UTF-8 기준 72바이트 (truncated)...]
+2026-11-28T15:18:29.577+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity&lt;com.umc.movie.dto.ApiResponse&lt;com.umc.movie.dto.MemberResponse&gt;&gt; com.umc.movie.controller.MemberController.signup(com.umc.movie.dto.SignupRequest): [Field error in object 'signupRequest' on field 'passwordWithinBcryptLimit': rejected value [false]; codes [AssertTrue.signupRequest.passwordWithinBcryptLimit,AssertTrue.passwordWithinBcryptLimit,AssertTrue.boolean,AssertTrue]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [signupRequest.passwordWithinBcryptLimit,passwordWithinBcryptLimit]; arguments []; default message [passwordWithinBcryptLimit]]; default message [비밀번호는 UTF-8 기준 72바이트 이하여야 합니다.]] ]
+2026-11-28T15:18:29.578+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.582+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.583+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.583+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.585+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.586+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=좋아요]]
+2026-11-28T15:18:29.586+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.587+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? and r1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:29.588+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.589+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.589+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=평점을 등록했습니다., result=RatingResponse[ratingId=305, (truncated)...]
+2026-11-28T15:18:29.591+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.592+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=4, comment=null]]
+2026-11-28T15:18:29.592+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.593+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? and r1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:29.594+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:29.594+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.594+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=RATING409_1, message=이미 이 영화에 평점을 남기셨습니다., result=null]]
+2026-11-28T15:18:29.594+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 이미 이 영화에 평점을 남기셨습니다.]
+2026-11-28T15:18:29.595+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from rating r1_0
+2026-11-28T15:18:29.595+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.597+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#create(Long, RatingCreateRequest)
+2026-11-28T15:18:29.597+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [RatingCreateRequest[movieId=550, score=5, comment=좋아요]]
+2026-11-28T15:18:29.597+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.599+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? and r1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:29.599+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.600+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:29.600+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=평점을 등록했습니다., result=RatingResponse[ratingId=306, (truncated)...]
+2026-11-28T15:18:29.601+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from rating r1_0
+2026-11-28T15:18:29.604+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0
+2026-11-28T15:18:29.605+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from rating where rating_id=?
+2026-11-28T15:18:29.605+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from rating where rating_id=?
+2026-11-28T15:18:29.606+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0
+2026-11-28T15:18:29.607+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.607+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from member where member_id=?
+2026-11-28T15:18:29.608+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.609+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.610+09:00  WARN 24380 --- [movie-week09] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23505, SQLState: 23505
+2026-11-28T15:18:29.610+09:00 ERROR 24380 --- [movie-week09] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : Unique index or primary key violation: &quot;PUBLIC.CONSTRAINT_INDEX_87 ON PUBLIC.MEMBER(EMAIL NULLS FIRST) VALUES ( /* 19 */ U&amp;'\\c601\\d654\\d32c@example.com' )&quot;; SQL statement:
+insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default) [23505-232]
+2026-11-28T15:18:29.611+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.611+09:00  WARN 24380 --- [movie-week09] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23505, SQLState: 23505
+2026-11-28T15:18:29.611+09:00 ERROR 24380 --- [movie-week09] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : Unique index or primary key violation: &quot;PUBLIC.CONSTRAINT_INDEX_8 ON PUBLIC.MEMBER(NICKNAME NULLS FIRST) VALUES ( /* 19 */ U&amp;'\\c601\\d654\\d32c' )&quot;; SQL statement:
+insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default) [23505-232]
+2026-11-28T15:18:29.611+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id,m1_0.created_at,m1_0.email,m1_0.introduction,m1_0.nickname,m1_0.password,m1_0.updated_at from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:29.613+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.614+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:29.614+09:00  WARN 24380 --- [movie-week09] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23505, SQLState: 23505
+2026-11-28T15:18:29.614+09:00 ERROR 24380 --- [movie-week09] [    Test worker] o.h.engine.jdbc.spi.SqlExceptionHelper   : Unique index or primary key violation: &quot;PUBLIC.CONSTRAINT_INDEX_8F ON PUBLIC.RATING(MEMBER_ID NULLS FIRST, MOVIE_ID NULLS FIRST) VALUES ( /* key:307 */ CAST(19 AS BIGINT), CAST(550 AS BIGINT))&quot;; SQL statement:
+insert into rating (comment,created_at,member_id,movie_id,score,updated_at,rating_id) values (?,?,?,?,?,?,default) [23505-232]
+2026-11-28T15:18:29.615+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0
+2026-11-28T15:18:29.615+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from rating r1_0
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2026. 11. 28. 오후 3:18:29</p>
+</div>
+</div>
+</body>
+</html>

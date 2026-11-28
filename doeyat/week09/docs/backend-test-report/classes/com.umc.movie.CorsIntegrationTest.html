@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - CorsIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>CorsIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt;
+<a href="../packages/com.umc.movie.html">com.umc.movie</a> &gt; CorsIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.045s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">frontendCanRead404Response()</td>
+<td class="success">0.032s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">frontendCanReadApiResponse()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getPreflightIsAllowed()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">unrelatedOriginIsRejected()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-11-28T15:18:27.896+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [CorsIntegrationTest]: using SpringBootContextLoader
+2026-11-28T15:18:27.896+09:00  INFO 24380 --- [movie-week09] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.umc.movie.CorsIntegrationTest]: CorsIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-28T15:18:27.897+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizerFactory implementations for test class [CorsIntegrationTest]: [OnFailureConditionReportContextCustomizerFactory, OverrideAutoConfigurationContextCustomizerFactory, ObservabilityContextCustomizerFactory, TypeExcludeFiltersContextCustomizerFactory, PropertyMappingContextCustomizerFactory, WebDriverContextCustomizerFactory, ImportsContextCustomizerFactory, ExcludeFilterContextCustomizerFactory, HttpGraphQlTesterContextCustomizerFactory, DuplicateJsonObjectContextCustomizerFactory, MockitoContextCustomizerFactory, TestRestTemplateContextCustomizerFactory, WebTestClientContextCustomizerFactory, DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory, BeanOverrideContextCustomizerFactory, MockServerContainerContextCustomizerFactory, DynamicPropertiesContextCustomizerFactory]
+2026-11-28T15:18:27.898+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizers for test class [CorsIntegrationTest]: [OnFailureConditionReportContextCustomizer, DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, WebDriverContextCustomizer, ImportsContextCustomizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer, DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer, DynamicPropertiesContextCustomizer]
+2026-11-28T15:18:27.898+09:00  INFO 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.umc.movie.MovieApplication for test class com.umc.movie.CorsIntegrationTest
+2026-11-28T15:18:27.899+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners for test class [CorsIntegrationTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, BeanOverrideTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, CommonCachesTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener, MockitoResetTestExecutionListener]
+2026-11-28T15:18:27.902+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#checkEmail(String)
+2026-11-28T15:18:27.903+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.web.cors.DefaultCorsProcessor        : Reject: 'https://example.com' origin is not allowed
+2026-11-28T15:18:27.906+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+2026-11-28T15:18:27.930+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:27.933+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#status(ResponseStatusException)
+2026-11-28T15:18:27.934+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:27.934+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON404, message=존재하지 않는 유저입니다., result=null]]
+2026-11-28T15:18:27.935+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 404 NOT_FOUND &quot;존재하지 않는 유저입니다.&quot;]
+2026-11-28T15:18:27.938+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.MemberController#checkEmail(String)
+2026-11-28T15:18:27.939+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select m1_0.member_id from member m1_0 where m1_0.email=? fetch first ? rows only
+2026-11-28T15:18:27.940+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:27.940+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=EmailCheckResponse[available (truncated)...]
+2026-11-28T15:18:27.945+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2026. 11. 28. 오후 3:18:29</p>
+</div>
+</div>
+</body>
+</html>
