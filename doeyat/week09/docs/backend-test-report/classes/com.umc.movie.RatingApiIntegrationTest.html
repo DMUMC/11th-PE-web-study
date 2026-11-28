@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - RatingApiIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>RatingApiIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt;
+<a href="../packages/com.umc.movie.html">com.umc.movie</a> &gt; RatingApiIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.052s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">existingMemberWithoutRatingsReturnsEmptyArray()</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">missingMemberReturns404()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">returnsOnlyRequestedMembersRatingsInDescendingIdOrder()</td>
+<td class="success">0.037s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-11-28T15:18:27.983+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [RatingApiIntegrationTest]: using SpringBootContextLoader
+2026-11-28T15:18:27.984+09:00  INFO 24380 --- [movie-week09] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.umc.movie.RatingApiIntegrationTest]: RatingApiIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-28T15:18:27.984+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizerFactory implementations for test class [RatingApiIntegrationTest]: [OnFailureConditionReportContextCustomizerFactory, OverrideAutoConfigurationContextCustomizerFactory, ObservabilityContextCustomizerFactory, TypeExcludeFiltersContextCustomizerFactory, PropertyMappingContextCustomizerFactory, WebDriverContextCustomizerFactory, ImportsContextCustomizerFactory, ExcludeFilterContextCustomizerFactory, HttpGraphQlTesterContextCustomizerFactory, DuplicateJsonObjectContextCustomizerFactory, MockitoContextCustomizerFactory, TestRestTemplateContextCustomizerFactory, WebTestClientContextCustomizerFactory, DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory, BeanOverrideContextCustomizerFactory, MockServerContainerContextCustomizerFactory, DynamicPropertiesContextCustomizerFactory]
+2026-11-28T15:18:27.986+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizers for test class [RatingApiIntegrationTest]: [OnFailureConditionReportContextCustomizer, DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, WebDriverContextCustomizer, ImportsContextCustomizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer, DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer, DynamicPropertiesContextCustomizer]
+2026-11-28T15:18:27.987+09:00  INFO 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.umc.movie.MovieApplication for test class com.umc.movie.RatingApiIntegrationTest
+2026-11-28T15:18:27.988+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners for test class [RatingApiIntegrationTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, BeanOverrideTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, CommonCachesTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener, MockitoResetTestExecutionListener]
+2026-11-28T15:18:27.991+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+2026-11-28T15:18:27.993+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:27.993+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#status(ResponseStatusException)
+2026-11-28T15:18:27.994+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:27.994+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=COMMON404, message=존재하지 않는 유저입니다., result=null]]
+2026-11-28T15:18:27.994+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 404 NOT_FOUND &quot;존재하지 않는 유저입니다.&quot;]
+2026-11-28T15:18:27.997+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:27.999+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:28.000+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2026-11-28T15:18:28.001+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [INSERT INTO rating (rating_id, member_id, movie_id, score, comment, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+]
+2026-11-28T15:18:28.009+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2026-11-28T15:18:28.009+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [INSERT INTO rating (rating_id, member_id, movie_id, score, comment, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+]
+2026-11-28T15:18:28.009+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2026-11-28T15:18:28.010+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [INSERT INTO rating (rating_id, member_id, movie_id, score, comment, created_at, updated_at)
+VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+]
+2026-11-28T15:18:28.010+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+2026-11-28T15:18:28.011+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:28.016+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? order by r1_0.rating_id desc
+2026-11-28T15:18:28.018+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.020+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=[RatingResponse[ratingId=200 (truncated)...]
+2026-11-28T15:18:28.036+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:28.037+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.RatingController#list(Long)
+2026-11-28T15:18:28.038+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select count(*) from member m1_0 where m1_0.member_id=?
+2026-11-28T15:18:28.040+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select r1_0.rating_id,r1_0.comment,r1_0.created_at,r1_0.member_id,r1_0.movie_id,r1_0.score,r1_0.updated_at from rating r1_0 left join member m1_0 on m1_0.member_id=r1_0.member_id where m1_0.member_id=? order by r1_0.rating_id desc
+2026-11-28T15:18:28.041+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.041+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=[]]]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2026. 11. 28. 오후 3:18:29</p>
+</div>
+</div>
+</body>
+</html>

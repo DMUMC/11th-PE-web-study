@@ -1,0 +1,35 @@
+{
+  "name": "doeyat-week09-umcine",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 5179",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 5179",
+    "typecheck": "tsc --noEmit",
+    "capture": "node scripts/capture.mjs",
+    "test:e2e": "playwright test",
+    "capture:backend": "node scripts/capture-backend.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.107.1",
+    "clsx": "^2.1.1",
+    "ky": "^2.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.0.0",
+    "zustand": "^5.0.15",
+    "next": "16.4.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@tanstack/react-query-devtools": "^5.107.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.9.3",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^24.0.0"
+  }
+}

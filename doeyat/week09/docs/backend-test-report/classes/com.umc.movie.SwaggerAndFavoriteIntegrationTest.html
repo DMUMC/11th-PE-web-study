@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - SwaggerAndFavoriteIntegrationTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>SwaggerAndFavoriteIntegrationTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt;
+<a href="../packages/com.umc.movie.html">com.umc.movie</a> &gt; SwaggerAndFavoriteIntegrationTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.550s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a href="#">Tests</a>
+</li>
+<li>
+<a href="#">Standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">공개 Swagger 문서에 필수 API 9개의 설명·인증과 평점 실패 응답이 표시된다</td>
+<td class="success">documentsAuthenticationAndErrorContracts()</td>
+<td class="success">0.470s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">즐겨찾기는 인증 후 등록·목록·여부·해제가 가능하고 다른 회원과 분리된다</td>
+<td class="success">favoritesAreScopedToAuthenticatedMember()</td>
+<td class="success">0.080s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-11-28T15:18:28.401+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [SwaggerAndFavoriteIntegrationTest]: using SpringBootContextLoader
+2026-11-28T15:18:28.403+09:00  INFO 24380 --- [movie-week09] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.umc.movie.SwaggerAndFavoriteIntegrationTest]: SwaggerAndFavoriteIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-28T15:18:28.404+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizerFactory implementations for test class [SwaggerAndFavoriteIntegrationTest]: [OnFailureConditionReportContextCustomizerFactory, OverrideAutoConfigurationContextCustomizerFactory, ObservabilityContextCustomizerFactory, TypeExcludeFiltersContextCustomizerFactory, PropertyMappingContextCustomizerFactory, WebDriverContextCustomizerFactory, ImportsContextCustomizerFactory, ExcludeFilterContextCustomizerFactory, HttpGraphQlTesterContextCustomizerFactory, DuplicateJsonObjectContextCustomizerFactory, MockitoContextCustomizerFactory, TestRestTemplateContextCustomizerFactory, WebTestClientContextCustomizerFactory, DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory, BeanOverrideContextCustomizerFactory, MockServerContainerContextCustomizerFactory, DynamicPropertiesContextCustomizerFactory]
+2026-11-28T15:18:28.408+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using ContextCustomizers for test class [SwaggerAndFavoriteIntegrationTest]: [OnFailureConditionReportContextCustomizer, DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, WebDriverContextCustomizer, ImportsContextCustomizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer, DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer, DynamicPropertiesContextCustomizer]
+2026-11-28T15:18:28.409+09:00  INFO 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.umc.movie.MovieApplication for test class com.umc.movie.SwaggerAndFavoriteIntegrationTest
+2026-11-28T15:18:28.411+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners for test class [SwaggerAndFavoriteIntegrationTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, BeanOverrideTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, CommonCachesTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener, MockitoResetTestExecutionListener]
+2026-11-28T15:18:28.419+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:28.421+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into member (created_at,email,introduction,nickname,password,updated_at,member_id) values (?,?,?,?,?,?,default)
+2026-11-28T15:18:28.423+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#create(Long, CreateFavoriteRequest)
+2026-11-28T15:18:28.425+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:28.426+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.426+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=AUTH401_2, message=로그인이 필요한 요청입니다., result=null]]
+2026-11-28T15:18:28.426+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 로그인이 필요한 요청입니다.]
+2026-11-28T15:18:28.428+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#create(Long, CreateFavoriteRequest)
+2026-11-28T15:18:28.432+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [CreateFavoriteRequest[movieId=550]]
+2026-11-28T15:18:28.437+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? and f1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:28.438+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : insert into favorite (created_at,member_id,movie_id,updated_at,favorite_id) values (?,?,?,?,default)
+2026-11-28T15:18:28.440+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.440+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=true, code=COMMON201, message=즐겨찾기를 등록했습니다., result=FavoriteResponse[favoriteI (truncated)...]
+2026-11-28T15:18:28.443+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#create(Long, CreateFavoriteRequest)
+2026-11-28T15:18:28.446+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Read &quot;application/json;charset=UTF-8&quot; to [CreateFavoriteRequest[movieId=550]]
+2026-11-28T15:18:28.448+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? and f1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:28.449+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:28.449+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.449+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=FAVORITE409_1, message=이미 즐겨찾기한 영화입니다., result=null]]
+2026-11-28T15:18:28.450+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 이미 즐겨찾기한 영화입니다.]
+2026-11-28T15:18:28.452+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#list(Long)
+2026-11-28T15:18:28.455+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id,f1_0.created_at,f1_0.member_id,f1_0.movie_id,f1_0.updated_at from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? order by f1_0.favorite_id desc
+2026-11-28T15:18:28.458+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.458+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=[FavoriteResponse[favoriteId (truncated)...]
+2026-11-28T15:18:28.460+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#status(Long, Long)
+2026-11-28T15:18:28.464+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? and f1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:28.465+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.465+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=FavoriteStatusResponse[isFav (truncated)...]
+2026-11-28T15:18:28.467+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#delete(Long, Long)
+2026-11-28T15:18:28.471+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id,f1_0.created_at,f1_0.member_id,f1_0.movie_id,f1_0.updated_at from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? and f1_0.movie_id=?
+2026-11-28T15:18:28.473+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.umc.movie.exception.GlobalExceptionHandler#business(ApiException)
+2026-11-28T15:18:28.474+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.474+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ApiResponse[isSuccess=false, code=FAVORITE404_1, message=즐겨찾기하지 않은 영화입니다., result=null]]
+2026-11-28T15:18:28.474+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.umc.movie.exception.ApiException: 즐겨찾기하지 않은 영화입니다.]
+2026-11-28T15:18:28.475+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#status(Long, Long)
+2026-11-28T15:18:28.477+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? and f1_0.movie_id=? fetch first ? rows only
+2026-11-28T15:18:28.478+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.478+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=FavoriteStatusResponse[isFav (truncated)...]
+2026-11-28T15:18:28.479+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#delete(Long, Long)
+2026-11-28T15:18:28.481+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id,f1_0.created_at,f1_0.member_id,f1_0.movie_id,f1_0.updated_at from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? and f1_0.movie_id=?
+2026-11-28T15:18:28.483+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : delete from favorite where favorite_id=?
+2026-11-28T15:18:28.484+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.484+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=즐겨찾기를 해제했습니다., result=null]]
+2026-11-28T15:18:28.485+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.umc.movie.controller.FavoriteController#list(Long)
+2026-11-28T15:18:28.488+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] org.hibernate.SQL                        : select f1_0.favorite_id,f1_0.created_at,f1_0.member_id,f1_0.movie_id,f1_0.updated_at from favorite f1_0 left join member m1_0 on m1_0.member_id=f1_0.member_id where m1_0.member_id=? order by f1_0.favorite_id desc
+2026-11-28T15:18:28.489+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2026-11-28T15:18:28.489+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [ApiResponse[isSuccess=true, code=COMMON200, message=조회에 성공했습니다., result=[]]]
+2026-11-28T15:18:28.497+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2026-11-28T15:18:28.913+09:00  INFO 24380 --- [movie-week09] [    Test worker] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 411 ms
+2026-11-28T15:18:28.933+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json]
+2026-11-28T15:18:28.937+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 49, 46, 48, 34, 44, 34, 105, 110, 10 (truncated)...]
+2026-11-28T15:18:28.954+09:00 DEBUG 24380 --- [movie-week09] [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 2026. 11. 28. 오후 3:18:29</p>
+</div>
+</div>
+</body>
+</html>
